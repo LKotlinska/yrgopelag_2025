@@ -1,0 +1,5 @@
+*:Zone.Identifier
+.env
+DS_Store
+vendor
+.vscode/settings.json
