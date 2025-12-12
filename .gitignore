@@ -2,4 +2,4 @@
 .env
 DS_Store
 vendor
-.vscode/settings.json
+.vscode
