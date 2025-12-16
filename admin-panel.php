@@ -1,19 +1,4 @@
-<?php
-$database = new PDO('sqlite:' . __DIR__ . '/src/database/hotel.db');
-$query = $database->query('SELECT * FROM rooms');
-$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
-
-if (isset($_POST['id'], $_POST['price'])) {
-    $roomId = $_POST['id'];
-    $roomPrice = $_POST['price'];
-
-    $updateQuery = $database->prepare('UPDATE rooms SET price_per_night = :price WHERE id = :id');
-    $updateQuery->bindParam(':id', $roomId);
-    $updateQuery->bindParam(':price', $roomPrice);
-    $updateQuery->execute();
-    echo $roomId . $roomPrice;
-}
-?>
+<?php require __DIR__ . '/src/backend/admin.php'; ?>
 
 <table>
     <thead>
