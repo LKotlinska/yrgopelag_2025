@@ -1,6 +1,8 @@
 <?php require __DIR__ . '/../src/backend/calendar.php'; ?>
 <form method="POST">
     <input type="hidden" name="selected_date" id="selected-date">
+    <input type="hidden" name="arrival_date" id="arrival-date">
+    <input type="hidden" name="departure_date" id="departure-date">
     <table class="calendar">
         <thead>
             <tr>
@@ -14,36 +16,38 @@
             </tr>
         </thead>
         <tbody>
-            <?php for ($cell = 1; $cell <= $cells; $cell++): ?>
+            <tr>
+                <?php
+                $cellCount = 0;
+                for ($cell = 1; $cell <= $cells; $cell++):
+                    // New row every 7 cells
+                    if ($cellCount === 7) {
+                ?>
+            </tr>
+            <tr>
+            <?php
+                        $cellCount = 0;
+                    }
+                    if ($cell < $firstDayOfMonth || $day > $daysInMonth) { ?>
+                <td class="empty"></td>
+            <?php
+                    } else {
+                        $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
 
-                <?php if ($cell < $firstDayOfMonth || $day > $daysInMonth): ?>
-                    <td class="empty"></td>
+                        $bookedRooms = bookedRooms($bookings, $date);
+                        $allRoomsBooked = count($bookedRooms) === count($rooms); ?>
 
-                <?php else: ?>
-                    <?php $date = sprintf('%04d-01-%02d', $year, $day); ?>
-                    <td class="day" data-date="<?= $date ?>">
-                        <span class="date"><?= $day ?></span>
-
-                        <div class="rooms">
-                            <?php for ($room = 1; $room <= 3; $room++): ?>
-                                <span class="room <?= ($availability[$room] ?? 1) ? 'available' : 'booked' ?>"></span>
-                            <?php endfor; ?>
-                        </div>
-                    </td>
-                    <?php $day++; ?>
-                <?php endif; ?>
-
-                <?php if ($cell % 7 === 0 && $cell < $cells): ?>
-                    </tr>
-                    <tr>
-                    <?php endif; ?>
-
-                <?php endfor; ?>
-                    </tr>
-                    <input type="hidden"
-                        name="selected-date"
-                        id="selected-date">
-                    <button type="submit">Submit</button>
+                <td class="day <?= $allRoomsBooked ? 'booked' : 'available' ?>"
+                    data-date="<?= $date ?>">
+                    <span class="date"><?= $day ?></span>
+                </td>
+        <?php
+                        $day++;
+                    }
+                    $cellCount++;
+                endfor;
+        ?>
+            </tr>
         </tbody>
 </form>
 </table>
