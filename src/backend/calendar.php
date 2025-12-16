@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 // Hardcoded due to task limitation
 $year = 2026;
 $month = 1;

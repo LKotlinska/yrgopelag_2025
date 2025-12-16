@@ -1,8 +1,14 @@
 <?php
-$query = $database->query('SELECT * FROM rooms');
-$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($_POST['id'], $_POST['price'])) {
+declare(strict_types=1);
+
+require __DIR__ . '/../database/data.php';
+
+if (isset(
+    $_POST['id'],
+    $_POST['price']
+)) {
+
     $roomId = $_POST['id'];
     $roomPrice = $_POST['price'];
 
