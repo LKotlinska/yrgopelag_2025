@@ -5,8 +5,10 @@
     <label for="room-id">Select room</label>
     <select name="room-id" id="room-id" required>
         <?php foreach ($rooms as $room) : ?>
-            <option value="<?php echo $room['price_per_night']; ?>">
-                <?php echo $room['tier'] . ' $' . $room['price_per_night']; ?>
+            <option
+                value="<?= $room['id']; ?>"
+                data-price="<?= $room['price_per_night']; ?>">
+                <?= $room['tier'] . ' $' . $room['price_per_night']; ?>
             </option>
         <?php endforeach; ?>
     </select><br>
@@ -20,11 +22,12 @@
     <label for="transfer-code">Enter your transferCode:</label>
     <input type="text" id="transfer-code" name="transfer-code" required><br>
 
-    <p>Price: </p>
+    <div>
+        <h4>Total price:</h4>
+        <p id="price"></p>
+        <input type="hidden" name="total-price" id="total-price">
+    </div>
 
-    <p id="price"></p>
 
     <button type="submit">Book</button>
 </form>
-
-<?php print_r($rooms); ?>
