@@ -1,0 +1,9 @@
+.available {
+  background-color: rgb(232, 207, 255);
+}
+.booked {
+  background-color: crimson;
+}
+.selected {
+  background-color: aqua;
+}
