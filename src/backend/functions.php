@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-use GuzzleHttp\Client;
+// Hardcoded due to task limitation
+$year = 2026;
+$month = 1;
+$day = 1;
+$cells = 42;
 
 function isExistingGuest(string $name, array $guests): bool
 {
@@ -14,7 +18,7 @@ function isExistingGuest(string $name, array $guests): bool
         }
     }
     return false;
-}
+};
 
 function getGuestId(string $name, array $guests): int
 {
@@ -25,7 +29,7 @@ function getGuestId(string $name, array $guests): int
         }
     }
     return -1;
-}
+};
 
 function calculateRoomPrice(array $rooms, int $roomId, string $arrDate, string $depDate): int
 {
@@ -38,7 +42,7 @@ function calculateRoomPrice(array $rooms, int $roomId, string $arrDate, string $
     $total = $roomPrice * $nights;
 
     return $total;
-}
+};
 
 function getBookedRooms(array $bookings, string $date): array
 {
@@ -48,13 +52,18 @@ function getBookedRooms(array $bookings, string $date): array
             $date >= $booking['arrival_date'] &&
             $date <  $booking['departure_date']
         ) {
-            $unavailableRooms[] = [$date => $booking['room_id']];
+            $unavailableRooms[] = (int)$booking['room_id'];
         }
     }
     return $unavailableRooms;
-}
+};
 
-function validateTransferCode(string $transferCode, int $totalPrice)
+function isRoomAvailable(int $roomId, array $bookedRooms): bool
+{
+    return !in_array($roomId, $bookedRooms, true);
+};
+
+function validateTransferCode(string $transferCode, int $totalPrice): array
 {
     $url = 'https://www.yrgopelag.se/centralbank/transferCode';
     $payload = json_encode([
@@ -71,9 +80,67 @@ function validateTransferCode(string $transferCode, int $totalPrice)
             'ignore_errors' => true
         ]
     ];
+
     $context = stream_context_create($options);
     $response = file_get_contents($url, false, $context);
 
+    if ($response === false) {
+        return ['error' => 'Request failed'];
+    }
+    return json_decode($response, true);
+};
+
+function sendReceipt(string $name, string $arrDate)
+{
+    $url = 'https://www.yrgopelag.se/centralbank/receipt';
+    $payload = json_encode([
+        // 'user' => ,
+        // 'api_key' => ,
+        // 'island_id' => WHERE TO GET THAT??? ,
+        // 'guest_name' => $name,
+        // 'arrival_date' => $arrDate,
+        // 'departure_date' => $depDate,
+        // 'features_used' => [],
+        // 'star_rating' => .
+    ]);
+
+    $options = [
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/json',
+            'content' => $payload,
+            // Allows 400 responses
+            'ignore_errors' => true
+        ]
+    ];
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+
+    if ($response === false) {
+        return ['error' => 'Request failed'];
+    }
+    return json_decode($response, true);
+}
+
+function getActiveFeatures(array $hotelInfo, string $apiKey): array
+{
+    $url = 'https://www.yrgopelag.se/centralbank/islandFeatures';
+    $payload = json_encode([
+        'user' => $hotelInfo['owner'],
+        'api_key' => $apiKey,
+    ]);
+
+    $options = [
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/json',
+            'content' => $payload,
+            // Allows 400 responses
+            'ignore_errors' => true
+        ]
+    ];
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
     if ($response === false) {
         return ['error' => 'Request failed'];
     }
