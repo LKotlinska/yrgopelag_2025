@@ -17,7 +17,7 @@
     <input type="date" id="arrival-date" name="arrival-date" min="2026-01-01" max="2026-01-31" required><br>
 
     <label for="departure-date">Departure date:</label>
-    <input type="date" id="departure-date" name="departure-date" required><br>
+    <input type="date" id="departure-date" name="departure-date" min="2026-01-01" max="2026-01-31" required><br>
 
     <label for="transfer-code">Enter your transferCode:</label>
     <input type="text" id="transfer-code" name="transfer-code" required><br>
