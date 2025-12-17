@@ -21,37 +21,42 @@ if (isset(
     $transferCode = (string) trim(filter_var($_POST['transfer-code'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $roomPrice = (int) calculateRoomPrice($rooms, $roomId, $arrDate, $depDate);
 
-    // Check if guest exists
+    // Check if guest already exists
     if (isExistingGuest($name, $guests)) {
         $guestId = getGuestId($name, $guests);
     } else {
-        $guestQuery->execute([
+        $addGuestQuery->execute([
             ':name' => $name
         ]);
+        // --------------------------- THIS ISNT WORKING PROPARLY
         $guestId = $database->lastInsertId();
-        var_dump($guestId);
     }
 
-    $response = validateTransferCode($transferCode, $roomPrice);
-    print_r($response);
-    if (
-        isset($response['status'])
-        && $response['status'] === 'success'
-    ) {
-        $bookingQuery->execute([
-            ':arrival_date' => $arrDate,
-            ':departure_date' => $depDate,
-            ':room_id' => $roomId,
-            ':guest_id' => 1,
-            ':total_amount' => $roomPrice,
-            ':amount_paid' => 0,
-            ':feature_booking_id' => null,
-            ':transfer_code' => $transferCode,
-        ]);
+    $bookedRooms = getBookedRooms($bookings, $arrDate);
+
+    if (!isRoomAvailable($roomId, $bookedRooms)) {
+        echo 'Sorry, chosen room is unavailable';
     } else {
-        echo $response['error'] ?? 'Transfer validation failed';
+        $response = validateTransferCode($transferCode, $roomPrice);
+        print_r($response);
+        if (
+            isset($response['status'])
+            && $response['status'] === 'success'
+        ) {
+            $bookingQuery->execute([
+                ':arrival_date' => $arrDate,
+                ':departure_date' => $depDate,
+                ':room_id' => $roomId,
+                ':guest_id' => 1,
+                ':total_amount' => $roomPrice,
+                ':amount_paid' => 0,
+                ':feature_booking_id' => null,
+                ':transfer_code' => $transferCode,
+            ]);
+        } else {
+            echo $response['error'] ?? 'Transfer validation failed';
+        }
+        echo 'Booking successfull';
     }
-
-    // var_dump($bookingQuery->errorInfo());
-    // header('Location: /../index.php');
 }
+// header('Location: /../index.php');
