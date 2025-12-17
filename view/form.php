@@ -1,4 +1,4 @@
-<form method="POST" id="booking-form">
+<form method="POST" id="booking-form" action="../src/backend/bookings.php">
     <label for="name">Enter your name:</label>
     <input type="text" id="name" name="name" required><br>
 
