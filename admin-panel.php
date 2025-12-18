@@ -40,4 +40,13 @@
             </tr>
         <?php endforeach; ?>
     </tbody>
+    <div>
+        <form method="POST">
+            <label for="update_features">Update features: </label>
+            <input type="hidden"
+                name="update_features"
+                value="update_features">
+            <button type="submit">Update</button>
+        </form>
+    </div>
 </table>

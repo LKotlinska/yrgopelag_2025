@@ -18,3 +18,11 @@ if (isset(
     $updateRooms->execute();
     echo $roomId . $roomPrice;
 }
+
+if (isset(
+    $_POST['update_features']
+)) {
+    $features = getActiveFeatures($hotelInfo, $_ENV['API_KEY']);
+    activateFeatures($features, $addCategoriesQuery, $addFeaturesQuery, $addTiersQuery, $getCategoryId, $getTierId);
+    echo 'Success';
+}
