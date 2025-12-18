@@ -5,13 +5,11 @@ declare(strict_types=1);
 require __DIR__ . '/../../vendor/autoload.php';
 
 // Hardcoded due to task limitation
-$year = 2026;
-$month = 1;
-$day = 1;
-$cells = 42;
 
-function isExistingGuest(string $name, array $guests): bool
-{
+function isExistingGuest(
+    string $name,
+    array $guests
+): bool {
     foreach ($guests as $guest) {
         if ($name === $guest['name']) {
             return true;
@@ -20,8 +18,10 @@ function isExistingGuest(string $name, array $guests): bool
     return false;
 };
 
-function getGuestId(string $name, array $guests): int
-{
+function getGuestId(
+    string $name,
+    array $guests
+): int {
     foreach ($guests as $guest) {
         if ($name === $guest['name']) {
             $guestId = $guest['id'];
@@ -31,8 +31,12 @@ function getGuestId(string $name, array $guests): int
     return -1;
 };
 
-function calculateRoomPrice(array $rooms, int $roomId, string $arrDate, string $depDate): int
-{
+function calculateRoomPrice(
+    array $rooms,
+    int $roomId,
+    string $arrDate,
+    string $depDate
+): int {
     $roomPrice = $rooms[$roomId - 1]['price_per_night'];
 
     list($arrYear, $arrMonth, $arrDay) = explode("-", $arrDate);
@@ -44,8 +48,10 @@ function calculateRoomPrice(array $rooms, int $roomId, string $arrDate, string $
     return $total;
 };
 
-function getBookedRooms(array $bookings, string $date): array
-{
+function getBookedRooms(
+    array $bookings,
+    string $date
+): array {
     $unavailableRooms = [];
     foreach ($bookings as $booking) {
         if (
@@ -58,13 +64,17 @@ function getBookedRooms(array $bookings, string $date): array
     return $unavailableRooms;
 };
 
-function isRoomAvailable(int $roomId, array $bookedRooms): bool
-{
+function isRoomAvailable(
+    int $roomId,
+    array $bookedRooms
+): bool {
     return !in_array($roomId, $bookedRooms, true);
 };
 
-function validateTransferCode(string $transferCode, int $totalPrice): array
-{
+function validateTransferCode(
+    string $transferCode,
+    int $totalPrice
+): array {
     $url = 'https://www.yrgopelag.se/centralbank/transferCode';
     $payload = json_encode([
         'transferCode' => $transferCode,
@@ -90,8 +100,10 @@ function validateTransferCode(string $transferCode, int $totalPrice): array
     return json_decode($response, true);
 };
 
-function sendReceipt(string $name, string $arrDate)
-{
+function sendReceipt(
+    string $name,
+    string $arrDate
+) {
     $url = 'https://www.yrgopelag.se/centralbank/receipt';
     $payload = json_encode([
         // 'user' => ,
@@ -122,11 +134,13 @@ function sendReceipt(string $name, string $arrDate)
     return json_decode($response, true);
 }
 
-function getActiveFeatures(array $hotelInfo, string $apiKey): array
-{
+function getActiveFeatures(
+    array $hotelInfo,
+    string $apiKey
+): array {
     $url = 'https://www.yrgopelag.se/centralbank/islandFeatures';
     $payload = json_encode([
-        'user' => $hotelInfo['owner'],
+        'user' => $hotelInfo[0]['owner'],
         'api_key' => $apiKey,
     ]);
 
@@ -144,5 +158,37 @@ function getActiveFeatures(array $hotelInfo, string $apiKey): array
     if ($response === false) {
         return ['error' => 'Request failed'];
     }
-    return json_decode($response, true);
+
+    $features = json_decode($response, true);
+    $features = $features['features'];
+    return $features;
+}
+
+function activateFeatures(
+    array $features,
+    PDOStatement $addCategoriesQuery,
+    PDOStatement $addFeaturesQuery,
+    PDOStatement $addTiersQuery,
+    PDOStatement $getCategoryId,
+    PDOStatement $getTierId
+): void {
+    foreach ($features as $feature) {
+        $addCategoriesQuery->execute([
+            ':category_name' => $feature['activity'],
+        ]);
+        $categoryId = $getCategoryId->execute([
+            ':category_name' => $feature['activity'],
+        ]);
+        $addTiersQuery->execute([
+            ':tier_name' => $feature['tier'],
+        ]);
+        $tierId = $getTierId->execute([
+            ':tier_name' => $feature['tier'],
+        ]);
+        $addFeaturesQuery->execute([
+            ':feature_name' => $feature['feature'],
+            ':category_id' => $categoryId,
+            ':tier_id' => $tierId,
+        ]);
+    };
 }
