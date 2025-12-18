@@ -166,29 +166,13 @@ function getActiveFeatures(
 
 function activateFeatures(
     array $features,
-    PDOStatement $addCategoriesQuery,
     PDOStatement $addFeaturesQuery,
-    PDOStatement $addTiersQuery,
-    PDOStatement $getCategoryId,
-    PDOStatement $getTierId
 ): void {
     foreach ($features as $feature) {
-        $addCategoriesQuery->execute([
-            ':category_name' => $feature['activity'],
-        ]);
-        $categoryId = $getCategoryId->execute([
-            ':category_name' => $feature['activity'],
-        ]);
-        $addTiersQuery->execute([
-            ':tier_name' => $feature['tier'],
-        ]);
-        $tierId = $getTierId->execute([
-            ':tier_name' => $feature['tier'],
-        ]);
         $addFeaturesQuery->execute([
-            ':feature_name' => $feature['feature'],
-            ':category_id' => $categoryId,
-            ':tier_id' => $tierId,
+            ':name' => $feature['feature'],
+            ':category' => $feature['activity'],
+            ':tier' => $feature['tier'],
         ]);
     };
 }
