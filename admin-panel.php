@@ -1,5 +1,4 @@
 <?php require __DIR__ . '/src/backend/admin.php'; ?>
-
 <table>
     <thead>
         <tr>
@@ -26,11 +25,11 @@
                     <td>
                         <input
                             type="number"
-                            name="price"
+                            name="room_price"
                             required>
                         <input
                             type="hidden"
-                            name="id"
+                            name="room_id"
                             value="<?php echo $room['id']; ?>">
                     </td>
                     <td>
@@ -40,13 +39,61 @@
             </tr>
         <?php endforeach; ?>
     </tbody>
-    <div>
-        <form method="POST">
-            <label for="update_features">Update features: </label>
-            <input type="hidden"
-                name="update_features"
-                value="update_features">
-            <button type="submit">Update</button>
-        </form>
-    </div>
 </table>
+
+<div>
+    <form method="POST">
+        <label for="update_features">Update features: </label>
+        <input type="hidden"
+            name="update_features"
+            value="update_features">
+        <button type="submit">Update</button>
+    </form>
+    <table>
+        <thead>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Tier</th>
+            <th>Current price</th>
+            <th>New price</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            <?php foreach ($featuresInfo as $feature) : ?>
+                <tr>
+                    <form method="POST">
+                        <td>
+                            <?php echo $feature['id']; ?>
+                        </td>
+                        <td>
+                            <?php echo $feature['name']; ?>
+                        </td>
+                        <td>
+                            <?php echo $feature['category']; ?>
+                        </td>
+                        <td>
+                            <?php echo $feature['tier']; ?>
+                        </td>
+                        <td>
+                            <?php echo $feature['price']; ?>
+                        </td>
+                        <td>
+                            <input
+                                type="number"
+                                name="feature_price"
+                                required>
+                            <input
+                                type="hidden"
+                                name="feature_id"
+                                value="<?php echo $feature['id']; ?>">
+                        </td>
+                        <td>
+                            <button type="submit">Save</button>
+                        </td>
+                    </form>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
