@@ -26,3 +26,22 @@ function getGuestId(
     }
     return -1;
 };
+
+function getOrAddGuest(
+    PDO $database,
+    string $name,
+    array $guests
+): int {
+    // Check if guest already exists
+    if (isExistingGuest($name, $guests)) {
+        return $guestId = getGuestId($name, $guests);
+    } else {
+        $addGuestQuery = $database->prepare('INSERT INTO guests (name) VALUES (:name)');
+        $addGuestQuery->execute([
+            ':name' => $name
+        ]);
+        $query = $database->query('SELECT id FROM guests ORDER BY id DESC LIMIT 1');
+        $guestId = $query->fetch(PDO::FETCH_ASSOC);
+        return $guestId = $guestId['id'];
+    }
+}
