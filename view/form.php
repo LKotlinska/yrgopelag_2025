@@ -1,4 +1,9 @@
 <?php
+require __DIR__ . '/../src/database/data.php';
+
+$query = $database->query('SELECT * FROM features');
+$featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <form method="POST" id="booking-form" action="../src/backend/bookings.php">
     <label for="name">
@@ -9,11 +14,12 @@
         name="name"
         required><br>
 
-    <label for="room-id">
+    <label for="room_id">
         Select room
     </label>
-    <select name="room-id"
-        id="room-id"
+    <select
+        name="room_id"
+        id="room_id"
         required>
         <?php foreach ($rooms as $room) : ?>
             <option
@@ -24,48 +30,55 @@
         <?php endforeach; ?>
     </select><br>
 
-    <label for="arrival-date">
+    <label for="arrival_date">
         Arrival date:
     </label>
-    <input type="date"
+    <input
+        type="date"
         id="arrival-date"
-        name="arrival-date"
+        name="arrival_date"
         min="2026-01-01"
         max="2026-01-31"
         required><br>
 
-    <label for="departure-date">
+    <label for="departure_date">
         Departure date:
     </label>
-    <input type="date" id="departure-date"
-        name="departure-date"
+    <input
+        type="date"
+        id="departure_date"
+        name="departure_date"
         min="2026-01-01"
         max="2026-01-31"
         required><br>
 
-    <label for="transfer-code">
+    <label for="transfer_code">
         Enter your transferCode:
     </label>
     <input type="text"
-        id="transfer-code"
-        name="transfer-code"
+        id="transfer_code"
+        name="transfer_code"
         required><br>
 
-    <!-- <?php foreach ($features as $feature) : ?>
+    <?php foreach ($featuresInfo as $feature) : ?>
         <fieldset>
-            <legend>
-                <?php echo $feature['activity'] ?>
-            </legend>
-            <input type="checkbox" id="feature">
+            <legend><?php echo $feature['category']; ?></legend>
+
+            <input
+                type="checkbox"
+                name="feature_ids[]"
+                id="feature_<?= $feature['id'] ?>"
+                value="<?= $feature['id'] ?>">
+
+            <label for="feature_<?= $feature['id'] ?>">
+                <?php echo $feature['name']; ?> — $<?php echo $feature['price'] ?>
+            </label>
         </fieldset>
-    <?php endforeach; ?> -->
+    <?php endforeach; ?>
 
     <div>
         <h4>Total price:</h4>
         <p id="price"></p>
-        <input type="hidden"
-            name="total-price"
-            id="total-price">
     </div>
 
 

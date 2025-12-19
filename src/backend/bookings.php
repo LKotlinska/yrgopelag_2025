@@ -4,23 +4,33 @@ declare(strict_types=1);
 
 require __DIR__ . '/../database/data.php';
 require __DIR__ . '/functions.php';
-require __DIR__ . '/../../view/form.php';
+require __DIR__ . '/../../vendor/autoload.php';
+// require __DIR__ . '/../../view/form.php';
+
+$query = $database->query('SELECT * FROM features');
+$featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset(
     $_POST['name'],
-    $_POST['room-id'],
-    $_POST['arrival-date'],
-    $_POST['departure-date'],
-    $_POST['transfer-code'],
-    $_POST['total-price']
+    $_POST['room_id'],
+    $_POST['arrival_date'],
+    $_POST['departure_date'],
+    $_POST['transfer_code'],
 )) {
     $name = (string) trim(filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $roomId = (int) $_POST['room-id'];
-    $arrDate = (string) $_POST['arrival-date'];
-    $depDate = (string) $_POST['departure-date'];
-    $transferCode = (string) trim(filter_var($_POST['transfer-code'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $roomPrice = (int) calculateRoomPrice($rooms, $roomId, $arrDate, $depDate);
-
+    $roomId = (int) $_POST['room_id'];
+    $arrDate = (string) $_POST['arrival_date'];
+    $depDate = (string) $_POST['departure_date'];
+    $transferCode = (string) trim(filter_var($_POST['transfer_code'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $selectedFeatureIds = $_POST['feature_ids'] ?? [];
+    $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
+    $selectedFeatures = getFeaturesById($selectedFeatureIds, $featuresInfo);
+    $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
+    echo 'Room price: ' . $roomPrice . '   ';
+    $featurePrice = (int) calcFeaturePrice($selectedFeatureIds, $featuresInfo);
+    $totalCost = $roomPrice + $featurePrice;
+    echo 'Total cost:  ' . $totalCost . '   ';
+    echo $totalCost;
     // Check if guest already exists
     if (isExistingGuest($name, $guests)) {
         $guestId = getGuestId($name, $guests);
@@ -28,7 +38,7 @@ if (isset(
         $addGuestQuery->execute([
             ':name' => $name
         ]);
-        // --------------------------- THIS ISNT WORKING PROPARLY
+        // --------------------------- THIS ISNT WORKING PROPARLY - FIX LATERRRRR
         $guestId = $database->lastInsertId();
     }
 
@@ -37,26 +47,42 @@ if (isset(
     if (!isRoomAvailable($roomId, $bookedRooms)) {
         echo 'Sorry, chosen room is unavailable';
     } else {
-        $response = validateTransferCode($transferCode, $roomPrice);
-        print_r($response);
+        echo 'VALIDATION RESPONSE';
+        $validationResponse = validateTransferCode($transferCode, $totalCost);
+        print_r($validationResponse);
         if (
-            isset($response['status'])
-            && $response['status'] === 'success'
+            isset($validationResponse['status'])
+            && $validationResponse['status'] === 'success'
         ) {
-            $bookingQuery->execute([
-                ':arrival_date' => $arrDate,
-                ':departure_date' => $depDate,
-                ':room_id' => $roomId,
-                ':guest_id' => 1,
-                ':total_amount' => $roomPrice,
-                ':amount_paid' => 0,
-                ':feature_booking_id' => null,
-                ':transfer_code' => $transferCode,
-            ]);
+            $receiptResponse = sendReceipt($hotelInfo, $apiKey, $name, $arrDate, $depDate, $selectedFeatures);
+            echo 'Send Receipt response:';
+            print_r($receiptResponse);
+            if (
+                isset($receiptResponse['status'])
+                && $receiptResponse['status'] === 'success'
+            ) {
+                $bookingQuery->execute([
+                    ':arrival_date' => $arrDate,
+                    ':departure_date' => $depDate,
+                    ':room_id' => $roomId,
+                    ':guest_id' => $guestId,
+                    ':total_amount' => $totalCost,
+                    ':amount_paid' => $totalCost,
+                    ':transfer_code' => $transferCode,
+                ]);
+                echo 'DEPOSIT RESPONSE:';
+                $depositResponse = consumeTransferCode($hotelInfo, $transferCode);
+                print_r($depositResponse);
+                echo 'Booking successfull';
+            } else {
+                echo $response['error'] ?? 'Receipt delievery failed';
+            }
         } else {
             echo $response['error'] ?? 'Transfer validation failed';
         }
-        echo 'Booking successfull';
     }
 }
+
+// ADD ANOTHER PAGE FOR VIEW OF SUCCESSFULL BOOKING
+
 // header('Location: /../index.php');

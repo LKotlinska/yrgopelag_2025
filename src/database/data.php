@@ -1,14 +1,15 @@
 <?php
-require __DIR__ . '/../backend/functions.php';
-
-// ---- DOTENV LOAD
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
-$database = new PDO('sqlite:' . __DIR__ . '/../database/hotel.db');
+$apiKey = $_ENV['API_KEY'];
+
+$database = new PDO('sqlite:' . __DIR__ . '/hotel.db');
+
 // $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // $database->exec('PRAGMA foreign_keys = ON');
 
@@ -36,6 +37,10 @@ $bookings = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $query = $database->query('SELECT * FROM hotel_info');
 $hotelInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+$hotelInfo = $hotelInfo[0];
+
+$query = $database->query('SELECT * FROM features');
+$featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
 // FEATURE NAME SHOULD BE AN ID 
 // ---- API FETCH
