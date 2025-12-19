@@ -4,6 +4,9 @@ require __DIR__ . '/../src/database/data.php';
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
+$query = $database->query('SELECT * FROM rooms');
+$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <form method="POST" id="booking-form" action="../src/backend/bookings.php">
     <label for="name">
@@ -80,7 +83,5 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
         <h4>Total price:</h4>
         <p id="price"></p>
     </div>
-
-
     <button type="submit">Book</button>
 </form>
