@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 require __DIR__ . '/../database/data.php';
 
-require __DIR__ . '/functions.php';
+require __DIR__ . '/../functions/feature.functions.php';
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-
+$query = $database->query('SELECT * FROM rooms');
+$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM hotel_info');
+$hotelInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+$hotelInfo = $hotelInfo[0];
 
 if (isset(
     $_POST['room_id'],

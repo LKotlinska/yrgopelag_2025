@@ -3,12 +3,36 @@
 declare(strict_types=1);
 
 require __DIR__ . '/../database/data.php';
-require __DIR__ . '/functions.php';
+require __DIR__ . '/../functions/booking.functions.php';
+require __DIR__ . '/../functions/receipt.functions.php';
+require __DIR__ . '/../functions/pricing.functions.php';
+require __DIR__ . '/../functions/guest.functions.php';
+require __DIR__ . '/../functions/feature.functions.php';
 require __DIR__ . '/../../vendor/autoload.php';
-// require __DIR__ . '/../../view/form.php';
+
+$addGuestQuery = $database->prepare('INSERT INTO guests (name) VALUES (:name)');
+
+$query = $database->query('SELECT * FROM hotel_info');
+$hotelInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+$hotelInfo = $hotelInfo[0];
 
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT room_id, arrival_date, departure_date FROM room_bookings');
+$bookings = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM guests');
+$guests = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM rooms');
+$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$bookingQuery = $database->prepare(
+    'INSERT INTO room_bookings 
+    (arrival_date, departure_date, room_id, guest_id, total_amount, amount_paid, feature_booking_id, transfer_code)
+    VALUES (:arrival_date, :departure_date, :room_id, :guest_id, :total_amount, :amount_paid, :feature_booking_id, :transfer_code)'
+);
 
 if (isset(
     $_POST['name'],
@@ -22,15 +46,15 @@ if (isset(
     $arrDate = (string) $_POST['arrival_date'];
     $depDate = (string) $_POST['departure_date'];
     $transferCode = (string) trim(filter_var($_POST['transfer_code'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
     $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
     $selectedFeatures = getFeaturesById($selectedFeatureIds, $featuresInfo);
+
     $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
-    echo 'Room price: ' . $roomPrice . '   ';
     $featurePrice = (int) calcFeaturePrice($selectedFeatureIds, $featuresInfo);
-    $totalCost = $roomPrice + $featurePrice;
-    echo 'Total cost:  ' . $totalCost . '   ';
-    echo $totalCost;
+    $totalCost = calcTotalCost($featurePrice, $roomPrice);
+
     // Check if guest already exists
     if (isExistingGuest($name, $guests)) {
         $guestId = getGuestId($name, $guests);
