@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 require __DIR__ . '/../database/data.php';
 
+require __DIR__ . '/functions.php';
+
+require __DIR__ . '/../../vendor/autoload.php';
+
+
+
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -41,7 +47,7 @@ if (isset(
 if (isset(
     $_POST['update_features']
 )) {
-    $features = getActiveFeatures($hotelInfo, $_ENV['API_KEY']);
+    $features = getOwnedFeatures($hotelInfo, $_ENV['API_KEY']);
     activateFeatures($features, $addFeaturesQuery);
     echo 'Success';
 }

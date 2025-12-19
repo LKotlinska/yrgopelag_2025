@@ -33,9 +33,8 @@
             <?php
                     } else {
                         $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
-
                         $bookedRooms = getBookedRooms($bookings, $date);
-                        $allRoomsBooked = count($bookedRooms) === count($rooms); ?>
+                        $allRoomsBooked = count($bookedRooms) >= count($rooms); ?>
 
                 <td class="day <?= $allRoomsBooked ? 'booked' : 'available' ?>"
                     data-date="<?= $date ?>">
