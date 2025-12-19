@@ -5,7 +5,6 @@ declare(strict_types=1);
 function getFeaturesById(array $selectedFeatureIds, array $featuresInfo): array
 {
     if (empty($selectedFeatureIds)) {
-        echo 'Empty variable';
         return [];
     }
 
