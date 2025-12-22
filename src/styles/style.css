@@ -1,3 +1,13 @@
+:root {
+  --primary-color: #f4efea;
+  --secondary-color: #95452e;
+  --accent-color: #e3d7c7;
+  --menu-font: #ffffff;
+  --menu-button: #ffffff;
+  --cta-color: #000000;
+  --font-color: #252525;
+}
+
 .available {
   background-color: rgb(232, 207, 255);
 }
