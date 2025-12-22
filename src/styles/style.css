@@ -7,7 +7,91 @@
   --cta-color: #000000;
   --font-color: #252525;
 }
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+header {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--secondary-color);
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  color: var(--menu-font);
+}
+.menu {
+  grid-column-start: 1;
+  /* grid-column-end: 1; */
+  z-index: 5;
+}
+.book {
+  grid-column-start: 10;
+  /* grid-column-end: 10; */
+  z-index: 5;
+}
+.overlay-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(56, 36, 30, 0.5);
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+.header-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  /* inset: 0; */
+  width: 100%;
+  height: 100%;
+  filter: blur(3px);
+  z-index: 0;
+}
+.site-logo {
+  grid-column-start: 2;
+  grid-column-end: 9;
+  grid-row-start: 4;
+  grid-row-end: 6;
+  z-index: 7;
+  font-size: 1.7em;
+}
+.site-logo h1,
+.site-logo h2 {
+  text-transform: capitalize;
+}
+.site-logo h1 {
+  margin-bottom: 0;
+}
+.site-logo h2 {
+  margin-top: 0;
+}
+.logo-sub {
+  display: block;
+}
 
+.l-symbol {
+  font-size: 0.8em;
+}
 .available {
   background-color: rgb(232, 207, 255);
 }
