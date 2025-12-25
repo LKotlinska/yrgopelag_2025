@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #f4efea;
+  --primary-color: #f3eae1;
   --secondary-color: #95452e;
   --accent-color: #e3d7c7;
   --menu-font: #ffffff;
@@ -10,13 +10,26 @@
 * {
   box-sizing: border-box;
 }
+.btn,
+body {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+}
 body {
   margin: 0;
-  font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 400;
   font-style: normal;
+  font-size: 1.1em;
+  background-color: var(--primary-color);
 }
+main {
+  padding: 0 8em;
+  margin: 0 auto;
+}
+section {
+  padding: 2em 0;
+}
+
 h1,
 h2,
 h3,
@@ -28,45 +41,45 @@ h6 {
   font-weight: 800;
   font-style: normal;
 }
+.btn {
+  color: var(--menu-font);
+  background-color: var(--cta-color);
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  border-radius: 2em;
+  border: none;
+  font-weight: 600;
+  font-size: 1em;
+  margin: auto 0 0 0;
+}
+.menu {
+  grid-column-start: 1;
+  z-index: 5;
+}
+.book {
+  grid-column-start: 10;
+  z-index: 5;
+}
+/* ---- HEADER ---- */
 header {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  background-color: var(--secondary-color);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(7, 1fr);
   color: var(--menu-font);
 }
-.menu {
-  grid-column-start: 1;
-  /* grid-column-end: 1; */
-  z-index: 5;
-}
-.book {
-  grid-column-start: 10;
-  /* grid-column-end: 10; */
-  z-index: 5;
-}
-.overlay-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(56, 36, 30, 0.5);
-  mix-blend-mode: multiply;
-  z-index: 1;
-}
 .header-overlay {
-  position: absolute;
   top: 0;
   left: 0;
+  position: absolute;
   object-fit: cover;
-  /* inset: 0; */
   width: 100%;
   height: 100%;
-  filter: blur(3px);
   z-index: 0;
 }
+/* ---- LOGO ---- */
 .site-logo {
   grid-column-start: 2;
   grid-column-end: 9;
@@ -74,6 +87,9 @@ header {
   grid-row-end: 6;
   z-index: 7;
   font-size: 1.7em;
+}
+.slogan {
+  font-size: 0.9em;
 }
 .site-logo h1,
 .site-logo h2 {
@@ -88,9 +104,76 @@ header {
 .logo-sub {
   display: block;
 }
-
 .l-symbol {
   font-size: 0.8em;
+}
+/* ---- ---- */
+.intro-card {
+  font-size: 1.7em;
+  width: 50%;
+}
+.anchor-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5em;
+  height: 80vh;
+}
+.anchor-img {
+  object-fit: cover;
+  height: 100%;
+}
+.anchor-item,
+.anchor-item a,
+.anchor-img {
+  width: 100%;
+}
+.anchor-item h3 {
+  position: absolute;
+  margin-left: 1em;
+  color: var(--menu-font);
+}
+/* ---- ROOMS MAIN PAGE ---- */
+figure {
+  margin: 0;
+}
+.room-card {
+  display: flex;
+  margin: 2em 0;
+  background-color: var(--accent-color);
+  height: 60vh;
+}
+.room-image {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: left;
+  height: 100%;
+}
+.room-info {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em 2em;
+  gap: 0.5em;
+}
+.include-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding-left: 1em;
+}
+.room-info p,
+.room-info ul {
+  margin: 0;
+}
+.room-card .btn {
+  align-self: flex-end;
+}
+.room-info h3,
+.anchor-item h3 {
+  font-size: 1.8em;
+}
+.room-info h3 {
+  text-transform: capitalize;
+  margin: 0;
 }
 .available {
   background-color: rgb(232, 207, 255);
