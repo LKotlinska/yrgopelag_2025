@@ -18,28 +18,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
         </article>
     </section>
 
-    <section class="anchor-section">
-        <div class="anchor-container">
-            <div class="anchor-item">
-                <a href="#">
-                    <h3>Spa</h3>
-                    <img class="anchor-img" src="/assets/images/spa.png" alt="" />
-                </a>
-            </div>
-            <div class="anchor-item">
-                <a href="#">
-                    <h3>Rooms</h3>
-                    <img class="anchor-img" src="/assets/images/rooms.png" alt="" />
-                </a>
-            </div>
-            <div class="anchor-item">
-                <a href="#">
-                    <h3>Offers</h3>
-                    <img class="anchor-img" src="/assets/images/offers.png" alt="" />
-                </a>
-            </div>
-        </div>
-    </section>
+    <?php require __DIR__ . '/menu.php' ?>
 
     <section>
         <?php foreach ($rooms as $room) : ?>
@@ -54,26 +33,9 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                 <div class="room-info">
                     <h3><?php echo $room['tier']; ?> room</h3>
                     <p><?php echo $room['description']; ?></p>
-                    <p>Room includes:</p>
-                    <div>
-                        <?php
-                        $count = 0;
-                        foreach ($amenities as $amenity) :
-                            if ($amenity['room_id'] === $room['id']) :
-                                if ($count === 3) {
-                                    break;
-                                } ?>
-                                <p class="include-item"><span class="material-symbols-outlined">
-                                        check_box
-                                    </span> <?php echo $amenity['name']; ?></p>
-                        <?php $count++;
-                            endif;
-                        endforeach;
-                        ?>
+                    <?php require __DIR__ . '/amenities.php'; ?>
 
-                    </div>
-
-                    <button class="btn">View details</button>
+                    <a href="/room.php?id=<?php echo $room['id']; ?>" class="btn">View details</a>
                 </div>
             </article>
         <?php endforeach; ?>
