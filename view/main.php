@@ -22,15 +22,15 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 
     <section>
         <?php foreach ($rooms as $room) : ?>
-            <article class="room-card">
+            <article class="main-r-card">
                 <figure>
                     <img
-                        class="room-image"
+                        class="main-r-img"
                         src="/assets/images/<?php echo $room['room_image']; ?>"
                         alt="Room image">
                 </figure>
 
-                <div class="room-info">
+                <div class="main-r-info">
                     <h3><?php echo $room['tier']; ?> room</h3>
                     <p><?php echo $room['description']; ?></p>
                     <?php require __DIR__ . '/amenities.php'; ?>

@@ -2,8 +2,8 @@
   --primary-color: #f3eae1;
   --secondary-color: #95452e;
   --accent-color: #e3d7c7;
-  --menu-font: #ffffff;
-  --menu-button: #ffffff;
+  --light-font: #ffffff;
+  --light-button: #ffffff;
   --cta-color: #000000;
   --font-color: #252525;
 }
@@ -11,12 +11,12 @@
   box-sizing: border-box;
 }
 .btn,
-body {
+body,
+.footer-container dd {
   font-family: "DM Sans", sans-serif;
   font-weight: 400;
 }
 body {
-  margin: 0;
   font-optical-sizing: auto;
   font-style: normal;
   font-size: 1.1em;
@@ -35,14 +35,30 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.footer-container dd,
+.footer-container dl,
+body,
+figure,
+.main-r-info p,
+.main-r-info ul {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.footer-container dl {
   font-family: "Fraunces", serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
 }
 .btn {
-  color: var(--menu-font);
+  color: var(--light-font);
   background-color: var(--cta-color);
   text-transform: uppercase;
   padding: 0.5em 1em;
@@ -51,8 +67,9 @@ h6 {
   font-weight: 600;
   font-size: 1em;
   margin: auto 0 0 0;
+  cursor: pointer;
 }
-.menu {
+.light {
   grid-column-start: 1;
   z-index: 5;
 }
@@ -61,14 +78,13 @@ h6 {
   z-index: 5;
 }
 /* ---- HEADER ---- */
-header {
-  position: relative;
+.main-h {
   width: 100%;
   height: 100vh;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  color: var(--menu-font);
+  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-rows: 1fr;
+  color: var(--light-font);
 }
 .header-overlay {
   top: 0;
@@ -81,10 +97,10 @@ header {
 }
 /* ---- LOGO ---- */
 .site-logo {
-  grid-column-start: 2;
+  /* grid-column-start: 2;
   grid-column-end: 9;
   grid-row-start: 4;
-  grid-row-end: 6;
+  grid-row-end: 6; */
   z-index: 7;
   font-size: 1.7em;
 }
@@ -94,12 +110,6 @@ header {
 .site-logo h1,
 .site-logo h2 {
   text-transform: capitalize;
-}
-.site-logo h1 {
-  margin-bottom: 0;
-}
-.site-logo h2 {
-  margin-top: 0;
 }
 .logo-sub {
   display: block;
@@ -122,6 +132,9 @@ header {
   object-fit: cover;
   height: 100%;
 }
+.anchor-item h3 {
+  margin: 1em 0;
+}
 .anchor-item,
 .anchor-item a,
 .anchor-img {
@@ -130,25 +143,22 @@ header {
 .anchor-item h3 {
   position: absolute;
   margin-left: 1em;
-  color: var(--menu-font);
+  color: var(--light-font);
 }
 /* ---- ROOMS MAIN PAGE ---- */
-figure {
-  margin: 0;
-}
-.room-card {
+.main-r-card {
   display: flex;
   margin: 2em 0;
   background-color: var(--accent-color);
   height: 60vh;
 }
-.room-image {
+.main-r-img {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: left;
   height: 100%;
 }
-.room-info {
+.main-r-info {
   display: flex;
   flex-direction: column;
   padding: 1.5em 2em;
@@ -159,22 +169,31 @@ figure {
   align-items: center;
   gap: 0.5em;
   padding-left: 1em;
+  text-transform: capitalize;
 }
-.room-info p,
-.room-info ul {
-  margin: 0;
-}
-.room-card .btn {
+.main-r-card .btn {
   align-self: flex-end;
 }
-.room-info h3,
+.main-r-info h3,
 .anchor-item h3 {
   font-size: 1.8em;
 }
-.room-info h3 {
+.main-r-info h3 {
   text-transform: capitalize;
-  margin: 0;
 }
+/* ---- ROOM PAGE ---- */
+.room-card section {
+  padding: 0;
+}
+.room-card header {
+  display: flex;
+  flex-direction: column;
+}
+.room-img {
+  width: 400px;
+  height: 400px;
+}
+
 .available {
   background-color: rgb(232, 207, 255);
 }
@@ -183,4 +202,29 @@ figure {
 }
 .selected {
   background-color: aqua;
+}
+
+footer {
+  background-color: var(--secondary-color);
+  color: var(--light-font);
+  padding: 2em;
+}
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+}
+.footer-container,
+.footer-logo {
+  width: 70%;
+  margin: 0 auto;
+}
+.footer-logo {
+  margin-bottom: 2em;
+}
+.footer-container dd,
+.footer-container p {
+  margin: 0.5em;
+}
+address {
+  font-style: normal;
 }
