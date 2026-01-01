@@ -55,8 +55,9 @@ function getOwnedFeatures(
 
 function activateFeatures(
     array $features,
-    PDOStatement $addFeaturesQuery,
+    PDO $database
 ): void {
+    $addFeaturesQuery = $database->prepare('INSERT OR IGNORE INTO features (name, category, tier) VALUES (:name, :category, :tier)');
     foreach ($features as $feature) {
         $addFeaturesQuery->execute([
             ':name' => $feature['feature'],

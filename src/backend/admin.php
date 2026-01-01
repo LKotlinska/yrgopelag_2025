@@ -18,6 +18,7 @@ $query = $database->query('SELECT * FROM hotel_info');
 $hotelInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 $hotelInfo = $hotelInfo[0];
 
+
 if (isset(
     $_POST['room_id'],
     $_POST['room_price']
@@ -53,6 +54,6 @@ if (isset(
     $_POST['update_features']
 )) {
     $features = getOwnedFeatures($hotelInfo, $_ENV['API_KEY']);
-    activateFeatures($features, $addFeaturesQuery);
+    activateFeatures($features, $database);
     echo 'Success';
 }
