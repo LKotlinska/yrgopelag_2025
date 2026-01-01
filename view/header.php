@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="main-h">
         <?php
         // require __DIR__ . '/navigation.php' 
         ?>
@@ -22,16 +22,7 @@
         <h1 class="book">BOOK</h1>
         <img class="header-overlay" src="assets/images/terracotta-hotel.png" alt="" />
         <hgroup class="site-logo">
-            <h1>
-                Terracotta bay
-            </h1>
-            <h2 class="logo-sub">
-                Spa
-                <span class="l-symbol">
-                    &
-                </span>
-                Hotel
-            </h2>
+            <?php require __DIR__ . '/logo.php'; ?>
             <span class="slogan">
                 A place to arrive - and let go
             </span>
