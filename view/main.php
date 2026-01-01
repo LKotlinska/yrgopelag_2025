@@ -26,7 +26,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                 <figure>
                     <img
                         class="main-r-img"
-                        src="/assets/images/<?php echo $room['room_image']; ?>"
+                        src="./assets/images/<?php echo $room['room_image']; ?>"
                         alt="Room image">
                 </figure>
 
@@ -35,7 +35,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                     <p><?php echo $room['description']; ?></p>
                     <?php require __DIR__ . '/amenities.php'; ?>
 
-                    <a href="/room.php?id=<?php echo $room['id']; ?>" class="btn">View details</a>
+                    <a href="./room.php?id=<?php echo $room['id']; ?>" class="btn">View details</a>
                 </div>
             </article>
         <?php endforeach; ?>
