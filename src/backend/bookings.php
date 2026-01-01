@@ -8,6 +8,7 @@ require __DIR__ . '/../functions/receipt.functions.php';
 require __DIR__ . '/../functions/pricing.functions.php';
 require __DIR__ . '/../functions/guest.functions.php';
 require __DIR__ . '/../functions/feature.functions.php';
+require __DIR__ . '/../functions/validation.functions.php';
 require __DIR__ . '/../../vendor/autoload.php';
 
 $query = $database->query('SELECT * FROM hotel_info');
@@ -27,11 +28,11 @@ $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset(
-    $_POST['name'],
-    $_POST['room_id'],
     $_POST['arrival_date'],
     $_POST['departure_date'],
-    $_POST['transfer_code'],
+    $_POST['name'],
+    $_POST['api_key'],
+    $_POST['room_id'],
 )) {
 
     handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $apiKey);
