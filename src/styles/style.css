@@ -1,12 +1,34 @@
 :root {
+  /* Colors */
   --primary-color: #f3eae1;
-  --secondary-color: #95452e;
-  --accent-color: #e3d7c7;
-  --light-font: #ffffff;
-  --light-button: #ffffff;
+  --accent-color: #95452e;
+  --secondary-color: #e3d7c7;
+  --light-color: #ffffff;
   --cta-color: #000000;
   --font-color: #252525;
-  --accent-light-color: #a09795;
+  --light-grey-color: #a09795;
+
+  --status-booked: #952e2e;
+  --status-available: #e3d7c7;
+
+  /* Fonts */
+  --font-body: "DM Sans", sans-serif;
+  --font-heading: "Fraunces", serif;
+
+  /* Font sizing */
+  --fs-small: 0.9em;
+  --fs-base: 1.1em;
+  --fs-medium: 1.2em;
+  --fs-large: 1.7em;
+  --fs-xl: 1.8em;
+
+  /* Spacing */
+  --space-xs: 0.25em;
+  --space-sm: 0.5em;
+  --space-md: 1em;
+  --space-lg: 1.5em;
+  --space-xl: 2em;
+  --space-2xl: 2.5em;
 }
 * {
   box-sizing: border-box;
@@ -14,13 +36,13 @@
 .btn,
 body,
 .footer-container dd {
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
 }
 body {
   font-optical-sizing: auto;
   font-style: normal;
-  font-size: 1.1em;
+  font-size: var(--fs-base);
   background-color: var(--primary-color);
 }
 main {
@@ -28,7 +50,7 @@ main {
   margin: 0 auto;
 }
 section {
-  padding: 2em 0;
+  padding: var(--space-xl) 0;
 }
 
 h1,
@@ -54,7 +76,7 @@ h5,
 h6,
 .footer-container dl,
 .cost-display {
-  font-family: "Fraunces", serif;
+  font-family: var(--font-heading);
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
@@ -65,13 +87,13 @@ h6,
   text-transform: uppercase;
 }
 .btn {
-  color: var(--light-font);
+  color: var(--light-color);
   background-color: var(--cta-color);
-  padding: 0.5em 1em;
-  border-radius: 2em;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--space-xl);
   border: none;
   font-weight: 600;
-  font-size: 1em;
+  font-size: var(--fs-base);
   margin: auto 0 0 0;
   cursor: pointer;
 }
@@ -79,7 +101,7 @@ h6,
 .book-btn {
   width: 30%;
   align-self: flex-end;
-  margin-top: 2em;
+  margin-top: var(--space-xl);
 }
 .light {
   grid-column-start: 1;
@@ -96,7 +118,7 @@ h6,
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
   grid-template-rows: 1fr;
-  color: var(--light-font);
+  color: var(--light-color);
 }
 .header-overlay {
   top: 0;
@@ -114,20 +136,20 @@ h6,
   grid-row-start: 4;
   grid-row-end: 6; */
   z-index: 7;
-  font-size: 1.7em;
+  font-size: var(--fs-large);
 }
 .slogan {
-  font-size: 0.9em;
+  font-size: var(--fs-small);
 }
 .logo-sub {
   display: block;
 }
 .l-symbol {
-  font-size: 0.8em;
+  font-size: var(--fs-small);
 }
 /* ---- ---- */
 .intro-card {
-  font-size: 1.7em;
+  font-size: var(--fs-large);
   width: 50%;
 }
 .anchor-container {
@@ -141,7 +163,7 @@ h6,
   height: 100%;
 }
 .anchor-item h3 {
-  margin: 1em 0;
+  margin: var(--space-md) 0;
 }
 .anchor-item,
 .anchor-item a,
@@ -150,14 +172,14 @@ h6,
 }
 .anchor-item h3 {
   position: absolute;
-  margin-left: 1em;
-  color: var(--light-font);
+  margin-left: var(--space-md);
+  color: var(--light-color);
 }
 /* ---- ROOMS MAIN PAGE ---- */
 .main-r-card {
   display: flex;
-  margin: 2em 0;
-  background-color: var(--accent-color);
+  margin: var(--space-xl) 0;
+  background-color: var(--secondary-color);
   height: 60vh;
 }
 .main-r-img {
@@ -169,14 +191,14 @@ h6,
 .main-r-info {
   display: flex;
   flex-direction: column;
-  padding: 1.5em 2em;
-  gap: 0.5em;
+  padding: var(--space-lg) var(--space-xl);
+  gap: var(--space-sm);
 }
 .include-item {
   display: flex;
   align-items: center;
   margin: 0;
-  padding-left: 1em;
+  padding-left: var(--space-md);
   text-transform: capitalize;
 }
 .main-r-card .btn {
@@ -184,7 +206,7 @@ h6,
 }
 .main-r-info h3,
 .anchor-item h3 {
-  font-size: 1.8em;
+  font-size: var(--fs-xl);
 }
 /* ---- ROOM PAGE ---- */
 .r-page {
@@ -217,7 +239,7 @@ h6,
   flex-direction: column;
 }
 .room-desc {
-  margin-bottom: 2em;
+  margin-bottom: var(--space-xl);
 }
 /* ---- FORM ---- */
 .form-section h2 {
@@ -225,23 +247,23 @@ h6,
 }
 .date-select,
 .feature-container {
-  gap: 2em;
+  gap: var(--space-xl);
 }
 .date-select {
   display: flex;
 }
 .date-item,
 .guest-info {
-  gap: 0.5em;
+  gap: var(--space-sm);
   width: 30%;
 }
 .cost-display {
   text-align: end;
-  font-size: 1.2em;
-  margin-top: 1em;
+  font-size: var(--fs-medium);
+  margin-top: var(--space-md);
 }
 .cost-display span:first-child {
-  margin-right: 2em;
+  margin-right: var(--space-xl);
 }
 .feature-container {
   display: grid;
@@ -249,7 +271,7 @@ h6,
   grid-template-rows: 1fr 1fr;
 }
 .category-name {
-  font-size: 1.1em;
+  font-size: var(--fs-base);
 }
 .feature-name {
   /* For capitalizing first letter */
@@ -261,8 +283,8 @@ h6,
 }
 .feature-items {
   display: flex;
-  padding: 0.25em 0;
-  border-bottom: 1px solid var(--accent-light-color);
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--light-grey-color);
   gap: 0.35em;
 }
 .feature-items:last-child {
@@ -272,26 +294,26 @@ h6,
   margin-right: 0.2em;
 }
 .guest-info {
-  margin-bottom: 0.5em;
+  margin-bottom: var(--space-sm);
 }
 .guest-info:last-of-type {
   margin-bottom: 0;
 }
 .form-section {
-  padding: 0.5em 1em;
-  margin-bottom: 1.5em;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
 }
 /* ---- FORM INPUTS ----*/
 input[type="date"],
 input[type="text"] {
-  height: 2em;
+  height: var(--space-xl);
   width: 100%;
-  padding: 0 0.5em;
+  padding: 0 var(--space-sm);
   border: 1px solid var(--cta-color);
-  border-radius: 0.5em;
+  border-radius: var(--space-sm);
 }
 input[type="checkbox"] {
-  accent-color: var(--secondary-color);
+  accent-color: var(--accent-color);
 }
 .feature-items label {
   display: flex;
@@ -299,19 +321,19 @@ input[type="checkbox"] {
   justify-content: space-between;
 }
 .available {
-  background-color: rgb(232, 207, 255);
+  background-color: var(--status-available);
 }
 .booked {
-  background-color: crimson;
+  background-color: var(--status-booked);
 }
 .selected {
   background-color: aqua;
 }
 
 footer {
-  background-color: var(--secondary-color);
-  color: var(--light-font);
-  padding: 2em;
+  background-color: var(--accent-color);
+  color: var(--light-color);
+  padding: var(--space-xl);
 }
 .footer-container {
   display: flex;
@@ -323,11 +345,11 @@ footer {
   margin: 0 auto;
 }
 .footer-logo {
-  margin-bottom: 2em;
+  margin-bottom: var(--space-xl);
 }
 .footer-container dd,
 .footer-container p {
-  margin: 0.5em;
+  margin: var(--space-sm);
 }
 address {
   font-style: normal;
