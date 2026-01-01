@@ -8,94 +8,111 @@ $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<form method="POST" id="booking-form" action="../src/backend/bookings.php">
-    <h3>Dates</h3>
-    <label for="arrival_date">
-        Arrival date:
-    </label>
-    <input
-        type="date"
-        id="arrival-date"
-        name="arrival_date"
-        min="2026-01-01"
-        max="2026-01-31"
-        required><br>
-    <p>Check-in from 15:00</p>
 
-    <label for="departure_date">
-        Departure date:
-    </label>
-    <input
-        type="date"
-        id="departure_date"
-        name="departure_date"
-        min="2026-01-01"
-        max="2026-01-31"
-        required><br>
-    <p>Check-out at 11:00</p>
-    <div>
-        <span>Cost: </span><span>$ <span id="room-cost"></span></span>
+<form method="POST" id="booking-form" action="../src/backend/bookings.php">
+    <h2>Dates</h2>
+    <div class="form-section">
+        <div class="date-select">
+            <div class="date-item">
+                <label for="arrival_date">
+                    Arrival
+                </label>
+                <input
+                    type="date"
+                    id="arrival-date"
+                    name="arrival_date"
+                    min="2026-01-01"
+                    max="2026-01-31"
+                    required>
+                <span>Check-in from 15:00</span>
+            </div>
+            <div class="date-item">
+                <label for="departure_date">
+                    Departure
+                </label>
+                <input
+                    type="date"
+                    id="departure_date"
+                    name="departure_date"
+                    min="2026-01-01"
+                    max="2026-01-31"
+                    required>
+                <span>Check-out at 11:00</span>
+            </div>
+        </div>
+        <div class="cost-display">
+            <span>Cost: </span><span>$ <span id="room-cost"></span></span>
+        </div>
     </div>
 
     <!-- Features information -->
-    <h3>Activities</h3>
+    <h2>Activities</h2>
+    <div class="form-section">
+        <?php
+        $groupedFeatures = [];
+        foreach ($featuresInfo as $feature) :
+            $category = $feature['category'];
+            $groupedFeatures[$category][] = $feature;
+        endforeach;
+        ?>
+        <div class="feature-container">
+            <?php foreach ($groupedFeatures as $category => $features) : ?>
+                <div class="feature-card">
+                    <span class="category-name"><?= $category === 'hotel-specific' ? 'spa' : $category; ?></span>
+                    <?php foreach ($features as $feature) : ?>
+                        <div class="feature-items">
+                            <input
+                                type="checkbox"
+                                name="feature_ids[]"
+                                id="feature_<?= $feature['id']; ?>"
+                                value="<?= $feature['id']; ?>">
+                            <label for="feature_<?= $feature['id']; ?>">
+                                <span class="feature-name">
+                                    <?php echo $feature['name']; ?>
+                                </span>
+                                <span class="feature-price">
+                                    $<?= $feature['price']; ?>
+                                </span>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
 
-    <?php
-    $groupedFeatures = [];
-    foreach ($featuresInfo as $feature) :
-        $category = $feature['category'];
-        $groupedFeatures[$category][] = $feature;
-    endforeach;
-    ?>
+        </div>
 
-    <?php foreach ($groupedFeatures as $category => $features) : ?>
-        <h5 class="category-name"><?= $category === 'hotel-specific' ? 'spa' : $category; ?></h5>
-
-        <?php foreach ($features as $feature) : ?>
-            <input
-                type="checkbox"
-                name="feature_ids[]"
-                id="feature_<?= $feature['id']; ?>"
-                value="<?= $feature['id']; ?>">
-
-            <label for="feature_<?= $feature['id']; ?>">
-                <span>
-                    <?php echo $feature['name']; ?>
-                </span>
-                <span>
-                    $<?= $feature['price']; ?>
-                </span>
-            </label>
-            <br>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
-
-    <div>
-        <span>Cost: </span><span>$ <span id="room-cost"></span></span>
+        <div class="cost-display">
+            <span>Cost: </span><span>$ <span id="room-cost"></span></span>
+        </div>
     </div>
 
     <!-- Information about the guest -->
+    <h2>Guest information </h2>
+    <div class="form-section">
+        <div class="guest-info">
+            <label for="name">
+                Enter your name:
+            </label>
+            <input type="text"
+                id="name"
+                name="name"
+                placeholder="e.g. Rune"
+                required>
+        </div>
+        <div class="guest-info">
+            <label for="api_key">
+                Enter your API-Key:
+            </label>
+            <input type="text"
+                id="api_key"
+                name="api_key"
+                placeholder="10524e49-1955"
+                required>
+        </div>
+    </div>
 
-    <h3>Guest information </h3>
-    <label for="name">
-        Enter your name:
-    </label>
-    <input type="text"
-        id="name"
-        name="name"
-        required><br>
-
-    <label for="api_key">
-        Enter your API-Key:
-    </label>
-    <input type="text"
-        id="api_key"
-        name="api_key"
-        required><br>
-
-    <div>
-        <h4>Total price:</h4>
-        <p id="price"></p>
+    <div class="cost-display">
+        <span>Total: </span><span>$ <span id="total-cost"></span></span>
     </div>
 
     <input
@@ -104,5 +121,5 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
         name="room_id"
         value="<?php echo $room['id']; ?>">
 
-    <button type="submit">Book</button>
+    <button class="btn book-btn" type="submit">Book</button>
 </form>
