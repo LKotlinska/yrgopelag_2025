@@ -1,4 +1,9 @@
-<?php require __DIR__ . '/../src/backend/calendar.php'; ?>
+<?php require __DIR__ . '/../src/backend/calendar.php';
+
+$roomId = $_GET['id'];
+
+?>
+
 <form method="POST">
     <input type="hidden" name="selected_date" id="selected-date">
     <input type="hidden" name="arrival_date" id="arrival-date">
@@ -33,10 +38,9 @@
             <?php
                     } else {
                         $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
-                        $bookedRooms = getBookedRooms($bookings, $date);
-                        $allRoomsBooked = count($bookedRooms) >= count($rooms); ?>
+                        $isBooked = isRoomBooked($bookings, $roomId, $date); ?>
 
-                <td class="day <?= $allRoomsBooked ? 'booked' : 'available' ?>"
+                <td class="day <?= $isBooked ? 'booked' : 'available' ?>"
                     data-date="<?= $date ?>">
                     <span class="date"><?= $day ?></span>
                 </td>
