@@ -20,14 +20,14 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 
 <body class="r-page">
     <main>
-        <section class="room-container">
-            <aside class="calendar">
+        <section class="booking-container">
+            <aside class="calendar-container">
                 <h1>
                     Room availability
                 </h1>
                 <?php require __DIR__ . '/view/calendar.php'; ?>
             </aside>
-            <article class="room-card">
+            <article class="room-container">
                 <header class="room-header">
                     <figure>
                         <img class="room-img" src="./assets/images/<?php echo $room['room_image']; ?>">
@@ -36,7 +36,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         <?php echo $room['tier'] ?> room
                     </h1>
                     <span>
-                        Cost per night: $<?php echo $room['price_per_night']; ?>
+                        Cost per night: $<span id="price-per-night"><?php echo $room['price_per_night']; ?></span>
                     </span>
                 </header>
                 <div class="room-body">
