@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 session_start();
 
 require __DIR__ . '/../database/data.php';
 require __DIR__ . '/../functions/booking.functions.php';
-require __DIR__ . '/../functions/receipt.functions.php';
 require __DIR__ . '/../functions/pricing.functions.php';
 require __DIR__ . '/../functions/guest.functions.php';
 require __DIR__ . '/../functions/feature.functions.php';
-require __DIR__ . '/../functions/validation.functions.php';
 require __DIR__ . '/../../vendor/autoload.php';
 
 $query = $database->query('SELECT * FROM hotel_info');
@@ -36,5 +38,5 @@ if (isset(
     $_POST['api_key'],
     $_POST['room_id'],
 )) {
-    handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $_POST['api_key']);
+    handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $apiKey);
 }
