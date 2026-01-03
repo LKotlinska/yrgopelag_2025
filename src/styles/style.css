@@ -11,6 +11,8 @@
   --status-booked: #952e2e;
   --status-available: #a1ab92;
 
+  --error-bg: rgba(149, 46, 46, 0.25);
+  --error-color: #952e2e;
   /* Fonts */
   --font-body: "DM Sans", sans-serif;
   --font-heading: "Fraunces", serif;
@@ -228,6 +230,24 @@ h6,
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+#error_msgs {
+  /* Stops at 40vh when scrolled to the element */
+  /* Makes them more visable for the user */
+  scroll-margin-top: 30vh;
+}
+.error-card {
+  padding: var(--space-sm) var(--space-2xl);
+  background-color: var(--error-bg);
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  border-radius: var(--space-md);
+  margin: var(--space-md) 0;
+}
+.error-card p {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 .booking-container {
   display: flex;

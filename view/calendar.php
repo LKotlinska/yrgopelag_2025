@@ -3,7 +3,7 @@
 $roomId = $_GET['id'];
 
 ?>
-<table class="calendar">
+<table id="calendar">
     <thead>
         <tr>
             <th>Mon</th>

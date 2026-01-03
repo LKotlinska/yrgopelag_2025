@@ -38,7 +38,7 @@ function sendReceipt(
     string $arrDate,
     string $depDate,
     array $selectedFeatures
-): array {
+) {
     $url = 'https://www.yrgopelag.se/centralbank/receipt';
     $payload = json_encode([
         'user' => $hotelInfo['owner'],

@@ -36,5 +36,5 @@ if (isset(
     $_POST['api_key'],
     $_POST['room_id'],
 )) {
-    handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $apiKey);
+    handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $_POST['api_key']);
 }
