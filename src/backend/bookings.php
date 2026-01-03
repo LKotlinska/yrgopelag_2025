@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+session_start();
+
 require __DIR__ . '/../database/data.php';
 require __DIR__ . '/../functions/booking.functions.php';
 require __DIR__ . '/../functions/receipt.functions.php';
@@ -34,6 +36,5 @@ if (isset(
     $_POST['api_key'],
     $_POST['room_id'],
 )) {
-
     handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $apiKey);
 }

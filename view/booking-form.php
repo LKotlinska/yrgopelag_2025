@@ -8,7 +8,6 @@ $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-
 <form method="POST" id="booking-form" action="../src/backend/bookings.php">
     <h2>Dates</h2>
     <div class="form-section">
@@ -19,7 +18,7 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
                 </label>
                 <input
                     type="date"
-                    id="arrival-date"
+                    id="arrival_date"
                     name="arrival_date"
                     min="2026-01-01"
                     max="2026-01-31"
@@ -58,20 +57,24 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
         <div class="feature-container">
             <?php foreach ($groupedFeatures as $category => $features) : ?>
                 <div class="feature-card">
-                    <span class="category-name"><?= $category === 'hotel-specific' ? 'spa' : $category; ?></span>
+                    <span class="category-name"><?php echo $category === 'hotel-specific' ? 'spa' : $category; ?></span>
                     <?php foreach ($features as $feature) : ?>
                         <div class="feature-items">
                             <input
                                 type="checkbox"
                                 name="feature_ids[]"
-                                id="feature_<?= $feature['id']; ?>"
-                                value="<?= $feature['id']; ?>">
-                            <label for="feature_<?= $feature['id']; ?>">
+                                id="feature_<?php echo $feature['id']; ?>"
+                                value="<?php echo $feature['id']; ?>"
+                                data-price="<?php echo $feature['price']; ?>">
+                            <label for="feature_<?php echo $feature['id']; ?>">
                                 <span class="feature-name">
                                     <?php echo $feature['name']; ?>
                                 </span>
-                                <span class="feature-price">
-                                    $<?= $feature['price']; ?>
+                                <span>
+                                    $
+                                    <span class="feature-price">
+                                        <?php echo $feature['price']; ?>
+                                    </span>
                                 </span>
                             </label>
                         </div>
@@ -82,7 +85,7 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div class="cost-display">
-            <span>Cost: </span><span>$ <span id="room-cost"></span></span>
+            <span>Cost: </span><span>$ <span id="feature-cost"></span></span>
         </div>
     </div>
 

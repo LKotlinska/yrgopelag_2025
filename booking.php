@@ -1,5 +1,15 @@
 <?php
+
 require __DIR__ . '/src/database/data.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$errors = $_SESSION['errors'] ?? null;
+
+unset($_SESSION['errors']);
+
 
 $roomId = $_GET['id'];
 $query = $database->prepare('SELECT * FROM rooms WHERE id = :roomId');
@@ -54,6 +64,21 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         </p>
                         <?php require __DIR__ . '/view/amenities.php'; ?>
                     </div>
+
+                    <?php if ($errors != null) {
+                    ?>
+                        <div id="error_msgs">
+                            <?php foreach ($errors as $error) : ?>
+                                <div class="error-card">
+                                    <p><span class="material-symbols-outlined">
+                                            error
+                                        </span><?php echo $error; ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php }
+                    ?>
+
                     <?php require __DIR__ . '/view/booking-form.php'; ?>
                 </div>
             </article>

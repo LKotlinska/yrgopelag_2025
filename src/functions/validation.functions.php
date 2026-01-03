@@ -32,3 +32,9 @@ function requestWithdraw(
     }
     return json_decode($response, true);
 };
+
+function handleErrors(array $errors, int $roomId): void
+{
+    $_SESSION['errors'] = $errors;
+    header("Location: /booking.php?id=$roomId#error_msgs");
+}
