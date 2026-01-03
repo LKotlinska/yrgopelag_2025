@@ -9,8 +9,6 @@ $room = $query->fetch(PDO::FETCH_ASSOC);
 $query = $database->query('SELECT * FROM room_amenity JOIN amenities ON room_amenity.amenity_id = amenities.id');
 $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 
-// echo '<pre>';
-// print_r($room);
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +24,16 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                     Room availability
                 </h1>
                 <?php require __DIR__ . '/view/calendar.php'; ?>
+                <div class="calendar-tip">
+                    <div class="tip-items">
+                        <div class="tip-item booked"></div>
+                        Fully booked
+                    </div>
+                    <div class="tip-items">
+                        <div class="tip-item available"></div>
+                        Room available
+                    </div>
+                </div>
             </aside>
             <article class="room-container">
                 <header class="room-header">
@@ -36,7 +44,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         <?php echo $room['tier'] ?> room
                     </h1>
                     <span>
-                        Cost per night: $<span id="price-per-night"><?php echo $room['price_per_night']; ?></span>
+                        Cost per night: $<span id="price-per-night" data-price="<?php echo $room['price_per_night']; ?>"><?php echo $room['price_per_night']; ?></span>
                     </span>
                 </header>
                 <div class="room-body">
