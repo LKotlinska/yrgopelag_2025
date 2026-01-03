@@ -102,6 +102,16 @@ h6,
   align-self: flex-end;
   margin-top: var(--space-xl);
 }
+.a-link {
+  color: var(--cta-color);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  text-underline-offset: var(--space-sm);
+  margin: var(--space-sm) 0;
+  text-align: right;
+}
+
 /* .light {
   grid-column-start: 1;
   z-index: 5;
@@ -138,10 +148,6 @@ h6,
   position: relative;
 }
 .site-logo {
-  /* grid-column-start: 2;
-  grid-column-end: 9;
-  grid-row-start: 4;
-  grid-row-end: 6; */
   font-size: var(--fs-large);
 }
 .slogan {
@@ -154,9 +160,38 @@ h6,
   font-size: var(--fs-small);
 }
 /* ---- MAIN ROOM PAGE ---- */
-.intro-card {
+.intro-card,
+.event-card {
   font-size: var(--fs-large);
+  margin: 4em 0;
+}
+.intro-card {
   width: 50%;
+}
+.event-container {
+  width: 100%;
+}
+.event-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+}
+.event-card:nth-child(even) {
+  text-align: right;
+}
+.event-item {
+  display: flex;
+  justify-content: flex-start;
+}
+.event-item:nth-child(even) {
+  justify-content: flex-end;
+}
+.event-img {
+  width: 80%;
+  object-fit: contain;
+}
+.event-img:nth-child(even) {
+  padding: 1em;
 }
 .main-r-section h2 {
   font-size: var(--fs-large);
@@ -168,7 +203,7 @@ h6,
   gap: var(--space-2xl);
 }
 .r-item {
-  aspect-ratio: 45 / 65;
+  aspect-ratio: 45 / 80;
   position: relative;
   text-decoration: none;
 }
@@ -197,10 +232,12 @@ h6,
 .booking-container {
   display: flex;
   gap: 5em;
-  margin: 0 auto;
+  margin: var(--space-2xl) auto;
 }
 .calendar-container {
   width: 100%;
+  position: sticky;
+  top: var(--space-2xl);
 }
 .calendar-container,
 .room-container {
@@ -229,23 +266,25 @@ h6,
   margin-bottom: var(--space-xl);
 }
 .include-item {
+  display: flex;
+  align-items: center;
   margin: 0;
 }
 /* ---- CALENDAR ---- */
-.calendar {
+#calendar {
   width: 100%;
   margin-top: var(--space-lg);
   aspect-ratio: 7/5.5;
 }
-.calendar th,
-.calentar td {
+#calendar th,
+#calendar td {
   width: calc(100% / 7);
 }
-.calendar td {
+#calendar td {
   border-radius: 0.25em;
   vertical-align: top;
 }
-.calendar td.day {
+#calendar td.day {
   padding: 0.3em;
   font-size: var(--fs-small);
 }
