@@ -8,7 +8,7 @@ $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<form method="POST" id="booking-form" action="../src/backend/bookings.php">
+<form method="POST" id="booking-form" action="./src/backend/bookings.php">
     <h2>Dates</h2>
     <div class="form-section">
         <div class="date-select">

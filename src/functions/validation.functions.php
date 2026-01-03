@@ -28,7 +28,7 @@ function requestWithdraw(
     $response = file_get_contents($url, false, $context);
 
     if ($response === false) {
-        return ['error' => 'Request failed'];
+        return ['error' => 'Withdraw request failed'];
     }
     return json_decode($response, true);
 };
@@ -36,5 +36,5 @@ function requestWithdraw(
 function handleErrors(array $errors, int $roomId): void
 {
     $_SESSION['errors'] = $errors;
-    header("Location: /booking.php?id=$roomId#error_msgs");
+    header("Location: ../../booking.php?id=$roomId#error_msgs");
 }

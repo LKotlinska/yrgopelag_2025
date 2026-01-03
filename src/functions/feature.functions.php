@@ -13,7 +13,6 @@ function getFeaturesById(array $selectedFeatureIds, array $featuresInfo): array
     // WILL NEED TO BE ADJUSTED WHEN I PURCHASE HOTEL-SPECIFIC
     foreach ($featuresInfo as $feature) {
         if (in_array($feature['id'], $selectedFeatureIds, true)) {
-            print_r($feature);
             $matchedFeatures[] = [
                 'activity' => $feature['category'],
                 'tier' => $feature['tier']
@@ -45,7 +44,7 @@ function getOwnedFeatures(
     $context = stream_context_create($options);
     $response = file_get_contents($url, false, $context);
     if ($response === false) {
-        return ['error' => 'Request failed'];
+        return ['error' => 'Feature request failed'];
     }
 
     $features = json_decode($response, true);

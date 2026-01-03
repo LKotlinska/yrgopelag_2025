@@ -90,18 +90,17 @@ function handleBooking(
         $errors[] = $withdrawResponse['error'] ?? "The withdrawal couldn't be processed. Please review your information and try again";
         handleErrors($errors, $roomId);
         exit;
-    } else {
-        // ---- VALIDATE TRANSFERCODE ----
-        $transferCode = (string) $withdrawResponse['transferCode'];
-        $validationResponse = validateTransferCode($transferCode, $totalCost);
-        if (
-            !isset($validationResponse['status']) ||
-            $validationResponse['status'] !== 'success'
-        ) {
-            $errors[] = $validationResponse['error'] ?? 'Transfer validation failed, please try again.';
-            handleErrors($errors, $roomId);
-            exit;
-        }
+    }
+    // ---- VALIDATE TRANSFERCODE ----
+    $transferCode = (string) $withdrawResponse['transferCode'];
+    $validationResponse = validateTransferCode($transferCode, $totalCost);
+    if (
+        !isset($validationResponse['status']) ||
+        $validationResponse['status'] !== 'success'
+    ) {
+        $errors[] = $validationResponse['error'] ?? 'Transfer validation failed, please try again.';
+        handleErrors($errors, $roomId);
+        // exit;
     }
 
     // ---- SEND RECEIPT TO CENTRALBANK ----
@@ -115,9 +114,10 @@ function handleBooking(
             $depDate,
             $selectedFeatures
         );
-        echo 'Send Receipt response:';
-        print_r($receiptResponse);
+        // echo 'Send Receipt response:';
+        // print_r($receiptResponse);
 
+        file_put_contents('logs.txt', $receiptResponse);
         if (
             !isset($receiptResponse['status']) ||
             $receiptResponse['status'] !== 'success'
@@ -126,7 +126,6 @@ function handleBooking(
             handleErrors($errors, $roomId);
             exit;
         }
-
         // ---- ADD BOOKING INTO DATABASE ----
         $bookingQuery = $database->prepare(
             'INSERT INTO room_bookings 
@@ -158,6 +157,6 @@ function handleBooking(
 
         $_SESSION['booking_id'] = $bookingId;
 
-        header('Location: /../view/receipt.php');
+        header('Location: view/receipt.php');
     }
 }

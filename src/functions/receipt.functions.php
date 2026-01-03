@@ -26,7 +26,7 @@ function validateTransferCode(
     $response = file_get_contents($url, false, $context);
 
     if ($response === false) {
-        return ['error' => 'Request failed'];
+        return ['error' => 'TransferCode validation request failed'];
     }
     return json_decode($response, true);
 };
@@ -63,7 +63,7 @@ function sendReceipt(
     $response = file_get_contents($url, false, $context);
 
     if ($response === false) {
-        return ['error' => 'Request failed'];
+        return ['error' => 'Receipt request failed'];
     }
     return json_decode($response, true);
 }
@@ -92,7 +92,7 @@ function consumeTransferCode(
     $response = file_get_contents($url, false, $context);
 
     if ($response === false) {
-        return ['error' => 'Request failed'];
+        return ['error' => 'Deposit request failed'];
     }
     return json_decode($response, true);
 }
