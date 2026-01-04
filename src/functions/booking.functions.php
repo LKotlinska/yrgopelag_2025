@@ -104,7 +104,7 @@ function getContent(string $url, string $payload)
         }
 
         // IMPORTANT: do NOT retry on business errors
-        if ($httpCode === 400) {
+        if ($httpCode >= 400 || $httpCode < 500) {
             return $data !== false ? $data : 'An unknown error has occurred';
         }
     }
