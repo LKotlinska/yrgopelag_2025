@@ -32,13 +32,18 @@ $booking = $query->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php require __DIR__ . '/metadata/head.php'; ?>
 
-<?php require __DIR__ . '/head.php'; ?>
-
-<body class="r-page">
+<body>
+    <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
+        <div class="msg-card booking-c">
+            <p>
+                <span class="material-symbols-outlined">
+                    error
+                </span>Booking successful
+            </p>
+        </div>
         <section>
             <article class="receipt-container">
                 <h1>Booking confirmation</h1>
@@ -61,9 +66,12 @@ $booking = $query->fetch(PDO::FETCH_ASSOC);
                 <p>A confirmation has been saved with your booking details.</p>
                 <p>We’ll take care of the rest.</p>
                 <p>All that’s left for you is to arrive — and let go.</p>
+
+                <?php require __DIR__ . '/components/back.button.php'; ?>
+
             </article>
         </section>
     </main>
 </body>
 
-</html>
+<?php require __DIR__ . '/components/footer.php'; ?>

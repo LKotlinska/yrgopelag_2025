@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/src/backend/admin.php'; ?>
+<?php require __DIR__ . '/../src/backend/admin.php'; ?>
 
 <table>
     <thead>

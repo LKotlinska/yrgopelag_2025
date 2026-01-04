@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../src/database/data.php';
+require __DIR__ . '/../../src/database/data.php';
 $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -9,13 +9,8 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <main>
-    <section class="event-container">
-        <article class="intro-card">
-            <p>At Terracotta Bay, time moves a little slower.</p>
-            <p>Nestled by the shoreline, where warm stone meets soft sand and the sea sets the rhythm, our spa hotel is designed for rest, renewal, and quiet moments of presence.</p>
-            <p>Everything is shaped to help you feel at ease.</p>
-        </article>
-        <?php require __DIR__ . '/rooms.php' ?>
+    <?php require __DIR__ . '/rooms.php' ?>
+    <section id="event-section">
         <article class="event-card">
             <div>
                 <h2>The spa package</h2>

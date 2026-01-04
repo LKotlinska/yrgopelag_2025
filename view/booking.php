@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/src/database/data.php';
+require __DIR__ . '/../src/database/data.php';
 
 // if (session_status() === PHP_SESSION_NONE) {
 //     session_start();
@@ -23,16 +23,17 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html lang="en">
 
-<?php require __DIR__ . '/view/head.php'; ?>
+<?php require __DIR__ . '/metadata/head.php'; ?>
 
-<body class="r-page">
+<body>
+    <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
         <section class="booking-container">
             <aside class="calendar-container">
                 <h1>
-                    vailability
+                    Availability
                 </h1>
-                <?php require __DIR__ . '/view/calendar.php'; ?>
+                <?php require __DIR__ . '/components/calendar.php'; ?>
                 <div class="calendar-tip">
                     <div class="tip-items">
                         <div class="tip-item booked"></div>
@@ -47,7 +48,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
             <article class="room-container">
                 <header class="room-header">
                     <figure>
-                        <img class="room-img" src="./assets/images/<?php echo $room['room_image']; ?>">
+                        <img class="room-img" src="../assets/images/<?php echo $room['room_image']; ?>">
                     </figure>
                     <h1>
                         <?php echo $room['tier'] ?> room
@@ -61,7 +62,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         <p>
                             <?php echo $room['description']; ?>
                         </p>
-                        <?php require __DIR__ . '/view/amenities.php'; ?>
+                        <?php require __DIR__ . '/components/amenities.php'; ?>
                     </div>
 
                     <?php if (isset($_GET['errors'])) {
@@ -69,7 +70,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         $errors = explode('£', $errors); ?>
                         <div id="error_msgs">
                             <?php foreach ($errors as $error) : ?>
-                                <div class="error-card">
+                                <div class="msg-card error-s">
                                     <p>
                                         <span class="material-symbols-outlined">
                                             error
@@ -80,11 +81,11 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php } ?>
 
-                    <?php require __DIR__ . '/view/booking-form.php'; ?>
+                    <?php require __DIR__ . '/components/booking-form.php'; ?>
                 </div>
             </article>
         </section>
     </main>
 
 
-    <?php require __DIR__ . '/view/footer.php'; ?>
+    <?php require __DIR__ . '/components/footer.php'; ?>

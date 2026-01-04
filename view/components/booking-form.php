@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../src/database/data.php';
+require __DIR__ . '/../../src/database/data.php';
 
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -8,7 +8,7 @@ $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<form method="POST" id="booking-form" action="./src/backend/bookings.php">
+<form method="POST" id="booking-form" action="../src/backend/bookings.php">
     <h2>Dates</h2>
     <div class="form-section">
         <div class="date-select">
@@ -124,5 +124,5 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
         name="room_id"
         value="<?php echo $room['id']; ?>">
 
-    <button class="btn book-btn" type="submit">Book</button>
+    <button class="btn action-btn" type="submit">Book</button>
 </form>

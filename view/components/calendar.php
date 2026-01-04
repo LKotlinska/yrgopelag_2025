@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../src/backend/calendar.php';
+<?php require __DIR__ . '/../../src/backend/calendar.php';
 
 $roomId = $_GET['id'];
 
