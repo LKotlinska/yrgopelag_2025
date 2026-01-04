@@ -345,7 +345,7 @@ function handleErrors(array $errors, int $roomId): void
 {
     $errors = implode('£', $errors);
     // $_SESSION['errors'] = $errors;
-    header("Location: ../../booking.php?id=$roomId&errors=$errors#error_msgs");
+    header("Location: ../../view/booking.php?id=$roomId&errors=$errors#error_msgs");
 }
 
 function handleBooking(
