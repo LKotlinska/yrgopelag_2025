@@ -89,7 +89,7 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- Information about the guest -->
+    <!-- Guest information field -->
     <h2>Guest information </h2>
     <div class="form-section">
         <div class="guest-info">
@@ -102,6 +102,48 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
                 placeholder="e.g. Rune"
                 required>
         </div>
+    </div>
+
+    <!-- Payment fields -->
+    <h2>Payment</h2>
+    <div class="form-section">
+        <div class="guest-info">
+            <label>
+                <input type="radio" name="payment_method" value="transfer_code">
+                Pay with TransferCode
+            </label>
+            <label>
+                <input type="radio" name="payment_method" value="api_key" checked>
+                Pay with API-Key
+            </label>
+        </div>
+
+        <!-- Input fields for payment -->
+        <div class="guest-info" id="api-key-field">
+            <label for="api_key">
+                Enter your API-Key:
+            </label>
+            <input type="text"
+                id="api_key"
+                name="api_key"
+                placeholder="uuid-string">
+        </div>
+
+        <div class="guest-info" id="transfer-code-field" style="display:none;">
+            <label for="transfer_code">Enter your TransferCode:</label>
+            <input
+                type="text"
+                id="transfer_code"
+                name="transfer_code"
+                placeholder="uuid-transfer-code">
+        </div>
+    </div>
+    <!-- GUEST INFO -->
+
+
+
+    <!-- Information about the guest -->
+    <!--
         <div class="guest-info">
             <label for="api_key">
                 Enter your API-Key:
@@ -109,10 +151,10 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
             <input type="text"
                 id="api_key"
                 name="api_key"
-                placeholder="10524e49-1955"
+                placeholder="uuid-string"
                 required>
         </div>
-    </div>
+    </div> -->
 
     <div class="cost-display">
         <span>Total: </span><span>$ <span id="total-cost"></span></span>

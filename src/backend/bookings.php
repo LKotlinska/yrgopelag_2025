@@ -35,7 +35,7 @@ if (isset(
     $_POST['arrival_date'],
     $_POST['departure_date'],
     $_POST['name'],
-    $_POST['api_key'],
+    $_POST['payment_method'],
     $_POST['room_id'],
 )) {
     $roomId = (int) $_POST['room_id'];

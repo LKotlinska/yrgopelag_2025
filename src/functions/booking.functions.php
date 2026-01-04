@@ -237,12 +237,15 @@ function handleBooking(
     array $rooms,
     string $apiKey
 ): array {
-    // Declare and sanitize
+    // Declare and sanitize input
     $name = (string) trim(filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $roomId = (int) $_POST['room_id'];
     $arrDate = (string) $_POST['arrival_date'];
     $depDate = (string) $_POST['departure_date'];
-    $guestKey = trim(filter_var($_POST['api_key'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $paymentMethod = $_POST['payment_method'] ?? '';
+    // print_r($paymentMethod);
+    $guestKey = null;
+    $transferCode = null;
 
     // Map features by ids
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
@@ -259,31 +262,57 @@ function handleBooking(
 
     $bookedRooms = getBookedRooms($bookings, $arrDate, $depDate);
 
-    // ---- ROOM AVAILABILITY ----
+    // ---- CHECKS ROOM AVAILABILITY ----
     if (!isRoomAvailable($roomId, $bookedRooms)) {
         $errors[] = 'This room is unavailable for the selected dates.';
         return $errors;
     }
 
-    // ---- REQUEST WITHDRAW ----
-    $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
-    if (
-        isset($withdrawResponse['error']) ||
-        !isset($withdrawResponse['transferCode'])
-    ) {
-        $errors[] = $withdrawResponse['error'] ?? "The withdrawal couldn't be processed. Please review your information and try again";
-        return $errors;
-    }
-    // ---- VALIDATE TRANSFERCODE ----
-    $transferCode = (string) $withdrawResponse['transferCode'];
+    // ---- HANDLES DECLARED PAYMENT METHOD LOGIC ---- 
 
-    $validationResponse = validateTransferCode($transferCode, $totalCost);
-    if (
-        !isset($validationResponse['status']) ||
-        $validationResponse['status'] !== 'success'
-    ) {
-        $errors[] = $validationResponse['error'] ?? 'Transfer validation failed, please try again.';
-        return $errors;
+    // ---- API KEY
+    if ($paymentMethod === 'api_key') {
+        // if (empty($_POST['api_key'])) {
+        //     $errors[] = 'API key is required.';
+        //     return $errors;
+        // }
+
+        $guestKey = trim(
+            filter_var($_POST['api_key'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+        );
+
+        // ---- REQUEST WITHDRAW ----
+        $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
+
+        if (
+            isset($withdrawResponse['error']) ||
+            !isset($withdrawResponse['transferCode'])
+        ) {
+            $errors[] = $withdrawResponse['error'] ?? "The withdrawal couldn't be processed. Please review your information and try again";
+            return $errors;
+        };
+
+        $transferCode = (string) $withdrawResponse['transferCode'];
+    }
+
+    // ---- TRANFERCODE ----
+    if ($paymentMethod === 'transfer_code') {
+        $transferCode = (string) $_POST['transfer_code'];
+        echo 'tranfercode assign: ' . $transferCode;
+        if (empty($_POST['transfer_code'])) {
+            $errors[] = 'Transfer code is required.';
+            return $errors;
+        }
+
+        // ---- VALIDATE TRANSFERCODE ----
+        $validationResponse = validateTransferCode($transferCode, $totalCost);
+        if (
+            !isset($validationResponse['status']) ||
+            $validationResponse['status'] !== 'success'
+        ) {
+            $errors[] = $validationResponse['error'] ?? 'Transfer validation failed, please try again.';
+            return $errors;
+        }
     }
 
     if (empty($errors)) {
