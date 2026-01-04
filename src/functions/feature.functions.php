@@ -38,7 +38,8 @@ function getOwnedFeatures(
             'header' => 'Content-Type: application/json',
             'content' => $payload,
             // Allows 400 responses
-            'ignore_errors' => true
+            'ignore_errors' => true,
+            'timeout' => 5
         ]
     ];
     $context = stream_context_create($options);

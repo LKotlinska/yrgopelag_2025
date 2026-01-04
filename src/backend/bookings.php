@@ -38,5 +38,19 @@ if (isset(
     $_POST['api_key'],
     $_POST['room_id'],
 )) {
-    handleBooking($database, $hotelInfo, $featuresInfo, $bookings, $guests, $rooms, $apiKey);
+    $roomId = (int) $_POST['room_id'];
+
+    $errors = handleBooking(
+        $database,
+        $hotelInfo,
+        $featuresInfo,
+        $bookings,
+        $guests,
+        $rooms,
+        $apiKey
+    );
+
+    if (!empty($errors)) {
+        handleErrors($errors, $roomId);
+    }
 }

@@ -2,14 +2,13 @@
 
 require __DIR__ . '/src/database/data.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// if (session_status() === PHP_SESSION_NONE) {
+//     session_start();
+// }
 
-$errors = $_SESSION['errors'] ?? null;
+// $errors = $_SESSION['errors'] ?? null;
 
-unset($_SESSION['errors']);
-
+// unset($_SESSION['errors']);
 
 $roomId = $_GET['id'];
 $query = $database->prepare('SELECT * FROM rooms WHERE id = :roomId');
@@ -31,7 +30,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
         <section class="booking-container">
             <aside class="calendar-container">
                 <h1>
-                    Room availability
+                    vailability
                 </h1>
                 <?php require __DIR__ . '/view/calendar.php'; ?>
                 <div class="calendar-tip">
@@ -65,19 +64,21 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         <?php require __DIR__ . '/view/amenities.php'; ?>
                     </div>
 
-                    <?php if ($errors != null) {
-                    ?>
+                    <?php if (isset($_GET['errors'])) {
+                        $errors = $_GET['errors'];
+                        $errors = explode('£', $errors); ?>
                         <div id="error_msgs">
                             <?php foreach ($errors as $error) : ?>
                                 <div class="error-card">
-                                    <p><span class="material-symbols-outlined">
+                                    <p>
+                                        <span class="material-symbols-outlined">
                                             error
-                                        </span><?php echo $error; ?></p>
+                                        </span><?php echo $error; ?>
+                                    </p>
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                    <?php }
-                    ?>
+                    <?php } ?>
 
                     <?php require __DIR__ . '/view/booking-form.php'; ?>
                 </div>
