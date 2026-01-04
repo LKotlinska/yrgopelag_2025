@@ -1,42 +1,80 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // const bookingForm = document.getElementById('booking-form');
   const roomCostDisplay = document.getElementById("room-cost");
-  const roomPrice = document.getElementById("price-per-night").innerText;
-  // console.log(roomPrice);
+  const featureCostDisplay = document.getElementById("feature-cost");
+  const totalCostDisplay = document.getElementById("total-cost");
 
-  let totalCost = 0;
-  roomCostDisplay.innerText = totalCost;
+  const roomPricePerNight = Number(
+    document.getElementById("price-per-night").dataset.price
+  );
+
+  const checkboxes = document.querySelectorAll('input[name="feature_ids[]"]');
+
+  let roomTotal = 0;
+  let featureTotal = 0;
   let arrivalDate = null;
   let departureDate = null;
+
+  roomCostDisplay.innerText = roomTotal;
+  featureCostDisplay.innerText = featureTotal;
+  totalCostDisplay.innerText = 0;
 
   document
     .getElementById("arrival_date")
     .addEventListener("change", function () {
       arrivalDate = new Date(this.value);
-      console.log(arrivalDate);
+
       displayRoomPrice();
+
+      // IF I WANT TO DISPLAY MSG FOR BOOKED ROOM
+
+      // const calendar = document.getElementById("calendar");
+      // const cells = Array.from(calendar.getElementsByClassName("booked"));
+      // cells.forEach((cell) => {
+      //   let bookedDate = new Date(cell.dataset.date);
+
+      //   if (bookedDate.getTime() === arrivalDate.getTime()) {
+      //   }
+      // });
     });
 
   document
     .getElementById("departure_date")
     .addEventListener("change", function () {
       departureDate = new Date(this.value);
-      console.log(departureDate);
+      // console.log(departureDate);
       displayRoomPrice();
     });
+
+  function displayFeatureCost() {
+    featureTotal = 0;
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        featureTotal += Number(checkbox.dataset.price);
+      }
+    });
+    featureCostDisplay.innerText = featureTotal;
+    updateTotalCost();
+  }
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", displayFeatureCost);
+  });
 
   function displayRoomPrice() {
     if (!arrivalDate || !departureDate) return;
     // This will only work for this project as its locked to january
     const dateDiff = departureDate.getDate() - arrivalDate.getDate();
-    // console.log(dateDiff);
     if (dateDiff != 0) {
-      totalCost = dateDiff * roomPrice;
-      roomCostDisplay.innerText = totalCost;
+      roomTotal = dateDiff * roomPricePerNight;
+      roomCostDisplay.innerText = roomTotal;
     } else {
       roomCostDisplay.innerText = 0;
     }
+    updateTotalCost();
   }
 
-  // roomCostDisplay.addEventListener("change", displayPrice);
+  function updateTotalCost() {
+    const total = roomTotal + featureTotal;
+    totalCostDisplay.innerText = total;
+  }
 });
