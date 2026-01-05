@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+function groupFeatures(array $features)
+{
+    $groupedFeatures = [];
+
+    foreach ($features as $feature) :
+        $category = $feature['category'];
+        $groupedFeatures[$category][] = $feature;
+    endforeach;
+
+    return $groupedFeatures;
+}
+
 function getFeatureNames(array $featureInfo): array
 {
     $featureNames = [];
