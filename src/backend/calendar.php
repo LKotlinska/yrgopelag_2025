@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../functions/booking.functions.php';
+require __DIR__ . '/../functions/calendar.functions.php';
 
-$query = $database->query('SELECT room_id, arrival_date, departure_date FROM room_bookings');
+$query = $database->query('SELECT room_id, arrival_date, departure_date FROM booking_receipt');
 $bookings = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$roomId = $_GET['room_id'];
 
 // Hardcoded due to task limitation
 $year = 2026;
