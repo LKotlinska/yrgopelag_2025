@@ -22,7 +22,7 @@ $hotelInfo = $hotelInfo[0];
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
-$query = $database->query('SELECT room_id, arrival_date, departure_date FROM room_bookings');
+$query = $database->query('SELECT room_id, arrival_date, departure_date FROM booking_receipt');
 $bookings = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $query = $database->query('SELECT * FROM guests');
@@ -39,6 +39,7 @@ if (isset(
     $_POST['room_id'],
 )) {
     $roomId = (int) $_POST['room_id'];
+    $offerId = (int) $_POST['offer_id'];
 
     $errors = handleBooking(
         $database,
@@ -51,6 +52,6 @@ if (isset(
     );
 
     if (!empty($errors)) {
-        handleErrors($errors, $roomId);
+        handleErrors($errors, $roomId, $offerId);
     }
 }

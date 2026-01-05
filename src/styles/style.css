@@ -271,41 +271,42 @@ nav,
   border: 1px solid var(--error-color);
   border-radius: var(--space-md);
 }
-.booking-container {
+.booking-section {
   display: flex;
   gap: 5em;
   margin: var(--space-2xl) auto;
+}
+.booking-container {
+  flex: 2;
 }
 .calendar-container {
   width: 100%;
   position: sticky;
   top: var(--space-2xl);
+  flex: 1;
 }
 .calendar-container,
-.room-container,
+.booking-container,
 .receipt-container {
   padding: 2.5em;
   background-color: var(--primary-color);
   height: max-content;
 }
-.room-header,
-.room-img {
+.booking-header,
+.booking-img {
   width: 100%;
 }
-.room-header,
+.booking-header,
 #booking-form,
 .date-item,
 .guest-info {
   display: flex;
   flex-direction: column;
 }
-.room-header h1 {
+.booking-header h1 {
   margin-top: var(--space-md);
 }
-.room-container section {
-  padding: 0;
-}
-.room-desc {
+.booking-desc {
   margin-bottom: var(--space-xl);
 }
 .include-item {
@@ -322,6 +323,8 @@ nav,
 #calendar th,
 #calendar td {
   width: calc(100% / 7);
+  min-width: 2.2em;
+  max-width: 3em;
 }
 #calendar td {
   border-radius: 0.25em;
@@ -358,7 +361,7 @@ nav,
 .feature-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: auto;
 }
 .category-name {
   font-size: var(--fs-base);
@@ -386,12 +389,16 @@ nav,
 .guest-info {
   margin-bottom: var(--space-sm);
 }
-.guest-info:last-of-type {
+/* .guest-info:last-of-type {
   margin-bottom: 0;
-}
+} */
 .form-section {
   padding: var(--space-md);
   margin-bottom: var(--space-lg);
+}
+#api-key-field,
+#transfer-code-field {
+  margin-top: var(--space-lg);
 }
 /* ---- FORM INPUTS ----*/
 input[type="date"],
@@ -446,6 +453,9 @@ input[type="checkbox"] {
   background-color: var(--success-bg);
   border: 1px solid var(--success-color);
   margin-top: var(--space-xl);
+}
+.f-weight {
+  font-weight: 800;
 }
 /* ---- FOTTER ---- */
 footer {

@@ -2,21 +2,41 @@
 
 require __DIR__ . '/../src/database/data.php';
 
-// if (session_status() === PHP_SESSION_NONE) {
-//     session_start();
-// }
+$roomId = (int) $_GET['room_id'];
 
-// $errors = $_SESSION['errors'] ?? null;
-
-// unset($_SESSION['errors']);
-
-$roomId = $_GET['id'];
 $query = $database->prepare('SELECT * FROM rooms WHERE id = :roomId');
 $query->execute([':roomId' => $roomId,]);
 $room = $query->fetch(PDO::FETCH_ASSOC);
 
 $query = $database->query('SELECT * FROM room_amenity JOIN amenities ON room_amenity.amenity_id = amenities.id');
 $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM features');
+$featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM rooms');
+$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($_GET['offer_id'])) {
+    $offerId = (int) $_GET['offer_id'];
+    print_r($offerId);
+    $query = $database->prepare('SELECT name, preview_desc, image FROM offers WHERE offers.id = :offerId');
+    $query->execute([':offerId' => $offerId]);
+    $offer = $query->fetch(PDO::FETCH_ASSOC);
+
+    $query = $database->prepare(
+        'SELECT 
+    features.name, 
+    features.tier,
+    features.price
+    FROM offer_feature
+    JOIN features ON offer_feature.feature_id = features.id
+    JOIN offers ON offer_feature.offer_id = offers.id
+    WHERE offers.id = :offerId'
+    );
+    $query->execute([':offerId' => $offerId]);
+    $offerSpecs = $query->fetchAll(PDO::FETCH_ASSOC);
+}
 
 ?>
 
@@ -28,27 +48,12 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
-        <section class="booking-container">
-            <aside class="calendar-container">
-                <h1>
-                    Availability
-                </h1>
-                <?php require __DIR__ . '/components/calendar.php'; ?>
-                <div class="calendar-tip">
-                    <div class="tip-items">
-                        <div class="tip-item booked"></div>
-                        Fully booked
-                    </div>
-                    <div class="tip-items">
-                        <div class="tip-item available"></div>
-                        Room available
-                    </div>
-                </div>
-            </aside>
-            <article class="room-container">
-                <header class="room-header">
+        <section class="booking-section">
+            <?php require __DIR__ . '/components/calendar.php'; ?>
+            <article class="booking-container">
+                <header class="booking-header">
                     <figure>
-                        <img class="room-img" src="../assets/images/<?php echo $room['room_image']; ?>">
+                        <img class="booking-img" src="../assets/images/<?php echo $room['room_image']; ?>">
                     </figure>
                     <h1>
                         <?php echo $room['tier'] ?> room
@@ -57,8 +62,8 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                         Cost per night: $<span id="price-per-night" data-price="<?php echo $room['price_per_night']; ?>"><?php echo $room['price_per_night']; ?></span>
                     </span>
                 </header>
-                <div class="room-body">
-                    <div class="room-desc">
+                <div class="booking-body">
+                    <div class="booking-desc">
                         <p>
                             <?php echo $room['description']; ?>
                         </p>
@@ -82,6 +87,7 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
                     <?php } ?>
 
                     <?php require __DIR__ . '/components/booking-form.php'; ?>
+
                 </div>
             </article>
         </section>
