@@ -18,6 +18,21 @@ $query = $database->query('SELECT * FROM hotel_info');
 $hotelInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 $hotelInfo = $hotelInfo[0];
 
+$featureNames = (array) getFeatureNames($featuresInfo);
+$activeFeatures = (array) getOwnedFeatures($hotelInfo, $apiKey);
+
+$query = $database->query('SELECT * FROM features WHERE is_active = true');
+$features = $query->fetchAll(PDO::FETCH_ASSOC);
+
+// echo '<pre>';
+// print_r($featuresInfo);
+
+foreach ($activeFeatures as $aFeature) {
+    if (in_array($aFeature['feature'], $featureNames)) {
+        $query = $database->prepare('UPDATE features SET is_active = true WHERE name = :name');
+        $query->execute([':name' => $aFeature['feature']]);
+    };
+}
 
 if (isset(
     $_POST['room_id'],
@@ -35,25 +50,17 @@ if (isset(
     echo 'Success';
 }
 
-if (isset(
-    $_POST['feature_id'],
-    $_POST['feature_price']
-)) {
-    $featureId = $_POST['feature_id'];
-    $featurePrice = $_POST['feature_price'];
+// if (isset(
+//     $_POST['feature_id'],
+//     $_POST['feature_price']
+// )) {
+//     $featureId = $_POST['feature_id'];
+//     $featurePrice = $_POST['feature_price'];
 
-    $updateFeature = $database->prepare('UPDATE features SET price = :price WHERE id = :id');
-    $updateFeature->execute([
-        ':price' => $featurePrice,
-        ':id' => $featureId
-    ]);
-    echo 'Success';
-}
-
-if (isset(
-    $_POST['update_features']
-)) {
-    $features = getOwnedFeatures($hotelInfo, $_ENV['API_KEY']);
-    activateFeatures($features, $database);
-    echo 'Success';
-}
+//     $updateFeature = $database->prepare('UPDATE features SET price = :price WHERE id = :id');
+//     $updateFeature->execute([
+//         ':price' => $featurePrice,
+//         ':id' => $featureId
+//     ]);
+//     echo 'Success';
+// }

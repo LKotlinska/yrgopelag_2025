@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+function getFeatureNames(array $featureInfo): array
+{
+    $featureNames = [];
+    foreach ($featureInfo as $feature) {
+        $featureNames[] = $feature['name'];
+    }
+    return $featureNames;
+}
+
 function getFeaturesById(array $selectedFeatureIds, array $featuresInfo): array
 {
     if (empty($selectedFeatureIds)) {
