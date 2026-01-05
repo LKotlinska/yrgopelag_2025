@@ -91,19 +91,6 @@ function getBookedRooms(
 
     return $unavailableRooms;
 }
-function isRoomBooked(array $bookings, int $roomId, string $date): bool
-{
-    foreach ($bookings as $booking) {
-        if (
-            (int) $booking['room_id'] === $roomId &&
-            $date >= $booking['arrival_date'] &&
-            $date < $booking['departure_date']
-        ) {
-            return true;
-        }
-    }
-    return false;
-}
 
 function isRoomAvailable(
     int $roomId,
@@ -221,11 +208,23 @@ function requestWithdraw(
     return $data;
 };
 
-function handleErrors(array $errors, int $roomId): void
+function handleErrors(array $errors, int $roomId, ?int $offerId = null): void
 {
     $errors = implode('£', $errors);
 
-    header("Location: ../../view/booking.php?id=$roomId&errors=$errors#error_msgs");
+    $query = [
+        'room_id' => $roomId,
+        'errors'  => $errors,
+    ];
+
+    if ($offerId !== null) {
+        $query['offer_id'] = $offerId;
+    }
+
+    $url = '../../view/booking.php?' . http_build_query($query) . '#error_msgs';
+
+    header("Location: $url");
+    exit;
 }
 
 function handleBooking(
@@ -236,7 +235,7 @@ function handleBooking(
     array $guests,
     array $rooms,
     string $apiKey
-): array {
+) {
     // Declare and sanitize input
     $name = (string) trim(filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $roomId = (int) $_POST['room_id'];
@@ -247,10 +246,20 @@ function handleBooking(
     $guestKey = null;
     $transferCode = null;
 
+
     // Map features by ids
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
+    echo '<pre>';
+    echo '<br>$selectedFeatureIds via POST: <br>';
+    print_r($selectedFeatureIds);
+
     $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
+    echo '<br>$selectedFeatureIds after array map: <br>';
+    print_r($selectedFeatureIds);
+
     $selectedFeatures = getFeaturesById($selectedFeatureIds, $featuresInfo);
+    echo '<br>$selectedFeatures after get id: <br>';
+    print_r($selectedFeatures);
 
     // Calculate cost of booking
     $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
@@ -283,7 +292,8 @@ function handleBooking(
 
         // ---- REQUEST WITHDRAW ----
         $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
-
+        echo '<br> WITHDRAW RESPONSE: <br>';
+        print_r($withdrawResponse);
         if (
             isset($withdrawResponse['error']) ||
             !isset($withdrawResponse['transferCode'])
@@ -292,20 +302,27 @@ function handleBooking(
             return $errors;
         };
 
+        // Since it came from the server, no need to validate
         $transferCode = (string) $withdrawResponse['transferCode'];
+        echo '<br> TRANSFERCODE ASSIGNED: <br>';
+        echo $transferCode;
     }
 
     // ---- TRANFERCODE ----
     if ($paymentMethod === 'transfer_code') {
         $transferCode = (string) $_POST['transfer_code'];
-        echo 'tranfercode assign: ' . $transferCode;
+        echo 'tranfercode assigned: ' . $transferCode;
         if (empty($_POST['transfer_code'])) {
             $errors[] = 'Transfer code is required.';
             return $errors;
         }
 
         // ---- VALIDATE TRANSFERCODE ----
+        echo '<br> TOTAL COST: <br>' . $totalCost;
         $validationResponse = validateTransferCode($transferCode, $totalCost);
+        echo '<br> VALIDATION TRANSFERCODE RESPONSE:<br>';
+        print_r($validationResponse);
+
         if (
             !isset($validationResponse['status']) ||
             $validationResponse['status'] !== 'success'
@@ -316,8 +333,8 @@ function handleBooking(
     }
 
     if (empty($errors)) {
-
-        // DEPOSIT MONEY TO HOTEL OWNER
+        // ---- DEPOSIT MONEY TO HOTEL OWNER
+        // Breaks the recommended flow of the page, as deposit can still fail
         $depositResponse = consumeTransferCode($hotelInfo, $transferCode);
         if (
             !isset($depositResponse['status']) ||
@@ -346,9 +363,9 @@ function handleBooking(
         }
         // ---- ADD BOOKING INTO DATABASE ----
         $bookingQuery = $database->prepare(
-            'INSERT INTO room_bookings 
-                (arrival_date, departure_date, room_id, guest_id, amount_paid, transfer_code)
-                VALUES (:arrival_date, :departure_date, :room_id, :guest_id, :amount_paid, :transfer_code)'
+            'INSERT INTO booking_receipt 
+                    (arrival_date, departure_date, room_id, guest_id, amount_paid, transfer_code, total_amount)
+                    VALUES (:arrival_date, :departure_date, :room_id, :guest_id, :amount_paid, :transfer_code, :total_amount)'
         );
 
         $bookingQuery->execute([
@@ -358,6 +375,7 @@ function handleBooking(
             ':guest_id' => $guestId,
             ':amount_paid' => $totalCost,
             ':transfer_code' => $transferCode,
+            ':total_amount' => $totalCost
         ]);
 
         $bookingId = (int)$database->lastInsertId();
