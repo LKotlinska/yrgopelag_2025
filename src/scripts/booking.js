@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let arrivalDate = null;
   let departureDate = null;
 
+  displayFeatureCost();
+  displayRoomPrice();
+
   roomCostDisplay.innerText = roomTotal;
   featureCostDisplay.innerText = featureTotal;
   totalCostDisplay.innerText = 0;
@@ -23,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("change", function () {
       arrivalDate = new Date(this.value);
 
+      document.getElementById("departure_date").setAttribute("min", this.value);
       displayRoomPrice();
 
       // IF I WANT TO DISPLAY MSG FOR BOOKED ROOM
@@ -41,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("departure_date")
     .addEventListener("change", function () {
       departureDate = new Date(this.value);
-      // console.log(departureDate);
       displayRoomPrice();
     });
 
@@ -77,4 +80,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const total = roomTotal + featureTotal;
     totalCostDisplay.innerText = total;
   }
+
+  // ---- Toggle payment method
+  document.querySelectorAll('input[name="payment_method"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+      const isApi = radio.value === "api_key";
+
+      document.getElementById("api-key-field").style.display = isApi
+        ? "flex"
+        : "none";
+      document.getElementById("transfer-code-field").style.display = isApi
+        ? "none"
+        : "flex";
+
+      document.getElementById("api_key").required = isApi;
+      document.getElementById("transfer_code").required = !isApi;
+    });
+  });
 });
