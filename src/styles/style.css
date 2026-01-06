@@ -457,6 +457,24 @@ input[type="checkbox"] {
 .f-weight {
   font-weight: 800;
 }
+.receipt-table {
+  margin: var(--space-md) 0;
+  text-align: left;
+  border-collapse: collapse;
+}
+.receipt-table tbody {
+  vertical-align: top;
+}
+.receipt-table th,
+.receipt-table td {
+  padding: var(--space-xs);
+}
+.receipt-li {
+  list-style-type: none;
+}
+.receipt-table tbody tr:last-of-type {
+  border-top: 1pt solid var(--light-grey-color);
+}
 /* ---- FOTTER ---- */
 footer {
   background-color: var(--accent-color);
