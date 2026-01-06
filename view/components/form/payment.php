@@ -3,12 +3,12 @@
     <div class="guest-info">
         <!-- Payment selection -->
         <label>
-            <input type="radio" name="payment_method" value="transfer_code">
-            Pay with TransferCode
-        </label>
-        <label>
             <input type="radio" name="payment_method" value="api_key" checked>
             Pay with API-Key
+        </label>
+        <label>
+            <input type="radio" name="payment_method" value="transfer_code">
+            Pay with TransferCode
         </label>
     </div>
 

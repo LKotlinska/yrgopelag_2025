@@ -16,21 +16,27 @@ if (isset($offerId)) { ?>
         $groupedSpecs = $groupedSpecs['hotel-specific'];
     }
 
-    $groupedFeatures = groupFeatures($featuresInfo); ?>
+    $groupedFeatures = groupFeatures($featuresInfo);
+
+    ?>
 
     <div class="feature-container">
-        <?php foreach ($groupedFeatures as $category => $features) : ?>
+        <?php foreach ($groupedFeatures as $category => $features) { ?>
             <div class="feature-card">
                 <span class="category-name">
                     <?php echo $category === 'hotel-specific' ? 'spa' : $category; ?>
                 </span>
-                <?php foreach ($features as $feature) :
-                    $isIncluded = isset($groupedSpecs) && array_any(
-                        $groupedSpecs,
-                        function ($spec) use ($feature) {
-                            return $spec['id'] === $feature['id'];
+                <?php foreach ($features as $feature) {
+                    $isIncluded = false;
+
+                    if (isset($groupedSpecs)) {
+                        foreach ($groupedSpecs as $spec) {
+                            if ($spec['id'] === $feature['id']) {
+                                $isIncluded = true;
+                                break;
+                            }
                         }
-                    );
+                    }
                 ?>
                     <div class="feature-items">
                         <input
@@ -62,9 +68,9 @@ if (isset($offerId)) { ?>
                             </span>
                         </label>
                     </div>
-                <?php endforeach; ?>
+                <?php } ?>
             </div>
-        <?php endforeach; ?>
+        <?php } ?>
 
     </div>
 
