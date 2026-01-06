@@ -208,25 +208,6 @@ function requestWithdraw(
     return $data;
 };
 
-function handleErrors(array $errors, int $roomId, ?int $offerId = null): void
-{
-    $errors = implode('£', $errors);
-
-    $query = [
-        'room_id' => $roomId,
-        'errors'  => $errors,
-    ];
-
-    if ($offerId !== null) {
-        $query['offer_id'] = $offerId;
-    }
-
-    $url = '../../view/booking.php?' . http_build_query($query) . '#error_msgs';
-
-    header("Location: $url");
-    exit;
-}
-
 function handleBooking(
     PDO $database,
     array $hotelInfo,
@@ -251,7 +232,7 @@ function handleBooking(
 
     $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
 
-    $selectedFeatures = getFeaturesById($selectedFeatureIds, $featuresInfo);
+    $selectedFeatures = getFeatureNameById($selectedFeatureIds, $featuresInfo);
 
     // Calculate cost of booking
     $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
@@ -393,6 +374,15 @@ function handleBooking(
 
         $bookingId = (int)$database->lastInsertId();
 
+        // Add to database -> features_bookings table
+        insertFeatures($database, $selectedFeatureIds, $bookingId);
+
+        // Add to database if offer was booked -> offer_features_bookings table
+        if ($offerId != null) {
+            insertOfferFeatureBooking($database, $selectedFeatureIds, $bookingId, $offerId);
+        }
+
+        // Store booking_id for receipt
         $_SESSION['booking_id'] = $bookingId;
 
         return [
@@ -403,6 +393,7 @@ function handleBooking(
         // header('Location: ../../view/receipt.php');
     }
     // Failed
+
     return [
         'success' => false,
         'errors' => $errors,

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-function groupFeatures(array $features)
-{
+function groupFeatures(
+    array $features
+): array {
     $groupedFeatures = [];
 
     foreach ($features as $feature) :
@@ -14,8 +15,9 @@ function groupFeatures(array $features)
     return $groupedFeatures;
 }
 
-function getFeatureNames(array $featureInfo): array
-{
+function getFeatureNames(
+    array $featureInfo
+): array {
     $featureNames = [];
     foreach ($featureInfo as $feature) {
         $featureNames[] = $feature['name'];
@@ -23,8 +25,10 @@ function getFeatureNames(array $featureInfo): array
     return $featureNames;
 }
 
-function getFeaturesById(array $selectedFeatureIds, array $featuresInfo): array
-{
+function getFeatureNameById(
+    array $selectedFeatureIds,
+    array $featuresInfo
+): array {
     if (empty($selectedFeatureIds)) {
         return [];
     }
@@ -41,6 +45,42 @@ function getFeaturesById(array $selectedFeatureIds, array $featuresInfo): array
         }
     };
     return $matchedFeatures;
+}
+
+function insertFeatures(
+    PDO $database,
+    array $selectedFeatureIds,
+    int $bookingId,
+): void {
+    $query = $database->prepare(
+        'INSERT INTO feature_bookings (booking_id, feature_id)
+         VALUES (:booking_id, :feature_id)'
+    );
+    foreach ($selectedFeatureIds as $featureId) :
+        $query->execute([
+            ':booking_id' => (int) $bookingId,
+            ':feature_id' => (int) $featureId
+        ]);
+    endforeach;
+}
+
+function insertOfferFeatureBooking(
+    PDO $database,
+    array $selectedFeatureIds,
+    int $bookingId,
+    int $offerId
+): void {
+    $query = $database->prepare(
+        'INSERT INTO offer_feature_bookings (offer_id, feature_id, booking_id)
+        VALUES (:offer_id, :feature_id, :booking_id)'
+    );
+    foreach ($selectedFeatureIds as $featureId) :
+        $query->execute([
+            ':offer_id' => (int) $offerId,
+            ':feature_id' => (int) $featureId,
+            ':booking_id' => (int) $bookingId
+        ]);
+    endforeach;
 }
 
 function getOwnedFeatures(
