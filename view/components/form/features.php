@@ -1,6 +1,15 @@
 <?php
 require __DIR__ . '/../../../src/functions/feature.functions.php';
 
+require __DIR__ . '/../../../src/backend/offers.php';
+
+if (isset($offerId)) {
+    $groupedSpecs = groupFeatures($offerSpecs);
+    // $groupedSpecs = $groupedSpecs['hotel-specific'];
+}
+
+$groupedFeatures = groupFeatures($featuresInfo);
+
 if (isset($offerId)) { ?>
     <h2>
         <?php echo $offer['name'] ?>
@@ -10,16 +19,6 @@ if (isset($offerId)) { ?>
 <?php } ?>
 
 <div class="form-section">
-    <?php
-    if (isset($offerId)) {
-        $groupedSpecs = groupFeatures($offerSpecs);
-        $groupedSpecs = $groupedSpecs['hotel-specific'];
-    }
-
-    $groupedFeatures = groupFeatures($featuresInfo);
-
-    ?>
-
     <div class="feature-container">
         <?php foreach ($groupedFeatures as $category => $features) { ?>
             <div class="feature-card">
@@ -30,8 +29,8 @@ if (isset($offerId)) { ?>
                     $isIncluded = false;
 
                     if (isset($groupedSpecs)) {
-                        foreach ($groupedSpecs as $spec) {
-                            if ($spec['id'] === $feature['id']) {
+                        foreach ($groupedSpecs as $category => $spec) {
+                            if ($spec[0]['id'] === $feature['id']) {
                                 $isIncluded = true;
                                 break;
                             }

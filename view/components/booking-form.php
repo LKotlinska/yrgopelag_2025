@@ -1,6 +1,9 @@
 <?php
 require __DIR__ . '/../../src/database/data.php';
 
+if (isset($offerId) && !empty($offerId)) {
+    require __DIR__ . '/../../src/backend/offers.php';
+};
 ?>
 <form method="POST" id="booking-form" action="../src/backend/booking.submit.php">
 
@@ -8,9 +11,6 @@ require __DIR__ . '/../../src/database/data.php';
     <?php require __DIR__ . '/form/dates.php'; ?>
 
     <!-- Features selection -->
-    <?php if (isset($offerId) && !empty($offerId)) {
-        require __DIR__ . '/../../src/backend/offer.php';
-    }; ?>
 
     <?php require __DIR__ . '/form/features.php'; ?>
 
