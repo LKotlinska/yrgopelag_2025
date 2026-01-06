@@ -3,11 +3,6 @@ require __DIR__ . '/../../../src/functions/feature.functions.php';
 
 require __DIR__ . '/../../../src/backend/offers.php';
 
-if (isset($offerId)) {
-    $groupedSpecs = groupFeatures($offerSpecs);
-    // $groupedSpecs = $groupedSpecs['hotel-specific'];
-}
-
 $groupedFeatures = groupFeatures($featuresInfo);
 
 if (isset($offerId)) { ?>
@@ -28,9 +23,10 @@ if (isset($offerId)) { ?>
                 <?php foreach ($features as $feature) {
                     $isIncluded = false;
 
-                    if (isset($groupedSpecs)) {
-                        foreach ($groupedSpecs as $category => $spec) {
-                            if ($spec[0]['id'] === $feature['id']) {
+                    if (isset($offerSpecs)) {
+                        foreach ($offerSpecs as $category => $spec) {
+
+                            if ($spec['id'] === $feature['id']) {
                                 $isIncluded = true;
                                 break;
                             }
@@ -55,7 +51,7 @@ if (isset($offerId)) { ?>
                                 value="<?= $feature['id'] ?>">
                         <?php }; ?>
 
-                        <label for=" feature_<?php echo $feature['id']; ?>">
+                        <label for="feature_<?php echo $feature['id']; ?>">
                             <span class="feature-name">
                                 <?php echo $feature['name']; ?>
                             </span>

@@ -77,8 +77,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateTotalCost() {
-    const total = roomTotal + featureTotal;
+    let total = roomTotal + featureTotal;
     totalCostDisplay.innerText = total;
+
+    const discountDisplay = document.getElementById("discount-cost");
+    const discountValue = Number(discountDisplay.innerHTML);
+
+    let finalTotal = total;
+
+    if (discountDisplay) {
+      finalTotal = Math.max(total - discountValue, 0);
+    }
+
+    totalCostDisplay.innerText = finalTotal;
   }
 
   // ---- Toggle payment method
