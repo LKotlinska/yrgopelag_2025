@@ -19,7 +19,6 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_GET['offer_id'])) {
     $offerId = (int) $_GET['offer_id'];
-    print_r($offerId);
     $query = $database->prepare('SELECT name, preview_desc, image FROM offers WHERE offers.id = :offerId');
     $query->execute([':offerId' => $offerId]);
     $offer = $query->fetch(PDO::FETCH_ASSOC);
@@ -44,6 +43,7 @@ if (isset($_GET['offer_id'])) {
 <html lang="en">
 
 <?php require __DIR__ . '/metadata/head.php'; ?>
+<script src="../src/scripts/booking.js"></script>
 
 <body>
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">

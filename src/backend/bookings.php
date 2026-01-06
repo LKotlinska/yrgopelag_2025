@@ -31,6 +31,8 @@ $guests = $query->fetchAll(PDO::FETCH_ASSOC);
 $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
+$roomId = (int) $_POST['room_id'];
+
 if (isset(
     $_POST['arrival_date'],
     $_POST['departure_date'],
@@ -38,8 +40,11 @@ if (isset(
     $_POST['payment_method'],
     $_POST['room_id'],
 )) {
-    $roomId = (int) $_POST['room_id'];
-    $offerId = (int) $_POST['offer_id'];
+    if (isset($_POST['offer_id'])) {
+        $offerId = (int) $_POST['offer_id'];
+    } else {
+        $offerId = null;
+    }
 
     $errors = handleBooking(
         $database,

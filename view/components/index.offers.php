@@ -3,7 +3,6 @@ require __DIR__ . '/../../src/database/data.php';
 
 $query = $database->query('SELECT * FROM offers');
 $offers = $query->fetchAll(PDO::FETCH_ASSOC);
-print_r($offers);
 
 if (!empty($offers)) {
 ?>

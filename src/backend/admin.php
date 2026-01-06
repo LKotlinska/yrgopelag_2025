@@ -24,9 +24,6 @@ $activeFeatures = (array) getOwnedFeatures($hotelInfo, $apiKey);
 $query = $database->query('SELECT * FROM features WHERE is_active = true');
 $features = $query->fetchAll(PDO::FETCH_ASSOC);
 
-// echo '<pre>';
-// print_r($featuresInfo);
-
 foreach ($activeFeatures as $aFeature) {
     if (in_array($aFeature['feature'], $featureNames)) {
         $query = $database->prepare('UPDATE features SET is_active = true WHERE name = :name');

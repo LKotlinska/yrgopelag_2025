@@ -242,7 +242,6 @@ function handleBooking(
     $arrDate = (string) $_POST['arrival_date'];
     $depDate = (string) $_POST['departure_date'];
     $paymentMethod = $_POST['payment_method'] ?? '';
-    // print_r($paymentMethod);
     $guestKey = null;
     $transferCode = null;
 
@@ -251,15 +250,12 @@ function handleBooking(
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
     echo '<pre>';
     echo '<br>$selectedFeatureIds via POST: <br>';
-    print_r($selectedFeatureIds);
 
     $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
     echo '<br>$selectedFeatureIds after array map: <br>';
-    print_r($selectedFeatureIds);
 
     $selectedFeatures = getFeaturesById($selectedFeatureIds, $featuresInfo);
     echo '<br>$selectedFeatures after get id: <br>';
-    print_r($selectedFeatures);
 
     // Calculate cost of booking
     $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
@@ -281,10 +277,6 @@ function handleBooking(
 
     // ---- API KEY
     if ($paymentMethod === 'api_key') {
-        // if (empty($_POST['api_key'])) {
-        //     $errors[] = 'API key is required.';
-        //     return $errors;
-        // }
 
         $guestKey = trim(
             filter_var($_POST['api_key'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)
@@ -293,7 +285,6 @@ function handleBooking(
         // ---- REQUEST WITHDRAW ----
         $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
         echo '<br> WITHDRAW RESPONSE: <br>';
-        print_r($withdrawResponse);
         if (
             isset($withdrawResponse['error']) ||
             !isset($withdrawResponse['transferCode'])
@@ -321,7 +312,6 @@ function handleBooking(
         echo '<br> TOTAL COST: <br>' . $totalCost;
         $validationResponse = validateTransferCode($transferCode, $totalCost);
         echo '<br> VALIDATION TRANSFERCODE RESPONSE:<br>';
-        print_r($validationResponse);
 
         if (
             !isset($validationResponse['status']) ||
