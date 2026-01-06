@@ -39,3 +39,11 @@ function calcTotalCost(
     $total = $featureCost + $roomCost;
     return $total;
 }
+
+function applyDiscount(
+    int $totalCost,
+    int $discount
+): int {
+    $newCost = $totalCost - $discount;
+    return $newCost;
+}

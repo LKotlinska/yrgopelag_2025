@@ -106,7 +106,7 @@ function validateTransferCode(
     $url = 'https://www.yrgopelag.se/centralbank/transferCode';
     $payload = json_encode([
         'transferCode' => $transferCode,
-        'totalCost' => $totalPrice,
+        'baseTotal' => $totalPrice,
     ]);
 
     $response = getContent($url, $payload);
@@ -229,15 +229,28 @@ function handleBooking(
 
     // Map features by ids
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
-
     $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
-
     $selectedFeatures = getFeatureNameById($selectedFeatureIds, $featuresInfo);
 
     // Calculate cost of booking
     $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
     $featurePrice = (int) calcFeaturePrice($selectedFeatureIds, $featuresInfo);
-    $totalCost = calcTotalCost($featurePrice, $roomPrice);
+    $baseTotal = calcTotalCost($featurePrice, $roomPrice);
+
+    // Handle discount for offers
+    $discount = 0;
+    if ($offerId !== null) {
+        $query = $database->prepare(
+            'SELECT discount_value 
+            FROM offers 
+            WHERE id = :offer_id'
+        );
+        $query->execute([':offer_id' => $offerId]);
+        $offer = $query->fetch(PDO::FETCH_ASSOC);
+        $discount = (int) $offer['discount_value'];
+    }
+
+    $totalCost = applyDiscount($baseTotal, $discount);
 
     // Get guest id for database
     $guestId = getOrAddGuest($database, $name, $guests);
@@ -267,7 +280,7 @@ function handleBooking(
         );
 
         // ---- REQUEST WITHDRAW ----
-        $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
+        $withdrawResponse = requestWithdraw($name, $guestKey, $baseTotal);
 
         if (
             isset($withdrawResponse['error']) ||
@@ -300,7 +313,7 @@ function handleBooking(
         }
 
         // ---- VALIDATE TRANSFERCODE ----
-        $validationResponse = validateTransferCode($transferCode, $totalCost);
+        $validationResponse = validateTransferCode($transferCode, $baseTotal);
 
         if (
             !isset($validationResponse['status']) ||
@@ -355,21 +368,21 @@ function handleBooking(
                 'offer_id' => $offerId
             ];
         }
-        // ---- ADD BOOKING INTO DATABASE ----
-        $bookingQuery = $database->prepare(
+
+        // ---- ADD BOOKING TO DATABASE ----
+        $addBookingReceipt = $database->prepare(
             'INSERT INTO booking_receipt 
-                    (arrival_date, departure_date, room_id, guest_id, amount_paid, transfer_code, total_amount)
-                    VALUES (:arrival_date, :departure_date, :room_id, :guest_id, :amount_paid, :transfer_code, :total_amount)'
+                    (arrival_date, departure_date, room_id, guest_id, amount_paid, transfer_code)
+                    VALUES (:arrival_date, :departure_date, :room_id, :guest_id, :amount_paid, :transfer_code)'
         );
 
-        $bookingQuery->execute([
+        $addBookingReceipt->execute([
             ':arrival_date' => $arrDate,
             ':departure_date' => $depDate,
             ':room_id' => $roomId,
             ':guest_id' => $guestId,
             ':amount_paid' => $totalCost,
             ':transfer_code' => $transferCode,
-            ':total_amount' => $totalCost
         ]);
 
         $bookingId = (int)$database->lastInsertId();
@@ -389,9 +402,8 @@ function handleBooking(
             'success' => true,
             'booking_id' => $bookingId
         ];
-
-        // header('Location: ../../view/receipt.php');
     }
+
     // Failed
 
     return [
