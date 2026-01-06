@@ -235,8 +235,9 @@ function handleBooking(
     array $guests,
     array $rooms,
     string $apiKey
-) {
+): array {
     // Declare and sanitize input
+    $offerId = isset($_POST['offer_id']) ? (int) $_POST['offer_id'] : null;
     $name = (string) trim(filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $roomId = (int) $_POST['room_id'];
     $arrDate = (string) $_POST['arrival_date'];
@@ -244,7 +245,6 @@ function handleBooking(
     $paymentMethod = $_POST['payment_method'] ?? '';
     $guestKey = null;
     $transferCode = null;
-
 
     // Map features by ids
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
@@ -263,10 +263,17 @@ function handleBooking(
 
     $bookedRooms = getBookedRooms($bookings, $arrDate, $depDate);
 
+    $errors = [];
+
     // ---- CHECKS ROOM AVAILABILITY ----
     if (!isRoomAvailable($roomId, $bookedRooms)) {
         $errors[] = 'This room is unavailable for the selected dates.';
-        return $errors;
+        return [
+            'success' => false,
+            'errors' => $errors,
+            'room_id' => $roomId,
+            'offer_id' => $offerId
+        ];
     }
 
     // ---- HANDLES DECLARED PAYMENT METHOD LOGIC ---- 
@@ -286,7 +293,12 @@ function handleBooking(
             !isset($withdrawResponse['transferCode'])
         ) {
             $errors[] = $withdrawResponse['error'] ?? "The withdrawal couldn't be processed. Please review your information and try again";
-            return $errors;
+            return [
+                'success' => false,
+                'errors' => $errors,
+                'room_id' => $roomId,
+                'offer_id' => $offerId
+            ];
         };
 
         // Since it came from the server, no need to validate
@@ -298,7 +310,12 @@ function handleBooking(
         $transferCode = (string) $_POST['transfer_code'];
         if (empty($_POST['transfer_code'])) {
             $errors[] = 'Transfer code is required.';
-            return $errors;
+            return [
+                'success' => false,
+                'errors' => $errors,
+                'room_id' => $roomId,
+                'offer_id' => $offerId
+            ];
         }
 
         // ---- VALIDATE TRANSFERCODE ----
@@ -309,7 +326,12 @@ function handleBooking(
             $validationResponse['status'] !== 'success'
         ) {
             $errors[] = $validationResponse['error'] ?? 'Transfer validation failed, please try again.';
-            return $errors;
+            return [
+                'success' => false,
+                'errors' => $errors,
+                'room_id' => $roomId,
+                'offer_id' => $offerId
+            ];
         }
     }
 
@@ -322,7 +344,12 @@ function handleBooking(
             $depositResponse['status'] !== 'success'
         ) {
             $errors[] = $depositResponse['error'] ?? 'Deposit has failed.';
-            return $errors;
+            return [
+                'success' => false,
+                'errors' => $errors,
+                'room_id' => $roomId,
+                'offer_id' => $offerId
+            ];
         }
 
         // ---- SEND RECEIPT TO CENTRALBANK ----
@@ -340,7 +367,12 @@ function handleBooking(
             $receiptResponse['status'] !== 'success'
         ) {
             $errors[] = $receiptResponse['error'] ?? 'Receipt submission failed';
-            return $errors;
+            return [
+                'success' => false,
+                'errors' => $errors,
+                'room_id' => $roomId,
+                'offer_id' => $offerId
+            ];
         }
         // ---- ADD BOOKING INTO DATABASE ----
         $bookingQuery = $database->prepare(
@@ -363,8 +395,18 @@ function handleBooking(
 
         $_SESSION['booking_id'] = $bookingId;
 
-        header('Location: ../../view/receipt.php');
+        return [
+            'success' => true,
+            'booking_id' => $bookingId
+        ];
+
+        // header('Location: ../../view/receipt.php');
     }
     // Failed
-    return [];
+    return [
+        'success' => false,
+        'errors' => $errors,
+        'room_id' => $roomId,
+        'offer_id' => $offerId
+    ];
 }

@@ -42,7 +42,8 @@ $booking = $query->fetch(PDO::FETCH_ASSOC);
             <p>
                 <span class="material-symbols-outlined">
                     error
-                </span>Booking successful
+                </span>
+                Booking successful!
             </p>
         </div>
         <section>

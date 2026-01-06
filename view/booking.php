@@ -1,24 +1,22 @@
 <?php
 
+session_start();
+
 require __DIR__ . '/../src/database/data.php';
 
+// Handle errors after booking fails
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
+
+// Room id to display content -> calendar + room info
 $roomId = (int) $_GET['room_id'];
 
-$query = $database->prepare('SELECT * FROM rooms WHERE id = :roomId');
-$query->execute([':roomId' => $roomId,]);
-$room = $query->fetch(PDO::FETCH_ASSOC);
-
-$query = $database->query('SELECT * FROM room_amenity JOIN amenities ON room_amenity.amenity_id = amenities.id');
-$amenities = $query->fetchAll(PDO::FETCH_ASSOC);
-
-$query = $database->query('SELECT * FROM features');
-$featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
-
-$query = $database->query('SELECT * FROM rooms');
-$rooms = $query->fetchAll(PDO::FETCH_ASSOC);
-
+// Get offer_id if available
 if (isset($_GET['offer_id'])) {
-    $offerId = (int) $_GET['offer_id'];
+    $offerId = $_GET['offer_id'];
+    $_SESSION['offer_id'] = $offerId;
+
+    // Offer info for display - 
     $query = $database->prepare('SELECT name, preview_desc, image FROM offers WHERE offers.id = :offerId');
     $query->execute([':offerId' => $offerId]);
     $offer = $query->fetch(PDO::FETCH_ASSOC);
@@ -37,19 +35,34 @@ if (isset($_GET['offer_id'])) {
     $offerSpecs = $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+$query = $database->prepare('SELECT * FROM rooms WHERE id = :roomId');
+$query->execute([':roomId' => $roomId,]);
+$room = $query->fetch(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM room_amenity JOIN amenities ON room_amenity.amenity_id = amenities.id');
+$amenities = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT * FROM features');
+$featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php require __DIR__ . '/metadata/head.php'; ?>
+
 <script src="../src/scripts/booking.js"></script>
 
 <body>
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
         <section class="booking-section">
+
             <?php require __DIR__ . '/components/calendar.php'; ?>
+
+            <!-- Room information -->
             <article class="booking-container">
                 <header class="booking-header">
                     <figure>
@@ -70,9 +83,8 @@ if (isset($_GET['offer_id'])) {
                         <?php require __DIR__ . '/components/amenities.php'; ?>
                     </div>
 
-                    <?php if (isset($_GET['errors'])) {
-                        $errors = $_GET['errors'];
-                        $errors = explode('£', $errors); ?>
+                    <!-- Display errors -->
+                    <?php if (!empty($errors)) { ?>
                         <div id="error_msgs">
                             <?php foreach ($errors as $error) : ?>
                                 <div class="msg-card error-s">

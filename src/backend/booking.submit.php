@@ -31,7 +31,7 @@ $guests = $query->fetchAll(PDO::FETCH_ASSOC);
 $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
-$roomId = (int) $_POST['room_id'];
+$roomId = $result['room_id'] ?? (int) $_POST['room_id'];
 
 if (isset(
     $_POST['arrival_date'],
@@ -40,13 +40,8 @@ if (isset(
     $_POST['payment_method'],
     $_POST['room_id'],
 )) {
-    if (isset($_POST['offer_id'])) {
-        $offerId = (int) $_POST['offer_id'];
-    } else {
-        $offerId = null;
-    }
-
-    $errors = handleBooking(
+    // Run Api requests
+    $result = handleBooking(
         $database,
         $hotelInfo,
         $featuresInfo,
@@ -56,7 +51,24 @@ if (isset(
         $apiKey
     );
 
-    if (!empty($errors)) {
-        handleErrors($errors, $roomId, $offerId);
+    // Store errors in session in case booking fails -> used in view/booking.php
+    if (isset($result['success']) && $result['success'] === true) {
+        $_SESSION['booking_id'] = $result['booking_id'];
+        header('Location: ../../view/receipt.php');
+        exit;
     }
+
+    // When offer is booked, url must include its query to proparly redirect
+    $_SESSION['errors'] = $result['errors'];
+    $roomId = $result['room_id'];
+    $offerId = $result['offer_id'] ?? null;
+
+    $query = "room_id=$roomId";
+
+    if ($offerId !== null) {
+        $query .= "&offer_id=$offerId";
+    }
+
+    header("Location: ../../view/booking.php?$query#error_msgs");
+    exit;
 }
