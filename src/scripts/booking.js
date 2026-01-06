@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let arrivalDate = null;
   let departureDate = null;
 
-  displayFeatureCost();
-  displayRoomPrice();
-
   roomCostDisplay.innerText = roomTotal;
   featureCostDisplay.innerText = featureTotal;
   totalCostDisplay.innerText = 0;
+
+  displayFeatureCost();
+  displayRoomPrice();
 
   document
     .getElementById("arrival_date")
