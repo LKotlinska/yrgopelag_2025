@@ -71,7 +71,7 @@ function insertOfferFeatureBooking(
     int $offerId
 ): void {
     $query = $database->prepare(
-        'INSERT INTO offer_feature_bookings (offer_id, feature_id, booking_id)
+        'INSERT INTO offer_feature_booking (offer_id, feature_id, booking_id)
         VALUES (:offer_id, :feature_id, :booking_id)'
     );
     foreach ($selectedFeatureIds as $featureId) :

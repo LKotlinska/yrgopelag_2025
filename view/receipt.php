@@ -31,11 +31,25 @@ $query->execute([
 
 $booking = $query->fetch(PDO::FETCH_ASSOC);
 
+$query = $database->prepare(
+    'SELECT features.name 
+    FROM features 
+    JOIN feature_bookings 
+    ON feature_bookings.feature_id = features.id 
+    WHERE feature_bookings.booking_id = :bookingId'
+);
+$bookingId = 9;
+$query->execute([
+    ':bookingId' => $bookingId
+]);
+
+$features = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <?php require __DIR__ . '/metadata/head.php'; ?>
 
 <body>
+
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
         <div class="msg-card booking-c">
@@ -53,21 +67,52 @@ $booking = $query->fetch(PDO::FETCH_ASSOC);
                 <p>Your stay has been successfully booked, and we’re looking forward to welcoming you.</p>
 
                 <h2>Your stay</h2>
-                <p>
-                    <span class="f-weight">Check-in: </span><?php echo $booking['arrival_date'] ?> from 15:00
-                </p>
-                <p>
-                    <span class="f-weight">Check-out: </span><?php echo $booking['departure_date']; ?> by 11:00
-                </p>
-                <p>
-                    <span class="f-weight">Room: </span><?php echo $booking['tier'] ?>
-                </p>
-                <p>
-                    <span>Features: </span>
-                </p>
-                <p>
-                    <span class="f-weight">Total price: $</span><?php echo $booking['amount_paid'] ?>
-                </p>
+                <table class="receipt-table">
+                    <tbody>
+                        <tr>
+                            <th class="f-weight">
+                                Check-in:
+                            </th>
+                            <td>
+                                <?php echo $booking['arrival_date'] ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="f-weight">
+                                Check-out:
+                            </th>
+                            <td>
+                                <?php echo $booking['departure_date']; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="f-weight">
+                                Room:
+                            </th>
+                            <td>
+                                <?php echo $booking['tier']; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="f-weight">
+                                Features:
+                            </th>
+                            <td>
+                                <?php foreach ($features as $index => $feature): ?>
+                                    <li class="receipt-li"><?php echo $feature['name']; ?></li>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="f-weight">
+                                Total price:
+                            </th>
+                            <td>
+                                $<?php echo $booking['amount_paid']; ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <p>A confirmation has been saved with your booking details.</p>
                 <p>We’ll take care of the rest.</p>
                 <p>All that’s left for you is to arrive — and let go.</p>
