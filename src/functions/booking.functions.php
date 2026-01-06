@@ -248,14 +248,10 @@ function handleBooking(
 
     // Map features by ids
     $selectedFeatureIds = $_POST['feature_ids'] ?? [];
-    echo '<pre>';
-    echo '<br>$selectedFeatureIds via POST: <br>';
 
     $selectedFeatureIds = array_map('intval', $selectedFeatureIds);
-    echo '<br>$selectedFeatureIds after array map: <br>';
 
     $selectedFeatures = getFeaturesById($selectedFeatureIds, $featuresInfo);
-    echo '<br>$selectedFeatures after get id: <br>';
 
     // Calculate cost of booking
     $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
@@ -284,7 +280,7 @@ function handleBooking(
 
         // ---- REQUEST WITHDRAW ----
         $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
-        echo '<br> WITHDRAW RESPONSE: <br>';
+
         if (
             isset($withdrawResponse['error']) ||
             !isset($withdrawResponse['transferCode'])
@@ -295,23 +291,18 @@ function handleBooking(
 
         // Since it came from the server, no need to validate
         $transferCode = (string) $withdrawResponse['transferCode'];
-        echo '<br> TRANSFERCODE ASSIGNED: <br>';
-        echo $transferCode;
     }
 
     // ---- TRANFERCODE ----
     if ($paymentMethod === 'transfer_code') {
         $transferCode = (string) $_POST['transfer_code'];
-        echo 'tranfercode assigned: ' . $transferCode;
         if (empty($_POST['transfer_code'])) {
             $errors[] = 'Transfer code is required.';
             return $errors;
         }
 
         // ---- VALIDATE TRANSFERCODE ----
-        echo '<br> TOTAL COST: <br>' . $totalCost;
         $validationResponse = validateTransferCode($transferCode, $totalCost);
-        echo '<br> VALIDATION TRANSFERCODE RESPONSE:<br>';
 
         if (
             !isset($validationResponse['status']) ||
