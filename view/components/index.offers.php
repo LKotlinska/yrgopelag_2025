@@ -10,7 +10,6 @@ if (!empty($offers)) {
     <section id="event-section">
         <h2>Explore our offers</h2>
         <div class="event-container">
-            <?php $roomCount = 3; ?>
             <?php foreach ($offers as $index => $offer) : ?>
                 <article class="event-card">
                     <div>
@@ -26,7 +25,7 @@ if (!empty($offers)) {
                             </span>
                             <?php echo $offer['includes_desc']; ?>
                         </p>
-                        <a class="a-link" href="./view/booking.php?room_id=<?php echo $roomCount; ?>&offer_id=<?php echo $offer['id']; ?>">
+                        <a class="a-link" href="./view/booking.php?room_id=<?php echo $offer['include_room']; ?>&offer_id=<?php echo $offer['id']; ?>">
                             Explore this package</span>
                         </a>
                     </div>
