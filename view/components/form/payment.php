@@ -35,8 +35,8 @@
 
 <!-- Extra field for discount if offer is active -->
 <?php if (isset($offerId) && !empty($offerId)) { ?>
-    <div class="cost-display">
-        <span>Discount: </span><span>$ <span id="discount-cost"><?php echo $offerDiscount; ?></span></span>
+    <div class="cost-display discount-display">
+        <span>Discount: </span><span>- $<span id="discount-cost"><?php echo $offerDiscount; ?></span></span>
     </div>
     <!-- Discount info for backend -->
     <input

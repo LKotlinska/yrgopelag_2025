@@ -2,6 +2,8 @@
 
 require __DIR__ . '/../src/database/data.php';
 
+require __DIR__ . '/../src/functions/guest.functions.php';
+
 // Prevent refreshing
 unset($_SESSION['booking_id']);
 
@@ -30,6 +32,7 @@ $query->execute([
 ]);
 
 $booking = $query->fetch(PDO::FETCH_ASSOC);
+$guestName = $booking['name'];
 
 $query = $database->prepare(
     'SELECT features.name 
@@ -42,6 +45,8 @@ $bookingId = 9;
 $query->execute([
     ':bookingId' => $bookingId
 ]);
+
+$isReturnCustomer = isExistingGuest($database, $guestName);
 
 $features = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -103,6 +108,16 @@ $features = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <?php endforeach; ?>
                             </td>
                         </tr>
+                        <?php if ($isReturnCustomer) { ?>
+                            <tr>
+                                <th class="f-weight">
+                                    Discount:
+                                </th>
+                                <td>
+                                    $2
+                                </td>
+                            </tr>
+                        <?php } ?>
                         <tr>
                             <th class="f-weight">
                                 Total price:

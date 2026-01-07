@@ -375,6 +375,9 @@ nav,
 .cost-display span:first-child {
   margin-right: var(--space-xl);
 }
+.discount-display {
+  color: var(--error-color);
+}
 .feature-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
