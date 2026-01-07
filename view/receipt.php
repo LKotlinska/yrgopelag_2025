@@ -133,7 +133,7 @@ $features = $query->fetchAll(PDO::FETCH_ASSOC);
                 <p>All that’s left for you is to arrive — and let go.</p>
 
                 <nav class="nav-list">
-                    <a class="btn action-btn" href="../../index.php">Return to main page</a>
+                    <a class="btn action-btn" href="../index.php">Return to main page</a>
                 </nav>
 
             </article>
