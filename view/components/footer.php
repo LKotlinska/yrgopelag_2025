@@ -14,7 +14,7 @@
             <div>
                 <h4>Contact</h4>
                 <p>-00 22 656 74 85</p>
-                <p>terracotabay@hotel.ii</p>
+                <p>terracottabay@hotel.ii</p>
             </div>
         </address>
         <dl>
