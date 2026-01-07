@@ -23,9 +23,9 @@ if (!empty($offers)) {
                             <span class="material-symbols-outlined">
                                 check
                             </span>
-                            <?php echo $offer['includes_desc']; ?>
+                            <?php echo $offer['included_desc']; ?>
                         </p>
-                        <a class="a-link" href="./view/booking.php?room_id=<?php echo $offer['include_room']; ?>&offer_id=<?php echo $offer['id']; ?>">
+                        <a class="a-link" href="./view/booking.php?room_id=<?php echo $offer['included_room']; ?>&offer_id=<?php echo $offer['id']; ?>">
                             Explore this package</span>
                         </a>
                     </div>

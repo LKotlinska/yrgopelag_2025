@@ -31,7 +31,6 @@ $guests = $query->fetchAll(PDO::FETCH_ASSOC);
 $query = $database->query('SELECT * FROM rooms');
 $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
 
-$roomId = $result['room_id'] ?? (int) $_POST['room_id'];
 
 if (isset(
     $_POST['arrival_date'],
@@ -51,6 +50,8 @@ if (isset(
         $apiKey
     );
 
+    $roomId = $result['room_id'] ?? (int) $_POST['room_id'];
+
     // Store errors in session in case booking fails -> used in view/booking.php
     if (isset($result['success']) && $result['success'] === true) {
         $_SESSION['booking_id'] = $result['booking_id'];
@@ -58,7 +59,7 @@ if (isset(
         exit;
     }
 
-    // When offer is booked, url must include its query to proparly redirect
+    // When offer is booked, url must include offer_id to proparly redirect
     $_SESSION['errors'] = $result['errors'];
     $roomId = $result['room_id'];
     $offerId = $result['offer_id'] ?? null;
