@@ -35,13 +35,16 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
+        <a class="btn btn-white " href="../index.php">Return to main page</a>
         <section class="booking-section">
-            <aside class="calendar-container">
-                <?php require __DIR__ . '/components/calendar.php'; ?>
-                <h2>
-                    Discount
-                </h2>
-                <p>Returning guests receive a $2 discount! Make sure to book using your name.</p>
+            <aside class="aside-container">
+                <div>
+                    <?php require __DIR__ . '/components/calendar.php'; ?>
+                </div>
+                <div>
+                    <h2>Discount</h2>
+                    <p>Returning guests receive a $2 discount! Make sure to book using your name.</p>
+                </div>
             </aside>
 
             <!-- Room information -->

@@ -11,5 +11,5 @@ $amenities = $query->fetchAll(PDO::FETCH_ASSOC);
 <main>
     <?php require __DIR__ . '/rooms.php'; ?>
 
-    <?php require __DIR__ . '/index.offers.php'; ?>
+    <?php require __DIR__ . '/offers.php'; ?>
 </main>

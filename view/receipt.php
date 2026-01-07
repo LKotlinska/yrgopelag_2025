@@ -117,7 +117,9 @@ $features = $query->fetchAll(PDO::FETCH_ASSOC);
                 <p>We’ll take care of the rest.</p>
                 <p>All that’s left for you is to arrive — and let go.</p>
 
-                <?php require __DIR__ . '/components/back.button.php'; ?>
+                <nav class="nav-list">
+                    <a class="btn action-btn" href="../../index.php">Return to main page</a>
+                </nav>
 
             </article>
         </section>
