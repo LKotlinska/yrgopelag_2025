@@ -26,7 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("change", function () {
       arrivalDate = new Date(this.value);
 
-      document.getElementById("departure_date").setAttribute("min", this.value);
+      // Departure date must be bigger than arrival
+      const minDeparture = new Date(
+        arrivalDate.getFullYear(),
+        arrivalDate.getMonth(),
+        arrivalDate.getDate() + 2
+      );
+      // Set min departure date
+      document
+        .getElementById("departure_date")
+        .setAttribute("min", minDeparture.toISOString().split("T")[0]);
       displayRoomPrice();
 
       // IF I WANT TO DISPLAY MSG FOR BOOKED ROOM
@@ -81,11 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
     totalCostDisplay.innerText = total;
 
     const discountDisplay = document.getElementById("discount-cost");
-    const discountValue = Number(discountDisplay.innerHTML);
 
     let finalTotal = total;
 
     if (discountDisplay) {
+      const discountValue = Number(discountDisplay.innerHTML);
       finalTotal = Math.max(total - discountValue, 0);
     }
 
