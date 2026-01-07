@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 function isExistingGuest(
-    string $name,
-    array $guests
+    PDO $database,
+    string $name
 ): bool {
-    foreach ($guests as $guest) {
-        if ($name === $guest['name']) {
-            return true;
-        }
-    }
-    return false;
-};
+    $query = $database->prepare(
+        'SELECT 1 FROM guests WHERE name = :name LIMIT 1'
+    );
+    $query->execute([':name' => $name]);
+
+    return (bool) $query->fetchColumn();
+}
 
 function getGuestId(
     string $name,
@@ -33,7 +33,7 @@ function getOrAddGuest(
     array $guests
 ): int {
     // Check if guest already exists
-    if (isExistingGuest($name, $guests)) {
+    if (isExistingGuest($database, $name)) {
         return $guestId = getGuestId($name, $guests);
     } else {
         $addGuestQuery = $database->prepare('INSERT INTO guests (name) VALUES (:name)');
