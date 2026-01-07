@@ -13,8 +13,6 @@ unset($_SESSION['errors']);
 // Room id to display content -> calendar + room info
 $roomId = (int) $_GET['room_id'];
 
-// Get offer_id if available
-
 $query = $database->prepare('SELECT * FROM rooms WHERE id = :roomId');
 $query->execute([':roomId' => $roomId,]);
 $room = $query->fetch(PDO::FETCH_ASSOC);
@@ -38,17 +36,23 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
         <section class="booking-section">
+            <aside class="calendar-container">
+                <?php require __DIR__ . '/components/calendar.php'; ?>
+                <h2>
+                    Discount
+                </h2>
+                <p>Returning guests receive a $2 discount! Make sure to book using your name.</p>
+            </aside>
 
-            <?php require __DIR__ . '/components/calendar.php'; ?>
             <!-- Room information -->
             <article class="booking-container">
                 <header class="booking-header">
                     <figure>
                         <img class="booking-img" src="../assets/images/<?php echo $room['room_image']; ?>">
                     </figure>
-                    <h1>
+                    <h2>
                         <?php echo $room['tier'] ?> room
-                    </h1>
+                    </h2>
                     <span>
                         Cost per night: $<span id="price-per-night" data-price="<?php echo $room['price_per_night']; ?>"><?php echo $room['price_per_night']; ?></span>
                     </span>
@@ -62,20 +66,9 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <!-- Display errors -->
-                    <?php if (!empty($errors)) { ?>
-                        <div id="error_msgs">
-                            <?php foreach ($errors as $error) : ?>
-                                <div class="msg-card error-s">
-                                    <p>
-                                        <span class="material-symbols-outlined">
-                                            error
-                                        </span><?php echo $error; ?>
-                                    </p>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php } ?>
+                    <?php require __DIR__ . '/components/form/messages.php'; ?>
 
+                    <!-- Display booking form -->
                     <?php require __DIR__ . '/components/booking-form.php'; ?>
 
                 </div>

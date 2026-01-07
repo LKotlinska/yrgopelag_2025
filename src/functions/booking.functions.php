@@ -250,6 +250,13 @@ function handleBooking(
         $discount = (int) $offer['discount_value'];
     }
 
+    // Hardcoded discount- yep, bad but got other stuff to fix rn
+    $guestDiscount = 2;
+
+    if (isExistingGuest($database, $name)) {
+        $discount += $guestDiscount;
+    }
+
     $totalCost = applyDiscount($baseTotal, $discount);
 
     // Get guest id for database
