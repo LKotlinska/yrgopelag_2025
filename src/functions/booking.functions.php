@@ -2,76 +2,7 @@
 
 declare(strict_types=1);
 
-function getContent(string $url, string $payload)
-{
-    $headers = [
-        'Content-Type: application/json',
-        'Accept: application/json',
-    ];
-
-    $protocols = [
-        // Works on localhost
-        CURL_HTTP_VERSION_2TLS,
-        // Fallback (fix for deployment)
-        CURL_HTTP_VERSION_1_1,
-    ];
-
-    foreach ($protocols as $version) {
-        $ch = curl_init($url);
-
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => $payload,
-            CURLOPT_HTTPHEADER     => $headers,
-            CURLOPT_HTTP_VERSION   => $version,
-            CURLOPT_TIMEOUT        => 10,
-            CURLOPT_CONNECTTIMEOUT => 5,
-        ]);
-
-        file_put_contents(
-            __DIR__ . '/payload-log.txt',
-            date('c') . "\n" . $payload . "\n\n",
-            FILE_APPEND
-        );
-
-        $data     = curl_exec($ch);
-        $errno    = curl_errno($ch);
-        $error    = curl_error($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        unset($ch);
-
-        // Log all non-200 responses INCLUDING BODY
-        if ($data === false || $httpCode !== 200) {
-            file_put_contents(
-                __DIR__ . '/curl-error-log.txt',
-                sprintf(
-                    "[%s]\nProtocol: %s\nHTTP: %d\ncURL errno: %d\ncURL error: %s\nResponse body:\n%s\n\n",
-                    date('c'),
-                    $version === CURL_HTTP_VERSION_2TLS ? 'HTTP/2' : 'HTTP/1.1',
-                    $httpCode,
-                    $errno,
-                    $error ?: '(none)',
-                    $data !== false ? $data : '(no body)'
-                ),
-                FILE_APPEND
-            );
-        }
-
-        // Success path
-        if ($data !== false && $httpCode === 200) {
-            return $data;
-        }
-
-        // IMPORTANT: do NOT retry on business errors
-        if ($httpCode >= 400 || $httpCode < 500) {
-            return $data !== false ? $data : 'An unknown error has occurred';
-        }
-    }
-
-    return 'No HTTP protocols defined for your request';
-}
+require __DIR__ . '/get.content.php';
 
 function getBookedRooms(
     array $bookings,
@@ -101,18 +32,18 @@ function isRoomAvailable(
 
 function validateTransferCode(
     string $transferCode,
-    int $totalPrice
+    float $totalPrice
 ): array {
     $url = 'https://www.yrgopelag.se/centralbank/transferCode';
     $payload = json_encode([
         'transferCode' => $transferCode,
-        'baseTotal' => $totalPrice,
+        'totalCost' => $totalPrice,
     ]);
 
     $response = getContent($url, $payload);
 
-    // file_put_contents('transfercode-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
-    // file_put_contents('transfercode-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
+    file_put_contents('transfercode-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
+    file_put_contents('transfercode-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
 
     $data = json_decode($response, true);
 
@@ -144,8 +75,8 @@ function sendReceipt(
 
     $response = getContent($url, $payload);
 
-    // file_put_contents('receipt-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
-    // file_put_contents('receipt-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
+    file_put_contents('receipt-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
+    file_put_contents('receipt-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
 
     $data = json_decode($response, true);
 
@@ -170,8 +101,8 @@ function consumeTransferCode(
 
     $response = getContent($url, $payload);
 
-    // file_put_contents('deposit-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
-    // file_put_contents('deposit-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
+    file_put_contents('deposit-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
+    file_put_contents('deposit-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
 
     $data = json_decode($response, true);
 
@@ -185,7 +116,7 @@ function consumeTransferCode(
 function requestWithdraw(
     string $name,
     string $guestKey,
-    int $amount
+    float $amount
 ): array {
     $url = 'https://www.yrgopelag.se/centralbank/withdraw';
     $payload = json_encode([
@@ -196,8 +127,8 @@ function requestWithdraw(
 
     $response = getContent($url, $payload);
 
-    // file_put_contents('withdraw-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
-    // file_put_contents('withdraw-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
+    file_put_contents('withdraw-logs.txt', date("H:i:s") . ' ' . microtime(), FILE_APPEND);
+    file_put_contents('withdraw-logs.txt', 'Response: ' . $response . "\n", FILE_APPEND);
 
     $data = json_decode($response, true);
 
@@ -233,8 +164,8 @@ function handleBooking(
     $selectedFeatures = getFeatureNameById($selectedFeatureIds, $featuresInfo);
 
     // Calculate cost of booking
-    $roomPrice = (int) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
-    $featurePrice = (int) calcFeaturePrice($selectedFeatureIds, $featuresInfo);
+    $roomPrice = (float) calcRoomPrice($rooms, $roomId, $arrDate, $depDate);
+    $featurePrice = (float) calcFeaturePrice($selectedFeatureIds, $featuresInfo);
     $baseTotal = calcTotalCost($featurePrice, $roomPrice);
 
     // Handle discount for offers
@@ -247,7 +178,7 @@ function handleBooking(
         );
         $query->execute([':offer_id' => $offerId]);
         $offer = $query->fetch(PDO::FETCH_ASSOC);
-        $discount = (int) $offer['discount_value'];
+        $discount = (float) $offer['discount_value'];
     }
 
     // Hardcoded discount- yep, bad but got other stuff to fix rn
@@ -287,7 +218,7 @@ function handleBooking(
         );
 
         // ---- REQUEST WITHDRAW ----
-        $withdrawResponse = requestWithdraw($name, $guestKey, $baseTotal);
+        $withdrawResponse = requestWithdraw($name, $guestKey, $totalCost);
 
         if (
             isset($withdrawResponse['error']) ||
@@ -306,7 +237,7 @@ function handleBooking(
         $transferCode = (string) $withdrawResponse['transferCode'];
     }
 
-    // ---- TRANFERCODE ----
+    // ---- TRANSFERCODE ----
     if ($paymentMethod === 'transfer_code') {
         $transferCode = (string) $_POST['transfer_code'];
         if (empty($_POST['transfer_code'])) {
@@ -320,7 +251,7 @@ function handleBooking(
         }
 
         // ---- VALIDATE TRANSFERCODE ----
-        $validationResponse = validateTransferCode($transferCode, $baseTotal);
+        $validationResponse = validateTransferCode($transferCode, $totalCost);
 
         if (
             !isset($validationResponse['status']) ||
@@ -378,7 +309,7 @@ function handleBooking(
 
         // ---- ADD BOOKING TO DATABASE ----
         $addBookingReceipt = $database->prepare(
-            'INSERT INTO booking_receipt 
+            'INSERT INTO booking_receipts 
                     (arrival_date, departure_date, room_id, guest_id, amount_paid, transfer_code)
                     VALUES (:arrival_date, :departure_date, :room_id, :guest_id, :amount_paid, :transfer_code)'
         );
