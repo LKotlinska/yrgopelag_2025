@@ -106,6 +106,18 @@ Given additional development time, the following improvements would be implement
 - **Discount handling**  
   Information about whether a guest is a returning customer could be stored as part of the booking or guest data. This would allow the receipt page to fetch and display applied discounts.
 
+- **Asset organization**  
+  Image assets could be organized into purpose-based sub-directories (for example `/images/rooms/`, `/images/features/`, and `/images/ui/`) to improve clarity and simplify maintenance as the number of assets increases.
+
+- **Admin panel structure**  
+  The admin panel could be improved by allowing full-form submission instead of updating one row at a time. On submission, the backend would update only the fields that contain input, so that multiple changes to be applied in a single request.
+
+- **Admin component reuse**  
+  Creating reusable components for the admin interface (for example: form rows, input groups, and action buttons) would improve readability and reduce duplication across admin views.
+
+- **Admin backend separation**  
+  Backend logic related to administrative actions could be further separated into dedicated functions or modules. This would improve maintainability and make the admin functionality easier to extend or modify independently from the public-facing application.
+
 ---
 
 ## Additional Information
@@ -116,7 +128,7 @@ This project was developed for educational purposes.
 
 ## Author
 
-Laura  
-Web development student
+Laura Greta Kotlinska
+Web development student at Yrgo
 
 ---
