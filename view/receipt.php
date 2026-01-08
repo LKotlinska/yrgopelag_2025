@@ -18,13 +18,13 @@ if (!isset($_SESSION['booking_id'])) {
 $bookingId = $_SESSION['booking_id'];
 
 $query = $database->prepare(
-    'SELECT guests.name, rooms.tier, booking_receipt.arrival_date, booking_receipt.departure_date, booking_receipt.amount_paid
-    FROM booking_receipt 
+    'SELECT guests.name, rooms.tier, booking_receipts.arrival_date, booking_receipts.departure_date, booking_receipts.amount_paid
+    FROM booking_receipts 
     JOIN rooms 
-    ON rooms.id = booking_receipt.room_id
+    ON rooms.id = booking_receipts.room_id
     JOIN guests
-    ON guests.id = booking_receipt.guest_id
-    WHERE booking_receipt.id = :id'
+    ON guests.id = booking_receipts.guest_id
+    WHERE booking_receipts.id = :id'
 );
 
 $query->execute([
@@ -37,18 +37,18 @@ $guestName = $booking['name'];
 $query = $database->prepare(
     'SELECT features.name 
     FROM features 
-    JOIN feature_bookings 
-    ON feature_bookings.feature_id = features.id 
-    WHERE feature_bookings.booking_id = :bookingId'
+    JOIN booking_features
+    ON booking_features.feature_id = features.id 
+    WHERE booking_features.booking_id = :bookingId'
 );
-$bookingId = 9;
+
 $query->execute([
     ':bookingId' => $bookingId
 ]);
+$features = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $isReturnCustomer = isExistingGuest($database, $guestName);
 
-$features = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <?php require __DIR__ . '/metadata/head.php'; ?>
@@ -108,13 +108,17 @@ $features = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <?php endforeach; ?>
                             </td>
                         </tr>
+                    </tbody>
+                </table>
+                <table class="receipt-table price-table">
+                    <tbody>
                         <?php if ($isReturnCustomer) { ?>
                             <tr>
                                 <th class="f-weight">
-                                    Discount:
+                                    Loyalty discount:
                                 </th>
                                 <td>
-                                    $2
+                                    - $2
                                 </td>
                             </tr>
                         <?php } ?>

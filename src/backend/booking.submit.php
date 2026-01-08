@@ -22,7 +22,7 @@ $hotelInfo = $hotelInfo[0];
 $query = $database->query('SELECT * FROM features');
 $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
-$query = $database->query('SELECT room_id, arrival_date, departure_date FROM booking_receipt');
+$query = $database->query('SELECT room_id, arrival_date, departure_date FROM booking_receipts');
 $bookings = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $query = $database->query('SELECT * FROM guests');

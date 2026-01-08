@@ -7,7 +7,7 @@ function calcRoomPrice(
     int $roomId,
     string $arrDate,
     string $depDate
-): int {
+): float {
     $roomPrice = $rooms[$roomId - 1]['price_per_night'];
 
     list($arrYear, $arrMonth, $arrDay) = explode("-", $arrDate);
@@ -22,7 +22,7 @@ function calcRoomPrice(
 function calcFeaturePrice(
     array $selectedFeatureIds,
     array $featuresInfo
-): int {
+): float {
     $total = 0;
     foreach ($featuresInfo as $feature) {
         if (in_array($feature['id'], $selectedFeatureIds, true)) {
@@ -33,17 +33,17 @@ function calcFeaturePrice(
 }
 
 function calcTotalCost(
-    int $featureCost,
-    int $roomCost
-): int {
+    float $featureCost,
+    float $roomCost
+): float {
     $total = $featureCost + $roomCost;
     return $total;
 }
 
 function applyDiscount(
-    int $totalCost,
-    int $discount
-): int {
+    float $totalCost,
+    float $discount
+): float {
     $newCost = $totalCost - $discount;
     return $newCost;
 }

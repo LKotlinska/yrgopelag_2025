@@ -17,7 +17,7 @@ require __DIR__ . '/vendor/autoload.php';
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="./src/styles/style.css">
-    <title>Terracota Bay Hotel</title>
+    <title>Terracotta Bay Hotel</title>
 </head>
 
 <body>

@@ -11,7 +11,10 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
     <div class="r-container">
         <?php foreach ($rooms as $room) : ?>
             <a class="r-item" href="./view/booking.php?room_id=<?php echo $room['id']; ?>">
-                <h3><?php echo $room['tier']; ?></h3>
+                <div class="r-item-header">
+                    <h3><?php echo $room['tier']; ?></h3>
+                    <p> From $<?php echo $room['price_per_night'] ?></p>
+                </div>
                 <img
                     class="anchor-img"
                     src="./assets/images/<?php echo $room['preview_image']; ?>"

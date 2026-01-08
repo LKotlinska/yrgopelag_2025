@@ -26,6 +26,12 @@ if (!empty($offers)) {
                                 </span>
                                 <?php echo $offer['included_desc']; ?>
                             </p>
+                            <p class="include-item">
+                                <span class="material-symbols-outlined">
+                                    check
+                                </span>
+                                Discount - $<?php echo $offer['discount_value']; ?>
+                            </p>
                         </div>
                         <a class="a-link" href="./view/booking.php?room_id=<?php echo $offer['included_room']; ?>&offer_id=<?php echo $offer['id']; ?>">
                             Explore this package</span>

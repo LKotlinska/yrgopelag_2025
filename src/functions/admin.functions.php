@@ -32,6 +32,9 @@ function handleLogin(
     }
 }
 
+// Using different fetch here because getContent() fails.
+// Quick work-around.
+
 function getOwnedFeatures(
     array $hotelInfo,
     string $apiKey
