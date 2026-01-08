@@ -20,6 +20,7 @@ if (isset($offerId)) { ?>
             <div class="feature-card">
                 <span class="category-name">
                     <?php echo $category === 'hotel-specific' ? 'spa' : $category; ?>
+                    <span class="field-req-tip">(optional)</span>
                 </span>
                 <?php
                 foreach ($features as $feature) {

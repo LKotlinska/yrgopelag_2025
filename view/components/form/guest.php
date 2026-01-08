@@ -2,7 +2,9 @@
 <div class="form-section">
     <div class="guest-info">
         <label for="name">
-            Enter your name:
+            Enter your name
+            <span class="field-req">*</span>
+            <span class="field-req-tip">(required)</span>
         </label>
         <input type="text"
             id="name"

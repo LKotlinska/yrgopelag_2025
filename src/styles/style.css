@@ -7,7 +7,7 @@
   --cta-color: #000000;
   --font-color: #252525;
   --light-grey-color: #a09795;
-
+  --medium-grey-color: #4d4948;
   --status-booked: #952e2e;
   --status-available: #a1ab92;
 
@@ -178,7 +178,7 @@ nav {
 }
 /* ---- LOGO ---- */
 .site-logo,
-.r-item h3,
+.r-item-header,
 main,
 footer,
 nav,
@@ -225,9 +225,8 @@ nav,
 }
 
 .event-img {
-  width: 80%;
+  width: 60%;
   object-fit: contain;
-  border-radius: 50%;
 }
 
 #main-r-section h2 {
@@ -242,6 +241,12 @@ nav,
   grid-template-columns: 1fr 1fr 1fr;
   gap: var(--space-2xl);
 }
+.r-item-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--accent-color);
+  align-items: center;
+}
 .r-item {
   aspect-ratio: 45 / 75;
   position: relative;
@@ -249,9 +254,14 @@ nav,
 }
 .r-item h3 {
   font-size: var(--fs-large);
-  color: var(--light-color);
+}
+.r-item-header p {
+  margin: 0;
+}
+.r-item p,
+.r-item h3 {
   padding: var(--space-sm);
-  background-color: var(--accent-color);
+  color: var(--light-color);
 }
 .r-item img {
   height: 100%;
@@ -319,8 +329,9 @@ nav,
   display: flex;
   flex-direction: column;
 }
-.booking-header h1 {
+.booking-header h2 {
   margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
 }
 .booking-desc {
   margin-bottom: var(--space-xl);
@@ -409,9 +420,15 @@ nav,
 .guest-info {
   margin-bottom: var(--space-sm);
 }
-/* .guest-info:last-of-type {
-  margin-bottom: 0;
-} */
+.field-req {
+  font-weight: 900;
+  color: red;
+}
+.field-req-tip {
+  text-transform: lowercase;
+  font-size: var(--fs-small);
+  color: var(--medium-grey-color);
+}
 .form-section {
   padding: var(--space-md);
   margin-bottom: var(--space-lg);
@@ -421,15 +438,15 @@ nav,
   margin-top: var(--space-lg);
 }
 /* ---- FORM INPUTS ----*/
-input[type="date"],
-input[type="text"] {
+#booking-form input[type="date"],
+#booking-form input[type="text"] {
   height: var(--space-xl);
   width: 100%;
   padding: 0 var(--space-sm);
   border: 1px solid var(--cta-color);
   border-radius: var(--space-sm);
 }
-input[type="checkbox"] {
+#booking-form input[type="checkbox"] {
   accent-color: var(--accent-color);
 }
 .feature-items label {
@@ -492,8 +509,11 @@ input[type="checkbox"] {
 .receipt-li {
   list-style-type: none;
 }
-.receipt-table tbody tr:last-of-type {
+.price-table tbody tr:last-of-type {
   border-top: 1pt solid var(--light-grey-color);
+}
+.price-table {
+  text-align: right;
 }
 /* ---- FOTTER ---- */
 footer {

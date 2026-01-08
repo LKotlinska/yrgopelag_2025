@@ -4,6 +4,8 @@
             <div class="date-item">
                 <label for="arrival_date">
                     Arrival
+                    <span class="field-req">*</span>
+                    <span class="field-req-tip">(required)</span>
                 </label>
                 <input
                     type="date"
@@ -18,6 +20,8 @@
             <div class="date-item">
                 <label for="departure_date">
                     Departure
+                    <span class="field-req">*</span>
+                    <span class="field-req-tip">(required)</span>
                 </label>
                 <input
                     type="date"

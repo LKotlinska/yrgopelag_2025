@@ -24,7 +24,9 @@
     <!-- Input fields for payment -->
     <div class="guest-info" id="api-key-field">
         <label for="api_key">
-            Enter your API-Key:
+            Enter your API-Key
+            <span class="field-req">*</span>
+            <span class="field-req-tip">(required)</span>
         </label>
         <input type="text"
             id="api_key"
@@ -33,7 +35,10 @@
     </div>
 
     <div class="guest-info" id="transfer-code-field" style="display:none;">
-        <label for="transfer_code">Enter your TransferCode:</label>
+        <label for="transfer_code">
+            Enter your TransferCode
+            <span class="field-req">*</span>
+            <span class="field-req-tip">(required)</span></label>
         <input
             type="text"
             id="transfer_code"
