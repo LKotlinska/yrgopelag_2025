@@ -40,6 +40,7 @@
         </dl>
 
     </div>
+    <p class="copyright">© 2026 Laura Kotlinska. Released under the MIT License.</p>
 </footer>
 </body>
 

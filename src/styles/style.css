@@ -616,7 +616,7 @@ nav,
 footer {
   background-color: var(--accent-color);
   color: var(--light-color);
-  padding: var(--space-xl);
+  padding: var(--space-xl) var(--space-xl) 0.1em var(--space-xl);
   margin-top: var(--space-xl);
 }
 .footer-container {
@@ -634,6 +634,11 @@ footer {
 .footer-container dd,
 .footer-container p {
   margin: var(--space-sm);
+}
+.copyright {
+  text-align: center;
+  font-size: var(--fs-small);
+  margin-top: var(--space-xl);
 }
 address {
   font-style: normal;
