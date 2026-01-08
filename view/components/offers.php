@@ -29,6 +29,16 @@ if (!empty($offers)) {
                                 </span>
                                 <?php echo $offer['included_desc']; ?>
                             </p>
+                            <?php foreach ($rooms as $room) :
+                                if ($room['id'] === $offer['included_room']) { ?>
+                                    <p class="include-item">
+                                        <span class="material-symbols-outlined">
+                                            check
+                                        </span>
+                                        Applies to <?php echo $room['tier']; ?> room
+                                    </p>
+                            <?php }
+                            endforeach; ?>
                             <p class="include-item">
                                 <span class="material-symbols-outlined">
                                     check
