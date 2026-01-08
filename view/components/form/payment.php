@@ -3,11 +3,20 @@
     <div class="guest-info">
         <!-- Payment selection -->
         <label>
-            <input type="radio" name="payment_method" value="api_key" checked>
+            <input
+                type="radio"
+                name="payment_method"
+                value="api_key"
+                checked
+                <?php ($old['payment_method'] ?? 'api_key') === 'api_key' ? 'checked' : 'checked'; ?>>
             Pay with API-Key
         </label>
         <label>
-            <input type="radio" name="payment_method" value="transfer_code">
+            <input
+                type="radio"
+                name="payment_method"
+                value="transfer_code"
+                <?php ($old['payment_method'] ?? '') === 'transfer_code' ? 'checked' : ''; ?>>
             Pay with TransferCode
         </label>
     </div>

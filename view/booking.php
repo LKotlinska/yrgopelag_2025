@@ -8,7 +8,12 @@ require __DIR__ . '/../src/controllers/offers.php';
 
 // Handle errors after booking fails
 $errors = $_SESSION['errors'] ?? [];
+
+// Fill form with old data
+$old = $_SESSION['old'] ?? [];
+
 unset($_SESSION['errors']);
+unset($_SESSION['errors'], $_SESSION['old']);
 
 // Room id to display content -> calendar + room info
 $roomId = (int) $_GET['room_id'];

@@ -8,6 +8,7 @@
             id="name"
             name="name"
             placeholder="e.g. Rune"
-            required>
+            required
+            value="<?php echo $old['name'] ?? '' ?>">
     </div>
 </div>

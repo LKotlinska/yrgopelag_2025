@@ -4,6 +4,7 @@ require __DIR__ . '/../../../src/functions/feature.functions.php';
 require __DIR__ . '/../../../src/controllers/offers.php';
 
 $groupedFeatures = groupFeatures($featuresInfo);
+$oldFeatureIds = array_map('intval', $old['feature_ids'] ?? []);
 
 if (isset($offerId)) { ?>
     <h2>
@@ -20,9 +21,9 @@ if (isset($offerId)) { ?>
                 <span class="category-name">
                     <?php echo $category === 'hotel-specific' ? 'spa' : $category; ?>
                 </span>
-                <?php foreach ($features as $feature) {
+                <?php
+                foreach ($features as $feature) {
                     $isIncluded = false;
-
                     if (isset($offerSpecs)) {
                         foreach ($offerSpecs as $category => $spec) {
 
@@ -32,6 +33,11 @@ if (isset($offerId)) { ?>
                             }
                         }
                     }
+                    $isPreviouslySelected = in_array(
+                        (int) $feature['id'],
+                        $oldFeatureIds,
+                        true
+                    );
                 ?>
                     <div class="feature-items">
                         <input
@@ -40,9 +46,15 @@ if (isset($offerId)) { ?>
                             id="feature_<?php echo $feature['id']; ?>"
                             value="<?php echo $feature['id']; ?>"
                             data-price="<?php echo $feature['price']; ?>"
-                            <?php if ($isIncluded) {
+                            <?php
+                            // Check the input if offer is active
+                            if ($isIncluded) {
                                 echo 'checked disabled';
-                            } ?>>
+                                // Check the input if it was selected when error occured
+                            } elseif ($isPreviouslySelected) {
+                                echo 'checked';
+                            }
+                            ?> />
 
                         <?php if ($isIncluded) { ?>
                             <input

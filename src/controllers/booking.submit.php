@@ -61,6 +61,10 @@ if (isset(
 
     // When offer is booked, url must include offer_id to proparly redirect
     $_SESSION['errors'] = $result['errors'];
+
+    // Save all input data to load in case of errors
+    $_SESSION['old'] = $_POST;
+
     $roomId = $result['room_id'];
     $offerId = $result['offer_id'] ?? null;
 
