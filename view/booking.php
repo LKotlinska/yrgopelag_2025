@@ -4,7 +4,7 @@ session_start();
 
 require __DIR__ . '/../src/database/data.php';
 
-require __DIR__ . '/../src/backend/offers.php';
+require __DIR__ . '/../src/controllers/offers.php';
 
 // Handle errors after booking fails
 $errors = $_SESSION['errors'] ?? [];

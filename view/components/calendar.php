@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../../src/backend/calendar.php';
+<?php require __DIR__ . '/../../src/controllers/calendar.php';
 
 renderCalendar(
     $cells,

@@ -18,7 +18,7 @@ unset($_SESSION['errors']);
     } ?>
 
     <h2>Log in</h2>
-    <form method="POST" action="../src/backend/login.admin.php">
+    <form method="POST" action="../src/controllers/login.admin.php">
 
         <label for="username">
             Username

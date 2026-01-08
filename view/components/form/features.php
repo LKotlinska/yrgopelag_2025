@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../../../src/functions/feature.functions.php';
 
-require __DIR__ . '/../../../src/backend/offers.php';
+require __DIR__ . '/../../../src/controllers/offers.php';
 
 $groupedFeatures = groupFeatures($featuresInfo);
 

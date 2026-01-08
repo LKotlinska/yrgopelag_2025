@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../src/config/admin.config.php';
-require __DIR__ . '/../src/backend/admin.php';
+require __DIR__ . '/../src/controllers/admin.php';
 
 if (!isset($_SESSION['admin'])) {
     $_SESSION['errors'] = [
@@ -17,7 +17,7 @@ if (!isset($_SESSION['admin'])) {
 
 <body>
     <main>
-        <a href="../src/backend/logout.php">Logout</a>
+        <a href="../src/controllers/logout.php">Logout</a>
         <?php if (!empty($errors)) {
             require __DIR__ . '/components/form/messages.php';
         } ?>

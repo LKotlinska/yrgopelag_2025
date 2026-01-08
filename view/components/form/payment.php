@@ -38,7 +38,7 @@
     <div class="cost-display discount-display">
         <span>Discount: </span><span>- $<span id="discount-cost"><?php echo $offerDiscount; ?></span></span>
     </div>
-    <!-- Discount info for backend -->
+    <!-- Discount info for controllers -->
     <input
         type="hidden"
         id="offer_discount"
@@ -48,7 +48,7 @@
 <div class="cost-display">
     <span>Total: </span><span>$ <span id="total-cost"></span></span>
 </div>
-<!-- Room information for backend price handling-->
+<!-- Room information for controllers price handling-->
 <input
     type="hidden"
     id="room_id"

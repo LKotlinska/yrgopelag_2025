@@ -2,10 +2,10 @@
 require __DIR__ . '/../../src/database/data.php';
 
 if (isset($offerId) && !empty($offerId)) {
-    require __DIR__ . '/../../src/backend/offers.php';
+    require __DIR__ . '/../../src/controllers/offers.php';
 };
 ?>
-<form method="POST" id="booking-form" action="../src/backend/booking.submit.php">
+<form method="POST" id="booking-form" action="../src/controllers/booking.submit.php">
 
     <!-- Date selection -->
     <?php require __DIR__ . '/form/dates.php'; ?>
@@ -33,9 +33,9 @@ if (isset($offerId) && !empty($offerId)) {
             value="<?php echo $offerId; ?>">
     <?php } ?>
 
-    <?php if (isset($offerId)) : ?>
+    <?php if (isset($offerId)) { ?>
         <input type="hidden" name="offer_id" value="<?= $offerId ?>">
-    <?php endif; ?>
+    <?php } ?>
 
     <!-- Payment fields -->
     <?php require __DIR__ . '/form/payment.php'; ?>
