@@ -66,5 +66,6 @@
     id="room_id"
     name="room_id"
     value="<?php echo $room['id']; ?>">
-
-<button class="btn action-btn" type="submit">Book</button>
+<div class="form-btn-container">
+    <button class="hbtn hb-fill-middle-rev-bg a-link" type="submit">Book now</button>
+</div>

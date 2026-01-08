@@ -12,8 +12,11 @@ if (!empty($offers)) {
         <div class="event-container">
             <?php foreach ($offers as $index => $offer) : ?>
                 <article class="event-card">
-                    <div>
-                        <div class="event-content">
+
+                    <img class="event-img" src="./assets/images/<?php echo $offer['image']; ?>">
+
+                    <div class="event-content">
+                        <div>
                             <h3>
                                 <?php echo $offer['name']; ?>
                             </h3>
@@ -33,12 +36,12 @@ if (!empty($offers)) {
                                 Discount - $<?php echo $offer['discount_value']; ?>
                             </p>
                         </div>
-                        <a class="btn-effect material-bubble a-link" href="./view/booking.php?room_id=<?php echo $offer['included_room']; ?>&offer_id=<?php echo $offer['id']; ?>">
-                            Explore this package</span>
-                        </a>
-                    </div>
-                    <div class="event-item">
-                        <img class="event-img" src="./assets/images/<?php echo $offer['image']; ?>">
+                        <div class="btn-container event-btn-container">
+
+                            <a class="hbtn hb-fill-middle-rev-bg a-link" href="./view/booking.php?room_id=<?php echo $offer['included_room']; ?>&offer_id=<?php echo $offer['id']; ?>">
+                                Explore this package</span>
+                            </a>
+                        </div>
                     </div>
                 </article>
             <?php endforeach ?>
