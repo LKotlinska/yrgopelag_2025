@@ -40,7 +40,9 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
     <main>
-        <a class="btn btn-white " href="../index.php">Return to main page</a>
+        <div class="btn-container">
+            <a class="btn-effect material-bubble" href="../index.php">Return to main page</a>
+        </div>
         <section class="booking-section">
             <aside class="aside-container">
                 <div>
@@ -48,7 +50,8 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div>
                     <h2>Discount</h2>
-                    <p>Returning guests receive a $2 discount! Make sure to book using your name.</p>
+                    <p>Returning guests receive a $2 discount!</p>
+                    <p>Applies when booked using the same name.</p>
                 </div>
             </aside>
 
@@ -78,7 +81,10 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
                     <!-- Display booking form -->
                     <?php require __DIR__ . '/components/booking-form.php'; ?>
-
+                    <div class="form-tip">
+                        <span class="field-req">*</span>
+                        Field is required
+                    </div>
                 </div>
             </article>
         </section>

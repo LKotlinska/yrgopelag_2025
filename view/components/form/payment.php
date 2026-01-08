@@ -26,7 +26,6 @@
         <label for="api_key">
             Enter your API-Key
             <span class="field-req">*</span>
-            <span class="field-req-tip">(required)</span>
         </label>
         <input type="text"
             id="api_key"
@@ -38,12 +37,11 @@
         <label for="transfer_code">
             Enter your TransferCode
             <span class="field-req">*</span>
-            <span class="field-req-tip">(required)</span></label>
-        <input
-            type="text"
-            id="transfer_code"
-            name="transfer_code"
-            placeholder="uuid-transfer-code">
+            <input
+                type="text"
+                id="transfer_code"
+                name="transfer_code"
+                placeholder="uuid-transfer-code">
     </div>
 </div>
 
