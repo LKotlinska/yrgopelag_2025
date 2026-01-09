@@ -40,7 +40,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=star" />
         <!-- Favicon -->
-        <link rel="icon" type="image/png" href="assets/tbh-favicon.png">
+        <link rel="icon" type="image/png" href="../assets/tbh-favicon.png">
 
         <!-- Styles -->
         <link rel="stylesheet" href="../src/styles/style.css">
