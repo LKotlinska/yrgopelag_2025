@@ -85,17 +85,6 @@ No external frameworks are used.
 
 ---
 
-## Further Development
-
-Possible areas for further work include:
-
-- Additional validation rules
-- Improved accessibility
-- Expanded booking management
-- Code refactoring for scalability
-
----
-
 ## Future Improvements
 
 Given additional development time, the following improvements would be implemented:
