@@ -55,7 +55,10 @@ $isReturnCustomer = isExistingGuest($database, $guestName);
 
 <body>
 
-    <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
+    <img
+        class="sub-bg"
+        src="../assets/images/terracotta-hotel.png"
+        alt="Background image of Terracotta Bay Hotel">
     <main>
         <div class="msg-card booking-c">
             <p>

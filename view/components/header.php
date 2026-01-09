@@ -6,7 +6,7 @@ $stars = (int) $query->fetchColumn();
 ?>
 <header class="main-h">
 
-    <img class="header-overlay" src="./assets/images/terracotta-hotel.png" alt="" />
+    <img class="header-overlay" src="./assets/images/terracotta-hotel.png" alt="Hero image of hotel Terracotta Bay" />
 
     <?php require __DIR__ . '/navigation.php'; ?>
     <div class="header-container">

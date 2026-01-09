@@ -18,7 +18,7 @@ $rooms = $query->fetchAll(PDO::FETCH_ASSOC);
                 <img
                     class="anchor-img"
                     src="./assets/images/<?php echo $room['preview_image']; ?>"
-                    alt="Room image">
+                    alt="Image of <?php echo $room['tier']; ?> room">
             </a>
         <?php endforeach; ?>
     </div>

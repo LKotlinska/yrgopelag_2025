@@ -38,7 +38,7 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 <script src="../src/scripts/booking.js"></script>
 
 <body>
-    <img class="sub-bg" src="../assets/images/terracotta-hotel.png">
+    <img class="sub-bg" src="../assets/images/terracotta-hotel.png" alt="Background image of Terracotta Bay Hotel">
     <main>
         <a class="hbtn hb-fill-middle-rev-bg" href="../index.php">Return to main page</a>
         <section class="booking-section">
@@ -57,8 +57,14 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
             <article class="booking-container">
                 <header class="booking-header">
                     <figure class="image-stack">
-                        <img class="booking-img" src="../assets/images/<?php echo $room['room_image']; ?>">
-                        <img class="booking-img" src="../assets/images/<?php echo $room['bathroom_image']; ?>">
+                        <img
+                            class="booking-img"
+                            src="../assets/images/<?php echo $room['room_image']; ?>"
+                            alt="Image of <?php echo $room['tier']; ?> room">
+                        <img
+                            class="booking-img"
+                            src="../assets/images/<?php echo $room['bathroom_image']; ?>"
+                            alt="Bathroom image of <?php echo $room['tier']; ?> room">
                     </figure>
                     <h2>
                         <?php echo $room['tier'] ?> room

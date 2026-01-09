@@ -13,7 +13,10 @@ if (!empty($offers)) {
             <?php foreach ($offers as $index => $offer) : ?>
                 <article class="event-card">
 
-                    <img class="event-img" src="./assets/images/<?php echo $offer['image']; ?>">
+                    <img
+                        class="event-img"
+                        src="./assets/images/<?php echo $offer['image']; ?>"
+                        alt="Preview image of <?php echo $offer['name']; ?> offer">
 
                     <div class="event-content">
                         <div>
