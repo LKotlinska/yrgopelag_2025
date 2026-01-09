@@ -5,14 +5,14 @@
     <div class="footer-container">
         <address>
             <div>
-                <h4>
+                <h3>
                     Address
-                </h4>
+                </h3>
                 <p>Hotel Bay 22,</p>
                 <p>44-222 Sulani</p>
             </div>
             <div>
-                <h4>Contact</h4>
+                <h3>Contact</h3>
                 <p>-00 22 656 74 85</p>
                 <p>terracottabay@hotel.ii</p>
             </div>
