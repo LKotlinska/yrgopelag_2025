@@ -1,0 +1,153 @@
+.form-btn-container {
+  margin: var(--space-s) var(--space-2xl);
+  text-align: var(--text-right);
+}
+
+.form-btn-container .a-link {
+  font-size: var(--fs-base);
+  padding: var(--space-m) var(--space-xl);
+}
+
+#booking-form {
+  display: var(--d-flex);
+  flex-direction: var(--flex-column);
+}
+
+.date-select {
+  display: var(--d-flex);
+  gap: var(--space-xl);
+}
+
+.cost-display {
+  text-align: end;
+  font-size: var(--fs-medium);
+  margin: var(--space-m) 0;
+  font-family: var(--font-heading);
+  font-optical-sizing: auto;
+  font-weight: var(--fw-semibold);
+  font-style: normal;
+  text-transform: var(--text-uppercase);
+}
+
+.cost-display span:first-child {
+  margin-right: var(--space-xl);
+}
+
+.discount-display {
+  color: var(--error-color);
+}
+
+.feature-container {
+  display: var(--d-grid);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: var(--space-xl);
+}
+
+.category-name {
+  font-size: var(--fs-base);
+}
+
+.feature-name {
+  /* For capitalizing first letter */
+  display: var(--d-in-block);
+}
+
+.feature-items {
+  display: var(--d-flex);
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--light-grey-color);
+  gap: 0.35em;
+}
+
+.feature-items:last-child {
+  border-bottom: none;
+}
+
+.feature-price {
+  margin-right: 0.2em;
+}
+
+.guest-info {
+  margin-bottom: var(--space-s);
+  display: var(--d-flex);
+  flex-direction: var(--flex-column);
+  gap: var(--space-s);
+  width: 100%;
+}
+.payment-info {
+  margin-bottom: var(--space-s);
+  display: var(--d-flex);
+  flex-direction: var(--flex-column);
+  width: 100%;
+}
+.payment-info input {
+  margin-top: var(--space-s);
+}
+.field-req {
+  font-weight: var(--fw-bold);
+  color: red;
+}
+
+.field-req-tip {
+  text-transform: lowercase;
+  font-size: var(--fs-small);
+  color: var(--medium-grey-color);
+}
+
+.form-tip {
+  font-size: var(--fs-medium);
+}
+
+.form-section {
+  padding: var(--space-m);
+  margin-bottom: var(--space-l);
+}
+
+/* ---- FORM INPUTS ----*/
+#booking-form input[type="date"],
+#booking-form input[type="text"] {
+  height: var(--space-xl);
+  width: 100%;
+  padding: 0 var(--space-s);
+  border: 1px solid var(--cta-color);
+  border-radius: var(--space-s);
+}
+#booking-form input[type="checkbox"] {
+  accent-color: var(--accent-color);
+}
+.feature-items label {
+  display: var(--d-flex);
+  width: 100%;
+  justify-content: var(--flex-space-btwn);
+}
+.available {
+  background-color: var(--status-available);
+}
+.booked {
+  background-color: var(--status-booked);
+}
+.tip-items {
+  display: var(--d-flex);
+  align-items: var(--text-center);
+  gap: var(--space-s);
+  margin: var(--space-s) 0;
+}
+.tip-item {
+  width: var(--space-m);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--space-xs);
+  display: var(--d-in-block);
+}
+
+.date-item {
+  gap: var(--space-s);
+  width: 100%;
+  display: var(--d-flex);
+  flex-direction: var(--flex-column);
+}
+
+#api-key-field,
+#transfer-code-field {
+  margin-top: var(--space-l);
+}

@@ -1,0 +1,23 @@
+#calendar {
+  width: 100%;
+  margin-top: var(--space-l);
+  aspect-ratio: 7/5.5;
+}
+#calendar th {
+  width: calc(100% / 7);
+  min-width: 2.2em;
+  max-width: 3em;
+}
+#calendar td {
+  width: calc(100% / 7);
+  min-width: 2.2em;
+  max-width: 3em;
+}
+#calendar td {
+  border-radius: 0.25em;
+  vertical-align: top;
+}
+#calendar td.day {
+  padding: 0.3em;
+  font-size: var(--fs-small);
+}

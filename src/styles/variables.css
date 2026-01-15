@@ -1,0 +1,83 @@
+:root {
+  /* General colors */
+  --primary-color: #f3eae1;
+  --accent-color: #683527;
+  --secondary-color: #e3d7c7;
+  --light-color: #ffffff;
+  --cta-color: #000000;
+  --font-color: #252525;
+  --light-grey-color: #a09795;
+  --medium-grey-color: #4d4948;
+
+  /* Msgs */
+  --status-booked: #952e2e;
+  --status-available: #a1ab92;
+
+  --error-bg: rgba(149, 46, 46, 0.25);
+  --error-color: #952e2e;
+
+  --success-bg: #c2d4b5;
+  --success-color: #2e6e2a;
+
+  /* Fonts */
+  --font-body: "DM Sans", sans-serif;
+  --font-heading: "Fraunces", serif;
+
+  /* Font sizing */
+  --fs-small: 0.9em;
+  --fs-base: 1em;
+  --fs-medium: 1.2em;
+  --fs-large: 1.4em;
+  --fs-xl: 1.7em;
+  --fs-2xl: 2em;
+
+  /* Font weight */
+  --fw-regular: 400;
+  --fw-medium: 600;
+  --fw-semibold: 800;
+  --fw-bold: 900;
+
+  /* Text effects */
+  --text-capitalize: capitalize;
+  --text-uppercase: uppercase;
+  --text-right: right;
+  --text-center: center;
+
+  /* Layer settings */
+  --index-bg: 0;
+  --index-fg: 10;
+  --index-neg: -1;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-xs: 0.25em;
+  --space-s: 0.5em;
+  --space-m: 1em;
+  --space-l: 1.5em;
+  --space-xl: 2em;
+  --space-2xl: 2.5em;
+  --space-5xl: 5em;
+
+  /* Positions */
+  --p-relative: relative;
+  --p-absolute: absolute;
+
+  /* Display styles */
+  --d-block: block;
+  --d-in-block: inline-block;
+  --d-grid: grid;
+  --d-flex: flex;
+
+  /* Flex position */
+  --flex-space-btwn: space-between;
+
+  /* Flex direction */
+  --flex-row: row;
+  --flex-column: column;
+
+  /* Image settings */
+  --img-cover: cover;
+
+  /* Height and width settings */
+  --max-lengh: max-content;
+}

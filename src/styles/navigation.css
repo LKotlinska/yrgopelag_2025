@@ -1,0 +1,22 @@
+nav {
+  display: var(--d-block);
+  width: 100%;
+  position: var(--p-relative);
+  z-index: var(--index-fg);
+}
+
+.receipt-container .nav-list {
+  margin-top: var(--space-xl);
+}
+
+.nav-list {
+  display: var(--d-flex);
+  justify-content: var(--flex-space-btwn);
+}
+
+.nav-item {
+  background-color: var(--light-color);
+  color: var(--font-color);
+  text-decoration: none;
+  font-size: var(--fs-small);
+}

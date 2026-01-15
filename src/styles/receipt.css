@@ -1,0 +1,65 @@
+.receipt-container {
+  padding: var(--space-2xl);
+  background-color: var(--primary-color);
+  height: var(--max-lengh);
+}
+
+.receipt-container .nav-list a {
+  margin: 0 auto;
+}
+
+.receipt-container .nav-list {
+  margin-top: var(--space-xl);
+}
+
+.sub-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--img-cover);
+  position: fixed;
+  top: 0;
+}
+
+.receipt-container,
+.booking-c {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.booking-c {
+  color: var(--success-color);
+  background-color: var(--success-bg);
+  border: 1px solid var(--success-color);
+  margin: var(--space-xl) auto;
+}
+
+.f-weight {
+  font-weight: var(--fw-semibold);
+}
+
+.receipt-table {
+  margin: var(--space-m) 0;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.receipt-table tbody {
+  vertical-align: top;
+}
+
+.receipt-table th,
+.receipt-table td {
+  padding: var(--space-xs);
+}
+
+.receipt-li {
+  list-style-type: none;
+}
+
+.price-table tbody tr:last-of-type {
+  border-top: 1pt solid var(--light-grey-color);
+}
+
+.price-table {
+  text-align: var(--text-right);
+}
