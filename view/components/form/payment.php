@@ -1,6 +1,6 @@
 <h2>Payment</h2>
 <div class="form-section">
-    <div class="guest-info">
+    <div class="payment-info">
         <!-- Payment selection -->
         <label>
             <input
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Input fields for payment -->
-    <div class="guest-info" id="api-key-field">
+    <div class="payment-info" id="api-key-field">
         <label for="api_key">
             Enter your API-Key
             <span class="field-req">*</span>
@@ -33,7 +33,7 @@
             placeholder="uuid-string">
     </div>
 
-    <div class="guest-info" id="transfer-code-field" style="display:none;">
+    <div class="payment-info" id="transfer-code-field" style="display:none;">
         <label for="transfer_code">
             Enter your TransferCode
             <span class="field-req">*</span>

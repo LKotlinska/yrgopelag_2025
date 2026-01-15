@@ -30,9 +30,6 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
 <?php require __DIR__ . '/metadata/head.php'; ?>
 
 <script src="../src/scripts/booking.js"></script>
