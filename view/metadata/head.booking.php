@@ -10,21 +10,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO -->
-    <title>Terracotta Bay Hotel</title>
+    <title>Terracotta Bay Spa & Hotel</title>
     <meta name="description"
-        content="Terracotta Bay Hotel offers a warm coastal stay with curated experiences, premium rooms, and island adventures in the Yrgopelag archipelago.">
+        content="Terracotta Bay Spa & Hotel offers a warm coastal stay with curated experiences, premium rooms, and island adventures in the Yrgopelag archipelago.">
     <meta name="keywords"
-        content="Terracotta Bay Hotel, island hotel, coastal retreat, luxury stay, Yrgopelag">
-    <meta name="author" content="Terracotta Bay Hotel">
+        content="Terracotta Bay Spa & Hotel, island hotel, coastal retreat, luxury stay, Yrgopelag">
+    <meta name="author" content="Terracotta Bay Spa & Hotel">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Terracotta Bay Hotel">
+    <meta property="og:title" content="Terracotta Bay Spa & Hotel">
     <meta property="og:description"
-        content="A refined island escape where warm stone meets the sea. Discover curated experiences at Terracotta Bay Hotel.">
-    <meta property="og:image" content="assets/images/terracotta-hotel-og.jpg">
-    <meta property="og:url" content="https://your-domain.example/yrgopelag">
+        content="Escape to an island where warm stone meets the sea. Discover curated experiences at Terracotta Bay Spa & Hotel.">
+    <meta property="og:image" content="./assets/images/terracotta-hotel.png">
+    <meta property="og:url" content="https://lkotlinska.se/yrgopelag">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=star" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../assets/tbh-favicon.png">
+    <link rel="icon" type="image/png" href="../assets/images/tbh-favicon.png">
 
     <!-- Styles -->
     <link rel="stylesheet" href="../src/styles/variables.css">

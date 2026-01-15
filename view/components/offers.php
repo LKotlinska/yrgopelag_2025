@@ -15,7 +15,7 @@ if (!empty($offers)) {
 
                     <img
                         class="event-img"
-                        src="./assets/images/<?php echo $offer['image']; ?>"
+                        src="./assets/images/events/<?php echo $offer['image']; ?>"
                         alt="Preview image of <?php echo $offer['name']; ?> offer">
 
                     <div class="event-content">

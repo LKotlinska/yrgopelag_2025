@@ -30,12 +30,12 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<?php require __DIR__ . '/metadata/head.php'; ?>
+<?php require __DIR__ . '/metadata/head.booking.php'; ?>
 
 <script src="../src/scripts/booking.js"></script>
 
 <body>
-    <img class="sub-bg" src="../assets/images/terracotta-hotel.png" alt="Background image of Terracotta Bay Hotel">
+    <img class="sub-bg" src="../assets/images/terracotta-hotel.png" alt="Background image of Terracotta Bay Spa & Hotel">
     <main>
         <a class="hbtn hb-fill-middle-rev-bg" href="../index.php">Return to main page</a>
         <section class="booking-section">
