@@ -51,7 +51,7 @@ $isReturnCustomer = isExistingGuest($database, $guestName);
 
 ?>
 
-<?php require __DIR__ . '/metadata/head.php'; ?>
+<?php require __DIR__ . '/metadata/head.booking.php'; ?>
 
 <body>
 
