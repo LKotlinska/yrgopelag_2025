@@ -56,11 +56,11 @@ $featuresInfo = $query->fetchAll(PDO::FETCH_ASSOC);
                     <figure class="image-stack">
                         <img
                             class="booking-img"
-                            src="../assets/images/<?php echo $room['room_image']; ?>"
+                            src="../assets/images/rooms/<?php echo $room['room_image']; ?>"
                             alt="Image of <?php echo $room['tier']; ?> room">
                         <img
                             class="booking-img"
-                            src="../assets/images/<?php echo $room['bathroom_image']; ?>"
+                            src="../assets/images/rooms/<?php echo $room['bathroom_image']; ?>"
                             alt="Bathroom image of <?php echo $room['tier']; ?> room">
                     </figure>
                     <h2>
