@@ -1,4 +1,4 @@
-# Terracotta Bay Hotel - Yrgopelag
+# Terracotta Bay Spa & Hotel - Yrgopelag
 
 This repository contains a web project developed as part of a school assignment.  
 The project implements a simple booking-style application with a clear file structure and basic backend functionality.
