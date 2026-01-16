@@ -101,6 +101,9 @@ Given additional development time, the following improvements would be implement
 - **Admin backend separation**  
   Backend logic related to administrative actions could be further separated into dedicated functions or modules. This would improve maintainability and make the admin functionality easier to extend or modify independently from the public-facing application.
 
+- **Database handling**  
+  Move all PDO queries into dedicated repository files to keep SQL out of page logic, reduce duplicated queries by reusing shared data, and improve maintainability by separating database access, business logic, and presentation.
+
 ---
 
 ## Additional Information
